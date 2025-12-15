@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --purple: #4a2cd6;
+  --teal: #0befd5;
+  --pink: #f50ca0;
+  --orange: #ff681e;
+  --yellow: #ffff00;
+
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 10, 15;
+  --background-end-rgb: 20, 20, 30;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  font-family: "Inter", sans-serif;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-5px);
+}
+
+.luxury-gradient {
+  background: linear-gradient(135deg, rgba(74, 44, 214, 0.05) 0%, rgba(11, 239, 213, 0.05) 100%);
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--yellow), var(--orange));
+}
+
+.text-gradient-alt {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--yellow), var(--orange));
+}
+
+.brand-button {
+  @apply px-6 py-3 rounded-full font-medium transition-all duration-300 text-sm tracking-wider uppercase;
+}
+
+.button-primary {
+  @apply brand-button;
+  background-color: rgba(74, 44, 214, 0.8);
+  color: white;
+  border: 1px solid rgba(74, 44, 214, 0.2);
+}
+
+.button-primary:hover {
+  background-color: rgba(74, 44, 214, 1);
+  box-shadow: 0 5px 15px rgba(74, 44, 214, 0.3);
+}
+
+.button-secondary {
+  @apply brand-button;
+  background-color: rgba(11, 239, 213, 0.1);
+  color: var(--teal);
+  border: 1px solid rgba(11, 239, 213, 0.3);
+}
+
+.button-secondary:hover {
+  background-color: rgba(11, 239, 213, 0.2);
+  box-shadow: 0 5px 15px rgba(11, 239, 213, 0.2);
+}
+
+.button-glass {
+  @apply brand-button glass-effect;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.button-glass:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-link {
+  @apply relative px-2 py-1 text-sm font-light tracking-wider uppercase transition-colors duration-300;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--yellow); /* Change from var(--teal) to var(--yellow) */
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--yellow); /* Change from var(--teal) to var(--yellow) */
+}
+
+.section-title {
+  @apply text-3xl font-light tracking-wider uppercase mb-12 text-center;
+}
+
+.section-subtitle {
+  @apply text-sm font-light tracking-wider uppercase mb-2 text-center opacity-70;
+}
+
+.tech-icon {
+  @apply w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tech-icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-5px);
+}
+
+.scroll-indicator {
+  @apply absolute bottom-8 left-1/2 transform -translate-x-1/2;
+  animation: scroll 2s infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 10px);
+    opacity: 0;
+  }
+}
+
+/* Animation pour les icônes flottantes */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+.float-animation-delay-1 {
+  animation: float 4s ease-in-out 1s infinite;
+}
+
+.float-animation-delay-2 {
+  animation: float 4s ease-in-out 2s infinite;
+}
+
+.float-animation-delay-3 {
+  animation: float 4s ease-in-out 3s infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-title {
+    @apply text-2xl;
+  }
+
+  .glass-card {
+    @apply p-4;
+  }
+
+  .button-primary,
+  .button-secondary,
+  .button-glass {
+    @apply px-4 py-2 text-xs;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) {
+  .nav-link:hover::after {
+    width: 0;
+  }
+
+  .nav-link:active::after {
+    width: 100%;
+  }
+
+  .glass-card:hover {
+    transform: none;
+  }
+
+  .glass-card:active {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+/* Ensure minimum tap target size for mobile */
+@media (max-width: 640px) {
+  button,
+  .button-primary,
+  .button-secondary,
+  .button-glass,
+  .nav-link,
+  a[role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
