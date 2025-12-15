@@ -5,3 +5,7 @@ node_modules/
 .DS_Store
 dist/
 build/
+
+# PWA files
+public/sw.js
+public/workbox-*.js

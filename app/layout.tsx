@@ -56,11 +56,12 @@ export default function RootLayout({
           content="protection de cadre, grip de cadre, grip motocross, protection de plaque latérale, protection plastique, grip kit déco, grip"
         />
       </head>
-      <CartProvider>
-        {children}
-        <CookieBanner />
-      </CartProvider>
-    </body>
+      <body className={inter.className}>
+        <CartProvider>
+          {children}
+          <CookieBanner />
+        </CartProvider>
+      </body>
     </html >
   )
 }
