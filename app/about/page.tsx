@@ -5,6 +5,7 @@ import AboutStory from "@/components/about/about-story"
 import AboutValues from "@/components/about/about-values"
 import AboutPartners from "@/components/about/about-partners"
 import BackButton from "@/components/navigation/back-button"
+import ProductShowcase from "@/components/product-showcase"
 
 export default function AboutPage() {
   return (
@@ -18,6 +19,7 @@ export default function AboutPage() {
       <AboutStory />
       <AboutValues />
       <AboutPartners />
+      <ProductShowcase />
       <FooterLegal />
     </main>
   )

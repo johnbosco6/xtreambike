@@ -67,14 +67,14 @@ export default function BrandsSection() {
       color: "from-[#000000]/10 to-[#333333]/20",
     },
     {
-      name: "YCF",
-      logo: "/images/logos/ycf.png",
-      color: "from-[#00A0B0]/10 to-[#0080FF]/20",
-    },
-    {
       name: "Yamaha",
       logo: "/images/logos/yamaha-transparent.png",
       color: "from-[#0046BD]/10 to-[#FFFFFF]/20",
+    },
+    {
+      name: "YCF",
+      logo: "/images/logos/ycf.png",
+      color: "from-[#00A0B0]/10 to-[#0080FF]/20",
     },
   ]
 
@@ -111,6 +111,7 @@ export default function BrandsSection() {
                 before:bg-gradient-to-r before:from-transparent before:via-white/50 before:to-transparent
                 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px
                 after:bg-gradient-to-r after:from-transparent after:via-black/30 after:to-transparent
+                ${brand.name === "Beta" ? "col-span-2 sm:col-span-2 md:col-span-2" : ""}
               `}
             >
               <div className="relative h-full w-full flex items-center justify-center">

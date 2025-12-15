@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { CartProvider } from "@/contexts/cart-context"
+import CookieBanner from "@/components/cookie-banner"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     "msapplication-TileColor": "#FFFF00",
     "msapplication-tap-highlight": "no",
   },
-    generator: 'v0.app'
+  generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -55,9 +56,11 @@ export default function RootLayout({
           content="protection de cadre, grip de cadre, grip motocross, protection de plaque latérale, protection plastique, grip kit déco, grip"
         />
       </head>
-      <body className={inter.className}>
-        <CartProvider>{children}</CartProvider>
-      </body>
-    </html>
+      <CartProvider>
+        {children}
+        <CookieBanner />
+      </CartProvider>
+    </body>
+    </html >
   )
 }

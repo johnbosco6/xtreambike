@@ -25,7 +25,7 @@ export default function ProductGrid({
       price: "19,99 €",
       variants: ["Protection de cadre", "Protection de plaque latérale"],
       brand: "YAMAHA",
-      category: "125cc 2T",
+      category: "125cc",
       bikeType: "Motocross",
       image: "/images/products/yamaha-yz125-250-2005-25-frame-protection-grey.png",
       description:
@@ -37,7 +37,7 @@ export default function ProductGrid({
       price: "19,99 €",
       variants: ["Protection de cadre", "Protection de plaque latérale"],
       brand: "YAMAHA",
-      category: "250cc 2T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/yamaha-yz125-250-2005-25-frame-protection-grey.png",
       description:
@@ -49,7 +49,7 @@ export default function ProductGrid({
       price: "9,99 €",
       variants: ["Protection de plaque latérale"],
       brand: "YAMAHA",
-      category: "65cc 2T",
+      category: "65cc",
       bikeType: "Motocross",
       image: null,
       description:
@@ -61,7 +61,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "YAMAHA",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/yamaha-yz250f-450f-2019-23-frame-protection-grey.png",
       description:
@@ -73,7 +73,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre", "Protection de plaque latérale"],
       brand: "YAMAHA",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/yamaha-yz250f-450f-2024-25-frame-protection-grey.png",
       description:
@@ -85,7 +85,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "YAMAHA",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/yamaha-yz250f-450f-2019-23-frame-protection-grey.png",
       description:
@@ -97,7 +97,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre", "Protection de plaque latérale"],
       brand: "YAMAHA",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/yamaha-yz250f-450f-2024-25-frame-protection-grey.png",
       description:
@@ -159,7 +159,7 @@ export default function ProductGrid({
       price: "19,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "125cc 2T",
+      category: "125cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kx125-250-2003-08-frame-protection-grey.png",
       description:
@@ -171,7 +171,7 @@ export default function ProductGrid({
       price: "19,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "250cc 2T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kx125-250-2003-08-frame-protection-grey.png",
       description:
@@ -183,7 +183,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kxf250-2015-20-frame-protection-grey.png",
       description:
@@ -195,7 +195,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kxf250-450-2021-24-frame-protection.png",
       description:
@@ -207,7 +207,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kxf250-450-2024-25-frame-protection-grey.png",
       description:
@@ -219,7 +219,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kxf250-450-2021-24-frame-protection.png",
       description:
@@ -231,7 +231,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "KAWASAKI",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/kawasaki-kxf250-450-2024-25-frame-protection-grey.png",
       description:
@@ -245,7 +245,7 @@ export default function ProductGrid({
       price: "24,99 €",
       variants: ["Protection de cadre"],
       brand: "HONDA",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/honda-crf250r-450r-frame-protection-grey.png",
       description:
@@ -257,7 +257,7 @@ export default function ProductGrid({
       price: "24,99 €",
       variants: ["Protection de cadre"],
       brand: "HONDA",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/honda-crf250r-450r-frame-protection-grey.png",
       description:
@@ -271,7 +271,7 @@ export default function ProductGrid({
       price: "19,99 €",
       variants: ["Protection de cadre"],
       brand: "SUZUKI",
-      category: "125cc 2T",
+      category: "125cc",
       bikeType: "Motocross",
       image: "/images/products/suzuki-rm125-250-2001-12-frame-protection-grey.png",
       description:
@@ -283,7 +283,7 @@ export default function ProductGrid({
       price: "19,99 €",
       variants: ["Protection de cadre"],
       brand: "SUZUKI",
-      category: "250cc 2T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/suzuki-rm125-250-2001-12-frame-protection-grey.png",
       description:
@@ -295,7 +295,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "SUZUKI",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/suzuki-rmz250-450-2019-25-frame-protection-grey.png",
       description:
@@ -307,7 +307,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "SUZUKI",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/suzuki-rmz450-2008-17-frame-protection-grey.png",
       description:
@@ -319,7 +319,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "SUZUKI",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/suzuki-rmz250-450-2019-25-frame-protection-grey.png",
       description:
@@ -359,7 +359,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "FANTIC",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Enduro",
       image: "/images/products/fantic-xxf250-450-frame-protection-grey.png",
       description:
@@ -371,7 +371,7 @@ export default function ProductGrid({
       price: "29,99 €",
       variants: ["Protection de cadre"],
       brand: "FANTIC",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Enduro",
       image: "/images/products/fantic-xxf250-450-frame-protection-grey.png",
       description:
@@ -385,7 +385,7 @@ export default function ProductGrid({
       price: "24,99 €",
       variants: ["Protection de cadre", "Protection de plaque latérale"],
       brand: "TRIUMPH",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/triumph-tf250x-450x-frame-protection-grey.png",
       description:
@@ -397,7 +397,7 @@ export default function ProductGrid({
       price: "24,99 €",
       variants: ["Protection de cadre", "Protection de plaque latérale"],
       brand: "TRIUMPH",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Motocross",
       image: "/images/products/triumph-tf250x-450x-frame-protection-grey.png",
       description:
@@ -411,7 +411,7 @@ export default function ProductGrid({
       price: "24,99 €",
       variants: ["Protection de cadre", "Protection thermique réservoir"],
       brand: "KOVE",
-      category: "450cc 4T",
+      category: "450cc",
       bikeType: "Rally",
       image: "/images/products/kove-450-rally-thermal-protection-installed-1.jpeg",
       description:
@@ -425,7 +425,7 @@ export default function ProductGrid({
       price: "27,99 €",
       variants: ["Protection de cadre"],
       brand: "BETA",
-      category: "350cc 4T",
+      category: "350cc",
       bikeType: "Enduro",
       image: "/images/products/beta-350rr-rr2t-rr4t-rx300-frame-protection-grey.png",
       description:
@@ -437,7 +437,7 @@ export default function ProductGrid({
       price: "27,99 €",
       variants: ["Protection de cadre"],
       brand: "BETA",
-      category: "250cc 2T",
+      category: "250cc",
       bikeType: "Enduro",
       image: "/images/products/beta-350rr-rr2t-rr4t-rx300-frame-protection-grey.png",
       description:
@@ -449,7 +449,7 @@ export default function ProductGrid({
       price: "27,99 €",
       variants: ["Protection de cadre"],
       brand: "BETA",
-      category: "350cc 4T",
+      category: "350cc",
       bikeType: "Enduro",
       image: "/images/products/beta-350rr-rr2t-rr4t-rx300-frame-protection-grey.png",
       description:
@@ -461,7 +461,7 @@ export default function ProductGrid({
       price: "27,99 €",
       variants: ["Protection de cadre"],
       brand: "BETA",
-      category: "300cc 2T",
+      category: "300cc",
       bikeType: "Enduro",
       image: "/images/products/beta-350rr-rr2t-rr4t-rx300-frame-protection-grey.png",
       description:
@@ -475,7 +475,7 @@ export default function ProductGrid({
       price: "26,99 €",
       variants: ["Protection de cadre"],
       brand: "HUSQVARNA",
-      category: "125cc 2T",
+      category: "125cc",
       bikeType: "Motocross",
       image: "/images/products/husqvarna-tc-fc-2025-frame-protection-grey.png",
       description:
@@ -487,7 +487,7 @@ export default function ProductGrid({
       price: "26,99 €",
       variants: ["Protection de cadre"],
       brand: "HUSQVARNA",
-      category: "250cc 4T",
+      category: "250cc",
       bikeType: "Motocross",
       image: "/images/products/husqvarna-tc-fc-2025-frame-protection-grey.png",
       description:

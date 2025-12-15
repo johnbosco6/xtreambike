@@ -73,7 +73,7 @@ export default function FilterSidebar({ filters, onFiltersChange }: FilterSideba
     "Yamaha",
   ]
 
-  const categories = ["50cc", "65cc", "80cc", "85cc", "125cc", "150cc", "250cc", "300cc", "350cc", "400cc", "450cc"]
+  const categories = ["50cc", "65cc", "80cc", "85cc", "125cc", "150cc", "250cc", "300cc", "350cc", "400cc", "450cc", "Électrique", "Rally", "Accessoires", "Protection plastique"]
 
   return (
     <div className="glass-card p-6 rounded-lg">

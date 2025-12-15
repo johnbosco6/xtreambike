@@ -1,6 +1,7 @@
 "use client"
 
 import { ArrowLeft } from "lucide-react"
+import Image from "next/image"
 
 interface BrandCategoriesProps {
   selectedBrand: string | null
@@ -8,49 +9,81 @@ interface BrandCategoriesProps {
 }
 
 export default function BrandCategories({ selectedBrand, onBrandSelect }: BrandCategoriesProps) {
+  // Copied and sorted from brands-section.tsx
   const brands = [
     {
-      name: "YAMAHA",
-      description: "Motocross & Enduro",
-    },
-    {
-      name: "KAWASAKI",
-      description: "Motocross",
-    },
-    {
-      name: "HONDA",
-      description: "Motocross",
-    },
-    {
-      name: "SUZUKI",
-      description: "Motocross",
-    },
-    {
-      name: "STARK",
-      description: "Électrique",
-    },
-    {
-      name: "FANTIC",
+      name: "Beta",
+      logo: "/images/logos/beta-transparent.png",
       description: "Enduro",
     },
     {
-      name: "BETA",
+      name: "Fantic",
+      logo: "/images/logos/fantic.png",
       description: "Enduro",
     },
     {
-      name: "HUSQVARNA",
+      name: "GasGas",
+      logo: "/images/logos/gasgas.png",
       description: "Motocross",
     },
     {
-      name: "KOVE",
+      name: "Honda",
+      logo: "/images/logos/honda-new.png",
+      description: "Motocross",
+    },
+    {
+      name: "Husqvarna",
+      logo: "/images/logos/husqvarna.png",
+      description: "Motocross",
+    },
+    {
+      name: "Kawasaki",
+      logo: "/images/logos/kawasaki-transparent.png",
+      description: "Motocross",
+    },
+    {
+      name: "Kove",
+      logo: "/images/logos/kove-transparent.png",
       description: "Rally",
     },
     {
-      name: "TRIUMPH",
+      name: "KTM",
+      logo: "/images/logos/ktm-new.png",
       description: "Motocross",
     },
     {
+      name: "Sherco",
+      logo: "/images/logos/sherco.png",
+      description: "Enduro",
+    },
+    {
+      name: "Stark Varg",
+      logo: "/images/logos/stark-varg.png",
+      description: "Électrique",
+    },
+    {
+      name: "Suzuki",
+      logo: "/images/logos/suzuki.png",
+      description: "Motocross",
+    },
+    {
+      name: "Triumph",
+      logo: "/images/logos/triumph-transparent.png",
+      description: "Motocross",
+    },
+    {
+      name: "Yamaha",
+      logo: "/images/logos/yamaha-transparent.png",
+      description: "Motocross & Enduro",
+    },
+    {
+      name: "YCF",
+      logo: "/images/logos/ycf.png",
+      description: "Dirt Bike",
+    },
+    {
       name: "WORKS CONNECTION",
+      logo: "/images/logos/works-connection.png", // Assuming logo exists or use placeholder logic if failed
       description: "Accessoires",
     },
   ]
@@ -89,10 +122,18 @@ export default function BrandCategories({ selectedBrand, onBrandSelect }: BrandC
           <button
             key={brand.name}
             onClick={() => onBrandSelect(brand.name)}
-            className="glass-card p-4 rounded-lg hover:bg-white/10 transition-all duration-300 group text-center min-h-[80px] flex flex-col justify-center"
+            className="glass-card p-4 rounded-lg hover:bg-white/10 transition-all duration-300 group text-center min-h-[120px] flex flex-col items-center justify-center gap-3 relative overflow-hidden"
           >
-            <h3 className="font-medium text-sm md:text-base mb-1">{brand.name}</h3>
-            <p className="text-xs opacity-60">{brand.description}</p>
+            <div className="relative w-full h-16">
+              <Image
+                src={brand.logo || "/placeholder.svg"}
+                alt={brand.name}
+                fill
+                className="object-contain filter brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity"
+              />
+            </div>
+            {/* <h3 className="font-medium text-sm md:text-base mb-1">{brand.name}</h3> */}
+            {/* <p className="text-xs opacity-60">{brand.description}</p> */}
           </button>
         ))}
       </div>

@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-light tracking-wider uppercase mb-6">X-tream Grip</h3>
             <p className="font-light opacity-70 leading-relaxed">
-              Spécialiste des poignées de moto premium pour une expérience de conduite inégalée.
+              Le spécialiste de la protection qui apporte du grip.
             </p>
           </div>
 

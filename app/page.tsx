@@ -7,7 +7,6 @@ import BrandsSection from "@/components/brands-section"
 import TestimonialSection from "@/components/testimonial-section"
 import CTASection from "@/components/cta-section"
 import FooterLegal from "@/components/footer-legal"
-import ProductShowcase from "@/components/product-showcase"
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
       <BrandsSection />
       <TestimonialSection />
       <CTASection />
-      <ProductShowcase />
       <FooterLegal />
     </main>
   )
