@@ -1,4 +1,5 @@
 import Header from "@/components/header"
+// Force Vercel rebuild
 import HeroSection from "@/components/hero-section"
 import BrandStory from "@/components/brand-story"
 import ValuesSection from "@/components/values-section"
