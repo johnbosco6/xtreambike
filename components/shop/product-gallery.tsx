@@ -364,6 +364,7 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
           alt={`${product?.name || "Product"} - Image ${currentImageIndex + 1}`}
           fill
           className="object-contain p-4"
+          priority
         />
 
         {images.length > 1 && (
@@ -389,9 +390,8 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentImageIndex ? "bg-[#0BEFD5]" : "bg-white/30"
-                }`}
+                className={`w-2 h-2 rounded-full transition-colors ${index === currentImageIndex ? "bg-[#0BEFD5]" : "bg-white/30"
+                  }`}
               />
             ))}
           </div>
@@ -405,9 +405,8 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`relative aspect-square bg-white/5 rounded-lg overflow-hidden border-2 transition-colors ${
-                index === currentImageIndex ? "border-[#0BEFD5]" : "border-transparent hover:border-white/30"
-              }`}
+              className={`relative aspect-square bg-white/5 rounded-lg overflow-hidden border-2 transition-colors ${index === currentImageIndex ? "border-[#0BEFD5]" : "border-transparent hover:border-white/30"
+                }`}
             >
               <Image
                 src={image || "/placeholder.svg?height=400&width=400&query=product protection"}

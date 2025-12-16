@@ -58,7 +58,7 @@ export default function RelatedProducts() {
                 <h3 className="font-light text-xs md:text-sm mb-2 flex-1 line-clamp-2">{product.name}</h3>
                 <div className="flex justify-between items-end">
                   <p className="font-medium text-sm md:text-base">{product.price}</p>
-                  <button className="button-secondary text-xs px-2 py-1 md:px-3 md:py-1.5">Voir</button>
+                  <span className="button-secondary text-xs px-2 py-1 md:px-3 md:py-1.5 cursor-pointer">Voir</span>
                 </div>
               </div>
             </div>
