@@ -32,7 +32,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour YAMAHA YZ125. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -59,7 +59,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour YAMAHA YZ250. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -86,7 +86,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour YAMAHA YZ250F 2019-2023. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -113,7 +113,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre et plaque latérale spécialement conçue pour YAMAHA YZ250F 2024-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage. Disponible en protection de cadre et protection de plaque latérale pour une protection complète.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -141,7 +141,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour YAMAHA YZ450F 2018-2022. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -168,7 +168,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre et plaque latérale spécialement conçue pour YAMAHA YZ450F 2023-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage. Disponible en protection de cadre et protection de plaque latérale pour une protection complète.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -196,7 +196,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX125 2003-2008. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -223,7 +223,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX250 2003-2004. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -250,7 +250,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX250F 2015-2020. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -277,7 +277,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX250F 2021-2024. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -304,7 +304,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX250F 2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -331,7 +331,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX450F 2019-2023. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -358,7 +358,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour KAWASAKI KX450F 2024-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -385,7 +385,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour FANTIC XXF250 2021-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -412,7 +412,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour FANTIC XXF450 2021-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -439,7 +439,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour HONDA CRF250R 2022-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -466,7 +466,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour HONDA CRF450R 2021-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -493,7 +493,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection thermique réservoir et protection de cadre spécialement conçues pour KOVE 450 Rally 2024-2025. Cette protection thermique protège efficacement votre réservoir de la chaleur dégagée par l'échappement, tout en offrant une surface antidérapante pour un meilleur contrôle de la moto. Idéale pour les longues distances et les conditions extrêmes du rally.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -520,7 +520,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre et plaque latérale spécialement conçue pour TRIUMPH TF 250-X 2024-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage. Disponible en protection de cadre et protection de plaque latérale pour une protection complète de votre TRIUMPH.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -547,7 +547,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre et plaque latérale spécialement conçue pour TRIUMPH TF 450-X 2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage. Disponible en protection de cadre et protection de plaque latérale pour une protection complète de votre TRIUMPH.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -574,7 +574,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre, carter et plaque latérale spécialement conçue pour STARK VARG MX. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto électrique, afin d'améliorer le contrôle et les sensations de pilotage. Protections spécialement adaptées aux spécificités de la moto électrique STARK avec protection du carter moteur.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -601,7 +601,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre, carter et plaque latérale spécialement conçue pour STARK VARG EX. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto électrique, afin d'améliorer le contrôle et les sensations de pilotage. Protections spécialement adaptées aux spécificités de la moto électrique STARK avec protection du carter moteur.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -628,7 +628,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de plaque latérale gauche spécialement conçue pour YAMAHA YZ250F/450F 2024-2025. X-Trem Grip ce n'est pas seulement des protections de cadre ! C'est aussi la solution idéale pour protéger vos plastiques et kits déco. Cette protection offre une surface antidérapante tout en préservant l'esthétique de votre moto.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -655,7 +655,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de plaque latérale droite spécialement conçue pour YAMAHA YZ250F/450F 2024-2025. X-Trem Grip ce n'est pas seulement des protections de cadre ! C'est aussi la solution idéale pour protéger vos plastiques et kits déco tout en conservant le style Yamaha Racing.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -682,7 +682,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Kit complet de protection des plaques latérales pour YAMAHA YZ250F/450F 2023-2025 en coloris bleu. Comprend les protections gauche et droite. X-Trem Grip ce n'est pas seulement des protections de cadre ! C'est aussi la solution idéale pour protéger vos plastiques et kits déco tout en conservant le style Yamaha Racing.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -706,7 +706,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de plaque latérale gauche en coloris bleu spécialement conçue pour YAMAHA YZ250F/450F 2023-2025. Cette protection s'intègre parfaitement avec les plastiques d'origine Yamaha tout en offrant une surface antidérapante optimale.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -730,7 +730,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de plaque latérale droite en coloris bleu spécialement conçue pour YAMAHA YZ250F/450F 2023-2025. Cette protection s'intègre parfaitement avec les plastiques d'origine Yamaha tout en offrant une surface antidérapante optimale.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -754,7 +754,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour BETA 350RR 2023. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -781,7 +781,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour BETA RR2T 250/300 2024-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -808,7 +808,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour BETA RR4T 350/450 2024-2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -835,7 +835,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour BETA RX300 2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -862,7 +862,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour HUSQVARNA TC125/250/300 2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -889,7 +889,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour HUSQVARNA FC250/450 2025. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -916,7 +916,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de maître cylindre arrière WORKS CONNECTION. Cette protection spécialement conçue protège efficacement votre maître cylindre de frein arrière contre les impacts et les projections. Compatible avec la plupart des modèles de motocross et enduro équipés d'un maître cylindre WORKS CONNECTION.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -943,7 +943,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour SUZUKI RM125 2001-2012. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -970,7 +970,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour SUZUKI RM250 2001-2008. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -997,7 +997,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour SUZUKI RMZ250 2019-2024. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -1024,7 +1024,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour SUZUKI RMZ450 2008-2017. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",
@@ -1051,7 +1051,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         description:
           "Protection de cadre spécialement conçue pour SUZUKI RMZ450 2018-2024. Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d'améliorer le contrôle et les sensations de pilotage.",
         features: [
-          "Surface antidérapante X-tream Grip",
+          "Surface antidérapante X-Trem Grip",
           "Protection contre les impacts",
           "Installation facile sans modification",
           "Matériau haute résistance",

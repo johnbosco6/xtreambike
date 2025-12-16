@@ -8,7 +8,7 @@ import CookieBanner from "@/components/cookie-banner"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "X-tream Grip | Protection de cadre, Grip de Moto Premium",
+  title: "X-Trem Grip | Protection de cadre, Grip de Moto Premium",
   description:
     "Découvrez notre collection exclusive de poignées de moto de haute qualité pour une expérience de conduite optimale.",
   keywords:
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "X-tream Grip",
+    title: "X-Trem Grip",
   },
   viewport: {
     width: "device-width",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   other: {
     "apple-mobile-web-app-capable": "yes",
     "mobile-web-app-capable": "yes",
-    "application-name": "X-tream Grip",
-    "apple-mobile-web-app-title": "X-tream Grip",
+    "application-name": "X-Trem Grip",
+    "apple-mobile-web-app-title": "X-Trem Grip",
     "msapplication-TileColor": "#FFFF00",
     "msapplication-tap-highlight": "no",
   },

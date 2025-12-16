@@ -41,7 +41,7 @@ export default function AboutValues() {
       <div className="absolute inset-0">
         <Image
           src="/images/frame-protection-detail-1.jpeg"
-          alt="X-tream Grip frame protection detail"
+          alt="X-Trem Grip frame protection detail"
           fill
           className="object-cover object-center"
         />

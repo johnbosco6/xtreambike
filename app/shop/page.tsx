@@ -64,7 +64,7 @@ export default function ShopPage() {
           <div className="flex-shrink-0 sm:hidden">
             <Image
               src="/images/logo.png"
-              alt="X-tream Grip"
+              alt="X-Trem Grip"
               width={40}
               height={40}
               className="w-8 h-8 object-contain"
@@ -77,8 +77,8 @@ export default function ShopPage() {
             </h1>
             <p className="text-xs sm:text-sm md:text-base opacity-70 leading-relaxed">
               {showProducts
-                ? `Protections X-tream Grip pour ${selectedBrand === "ALL" ? "toutes les marques" : selectedBrand}`
-                : "Découvrez notre gamme complète de protections X-tream Grip"}
+                ? `Protections X-Trem Grip pour ${selectedBrand === "ALL" ? "toutes les marques" : selectedBrand}`
+                : "Découvrez notre gamme complète de protections X-Trem Grip"}
             </p>
           </div>
 

@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
-            <h3 className="text-lg font-light tracking-wider uppercase mb-6">X-tream Grip</h3>
+            <h3 className="text-lg font-light tracking-wider uppercase mb-6">X-Trem Grip</h3>
             <p className="font-light opacity-70 leading-relaxed">
               Le spécialiste de la protection qui apporte du grip.
             </p>
@@ -121,7 +121,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="font-light text-sm opacity-50">
-            &copy; {new Date().getFullYear()} X-tream Grip. Tous droits réservés.
+            &copy; {new Date().getFullYear()} X-Trem Grip. Tous droits réservés.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <button className="text-sm font-light opacity-70 hover:opacity-100 transition-opacity">FR</button>

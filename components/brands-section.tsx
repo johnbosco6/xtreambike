@@ -97,8 +97,8 @@ export default function BrandsSection() {
             <Link
               href="/shop"
               key={index}
-              className={`
-                h-32 w-full flex items-center justify-center p-4 rounded-xl
+              className="
+                h-32 w-full flex items-center justify-center p-6 rounded-xl
                 bg-gradient-to-br from-white/35 via-slate-100/25 to-slate-800/80
                 backdrop-blur-lg border border-white/15
                 shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(255,255,255,0.1)]
@@ -111,15 +111,15 @@ export default function BrandsSection() {
                 before:bg-gradient-to-r before:from-transparent before:via-white/50 before:to-transparent
                 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px
                 after:bg-gradient-to-r after:from-transparent after:via-black/30 after:to-transparent
-                ${brand.name === "Beta" ? "col-span-2 sm:col-span-2 md:col-span-2" : ""}
-              `}
+              "
             >
-              <div className="relative h-full w-full flex items-center justify-center">
+              <div className="relative w-full h-full flex items-center justify-center">
                 <Image
                   src={brand.logo || "/placeholder.svg"}
                   alt={`Logo ${brand.name}`}
-                  fill
-                  className="object-contain p-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] brightness-125 contrast-125"
+                  width={120}
+                  height={120}
+                  className="object-contain max-w-full max-h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] brightness-125 contrast-125"
                 />
               </div>
             </Link>

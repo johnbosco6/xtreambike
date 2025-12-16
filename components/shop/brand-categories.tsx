@@ -113,7 +113,7 @@ export default function BrandCategories({ selectedBrand, onBrandSelect }: BrandC
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-light mb-4">Choisissez votre marque</h2>
         <p className="text-sm md:text-base opacity-70">
-          Sélectionnez la marque de votre moto pour découvrir nos protections X-tream Grip
+          Sélectionnez la marque de votre moto pour découvrir nos protections X-Trem Grip
         </p>
       </div>
 

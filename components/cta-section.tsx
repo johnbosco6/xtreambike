@@ -9,13 +9,13 @@ export default function CTASection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/beach-motocross.jpeg"
-          alt="Motocycliste sur une plage"
+          src="/images/cta-background.png"
+          alt="Motocross action shot"
           fill
           className="object-cover object-center"
         />
-        {/* Gradient overlay with more yellow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FFFF00]/40 via-[#FF681E]/30 to-[#4A2CD6]/20"></div>
+        {/* Gradient overlay with darker opacity for better text visibility */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/50"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

@@ -31,7 +31,7 @@ export default function ValuesSection() {
       <div className="absolute inset-0">
         <Image
           src="/images/frame-protection-detail-2.jpeg"
-          alt="X-tream Grip protection detail"
+          alt="X-Trem Grip protection detail"
           fill
           className="object-cover object-center"
         />

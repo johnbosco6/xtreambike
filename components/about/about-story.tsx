@@ -1,6 +1,30 @@
+"use client"
+
 import Image from "next/image"
+import useEmblaCarousel from "embla-carousel-react"
+import Autoplay from "embla-carousel-autoplay"
+import { useEffect, useState } from "react"
+
+const storyImages = [
+  "/images/about-carousel/story-1.jpg",
+  "/images/about-carousel/story-2.jpg",
+  "/images/about-carousel/story-3.jpg",
+  "/images/about-carousel/story-4.jpg",
+  "/images/about-carousel/story-5.jpg",
+]
 
 export default function AboutStory() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000 })])
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  useEffect(() => {
+    if (!emblaApi) return
+
+    emblaApi.on("select", () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap())
+    })
+  }, [emblaApi])
+
   return (
     <section className="py-24">
       <div className="container mx-auto px-6">
@@ -28,14 +52,34 @@ export default function AboutStory() {
               sur le terrain, testée dans l'intensité de la course.
             </p>
           </div>
-          <div className="glass-card p-2 rounded-lg">
-            <div className="relative h-[400px] w-full rounded-lg overflow-hidden">
-              <Image
-                src="/images/motocross-full-bike.jpeg"
-                alt="Motocross bike with X-tream Grip protection"
-                fill
-                className="object-cover"
-              />
+          <div className="glass-card p-2 rounded-lg relative">
+            <div className="overflow-hidden rounded-lg cursor-grab active:cursor-grabbing" ref={emblaRef}>
+              <div className="flex">
+                {storyImages.map((src, index) => (
+                  <div className="flex-[0_0_100%] min-w-0" key={index}>
+                    <div className="relative h-[400px] w-full">
+                      <Image
+                        src={src}
+                        alt={`X-Trem Grip Story Image ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Dots Navigation */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+              {storyImages.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${index === selectedIndex ? "bg-[#0BEFD5] w-6" : "bg-white/50 hover:bg-white/80"
+                    }`}
+                  onClick={() => emblaApi?.scrollTo(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>

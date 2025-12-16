@@ -7,7 +7,7 @@ export default function ProductShowcase() {
       <div className="absolute inset-0">
         <Image
           src="/images/motocross-full-bike.jpeg"
-          alt="Motocross bike with X-tream Grip protection"
+          alt="Motocross bike with X-Trem Grip protection"
           fill
           className="object-cover object-center"
         />

@@ -11,8 +11,8 @@ export default function TestimonialSection() {
 
         <div className="mt-12 md:mt-16 glass-card p-6 md:p-12 rounded-lg max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
-            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden relative">
-              <Image src="/placeholder.svg?height=96&width=96" alt="Portrait de client" fill className="object-cover" />
+            <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden relative flex-shrink-0">
+              <Image src="/images/testimonial-client.jpg" alt="Portrait de client" fill className="object-cover" />
             </div>
             <div>
               <blockquote className="text-base md:text-xl font-light italic mb-4 md:mb-6 leading-relaxed text-center md:text-left">
