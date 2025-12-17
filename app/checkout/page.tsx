@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Header from "@/components/header"
 import FooterLegal from "@/components/footer-legal"
 import CheckoutContent from "@/components/checkout/checkout-content"
@@ -23,7 +24,9 @@ export default function CheckoutPage() {
             </p>
           </div>
 
-          <CheckoutContent />
+          <Suspense fallback={<div className="text-center py-12">Chargement...</div>}>
+            <CheckoutContent />
+          </Suspense>
         </div>
       </div>
       <FooterLegal />

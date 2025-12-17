@@ -1,37 +1,60 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useCart } from "@/contexts/cart-context"
 import Image from "next/image"
 import Link from "next/link"
-import { CreditCard, Truck, Shield, Check, ChevronDown, ChevronUp } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { CreditCard, Truck, Shield, Check, ChevronDown, ChevronUp, Store, Home, Loader2 } from "lucide-react"
+import MondialRelayWidget from "./mondial-relay-widget"
+
+type ShippingMethod = "home" | "relay"
 
 export default function CheckoutContent() {
   const { state, clearCart } = useCart()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
   const [currentStep, setCurrentStep] = useState(1)
   const [showOrderSummary, setShowOrderSummary] = useState(false)
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethod>("home")
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
+
   const [formData, setFormData] = useState({
-    // Shipping Info
+    // Contact Info (Always required)
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
+
+    // Address Info (For Home Delivery)
     address: "",
     city: "",
     postalCode: "",
     country: "France",
 
     // Payment Info
-    cardNumber: "",
+    cardNumber: "", // Kept for UI but not processed if using SumUp
     expiryDate: "",
     cvv: "",
     cardName: "",
   })
 
-  const getDeliveryCost = (country: string) => {
-    const deliveryCosts = {
+  const [selectedRelayPoint, setSelectedRelayPoint] = useState<any>(null)
+
+  // Check for success return from SumUp
+  useEffect(() => {
+    if (searchParams.get("payment-success") === "true") {
+      setCurrentStep(4)
+      clearCart()
+    }
+  }, [searchParams, clearCart])
+
+  const getDeliveryCost = (country: string, method: ShippingMethod) => {
+    // Mondial Relay is usually cheaper
+    if (method === "relay") return 3.50
+
+    const deliveryCosts: Record<string, number> = {
       France: 4.19,
       Spain: 6.47,
       Belgium: 4.43,
@@ -43,7 +66,7 @@ export default function CheckoutContent() {
     return deliveryCosts[country] || 4.19
   }
 
-  const deliveryCost = getDeliveryCost(formData.country)
+  const deliveryCost = getDeliveryCost(formData.country, shippingMethod)
   const totalWithDelivery = state.total + deliveryCost
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -51,13 +74,61 @@ export default function CheckoutContent() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Simulate order processing
-    setTimeout(() => {
-      clearCart()
-      setCurrentStep(4) // Success step
-    }, 2000)
+
+    if (currentStep === 1) {
+      if (shippingMethod === "relay" && !selectedRelayPoint) {
+        alert("Veuillez sélectionner un Point Relais.")
+        return
+      }
+      setCurrentStep(2)
+      return
+    }
+
+    if (currentStep === 2) {
+      setCurrentStep(3)
+      return
+    }
+
+    if (currentStep === 3) {
+      // Initiate SumUp Payment
+      setIsProcessingPayment(true)
+      try {
+        const returnUrl = `${window.location.origin}/checkout?payment-success=true`
+
+        const response = await fetch("/api/sumup/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: totalWithDelivery,
+            email: formData.email,
+            returnUrl: returnUrl
+          })
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || "Payment initialization failed")
+        }
+
+        if (data.redirectUrl) {
+          window.location.href = data.redirectUrl
+        } else if (data.checkoutId) {
+          // Redirect to SumUp Checkout Page
+          // We use the standard checkout URL structure
+          window.location.href = `https://checkout.sumup.com/page/pay?id=${data.checkoutId}`
+        } else {
+          throw new Error("No checkout ID received")
+        }
+
+      } catch (err: any) {
+        console.error(err)
+        alert("Une erreur est survenue lors de l'initialisation du paiement: " + err.message)
+        setIsProcessingPayment(false)
+      }
+    }
   }
 
   if (state.items.length === 0 && currentStep !== 4) {
@@ -164,16 +235,14 @@ export default function CheckoutContent() {
                   <div key={step} className="flex items-center flex-1">
                     <div className="flex flex-col items-center flex-1">
                       <div
-                        className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm font-medium ${
-                          currentStep >= step ? "bg-[#0BEFD5] text-black" : "bg-white/10 text-white/50"
-                        }`}
+                        className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm font-medium ${currentStep >= step ? "bg-[#0BEFD5] text-black" : "bg-white/10 text-white/50"
+                          }`}
                       >
                         {step}
                       </div>
                       <span
-                        className={`mt-2 text-xs md:text-sm text-center ${
-                          currentStep >= step ? "text-white" : "text-white/50"
-                        }`}
+                        className={`mt-2 text-xs md:text-sm text-center ${currentStep >= step ? "text-white" : "text-white/50"
+                          }`}
                       >
                         {step === 1 ? "Livraison" : step === 2 ? "Paiement" : "Confirmation"}
                       </span>
@@ -189,119 +258,180 @@ export default function CheckoutContent() {
             <form onSubmit={handleSubmit}>
               {/* Step 1: Shipping Information */}
               {currentStep === 1 && (
-                <div className="space-y-4 md:space-y-6">
-                  <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Informations de livraison</h2>
+                <div className="space-y-6">
+                  <h2 className="text-lg md:text-xl font-light">Mode de livraison</h2>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-light mb-2">Prénom *</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                        placeholder="Votre prénom"
-                      />
+                  {/* Shipping Method Selection */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div
+                      onClick={() => setShippingMethod("home")}
+                      className={`p-4 rounded-xl border cursor-pointer transition-all flex items-start gap-4 ${shippingMethod === "home"
+                        ? "bg-[#0BEFD5]/10 border-[#0BEFD5]"
+                        : "bg-white/5 border-transparent hover:bg-white/10"
+                        }`}
+                    >
+                      <div className={`p-2 rounded-full ${shippingMethod === "home" ? "bg-[#0BEFD5] text-black" : "bg-white/10"}`}>
+                        <Home className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="font-medium">Livraison à Domicile</div>
+                        <div className="text-sm opacity-70 mt-1">Livré directement chez vous</div>
+                        <div className="text-sm font-medium mt-2 text-[#0BEFD5]">
+                          {getDeliveryCost(formData.country, "home").toFixed(2)} €
+                        </div>
+                      </div>
+                      {shippingMethod === "home" && <div className="ml-auto bg-[#0BEFD5] p-1 rounded-full"><Check className="w-3 h-3 text-black" /></div>}
+                    </div>
+
+                    <div
+                      onClick={() => setShippingMethod("relay")}
+                      className={`p-4 rounded-xl border cursor-pointer transition-all flex items-start gap-4 ${shippingMethod === "relay"
+                        ? "bg-[#E3003F]/10 border-[#E3003F]"
+                        : "bg-white/5 border-transparent hover:bg-white/10"
+                        }`}
+                    >
+                      <div className={`p-2 rounded-full ${shippingMethod === "relay" ? "bg-[#E3003F] text-white" : "bg-white/10"}`}>
+                        <Store className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="font-medium">Mondial Relay</div>
+                        <div className="text-sm opacity-70 mt-1">Retrait en Point Relais®</div>
+                        <div className="text-sm font-medium mt-2 text-[#E3003F]">
+                          {getDeliveryCost(formData.country, "relay").toFixed(2)} €
+                        </div>
+                      </div>
+                      {shippingMethod === "relay" && <div className="ml-auto bg-[#E3003F] p-1 rounded-full"><Check className="w-3 h-3 text-white" /></div>}
+                    </div>
+                  </div>
+
+                  {/* Common Contact Info */}
+                  <div className="space-y-4">
+                    <h3 className="text-md font-medium pt-4">Vos coordonnées</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-light mb-2">Prénom *</label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                          placeholder="Votre prénom"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-light mb-2">Nom *</label>
+                        <input
+                          type="text"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                          placeholder="Votre nom"
+                        />
+                      </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-light mb-2">Nom *</label>
+                      <label className="block text-sm font-light mb-2">Email *</label>
                       <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
+                        type="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleInputChange}
                         required
                         className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                        placeholder="Votre nom"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-light mb-2">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                      placeholder="votre@email.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-light mb-2">Téléphone</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                      placeholder="06 12 34 56 78"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-light mb-2">Adresse *</label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                      placeholder="123 Rue de la République"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div className="md:col-span-1">
-                      <label className="block text-sm font-light mb-2">Ville *</label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                        placeholder="Paris"
+                        placeholder="votre@email.com"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-light mb-2">Code postal *</label>
+                      <label className="block text-sm font-light mb-2">Téléphone</label>
                       <input
-                        type="text"
-                        name="postalCode"
-                        value={formData.postalCode}
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
                         onChange={handleInputChange}
-                        required
                         className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                        placeholder="75001"
+                        placeholder="06 12 34 56 78"
                       />
-                    </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="block text-sm font-light mb-2">Pays *</label>
-                      <select
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base appearance-none"
-                      >
-                        <option value="France">France</option>
-                        <option value="Spain">Espagne</option>
-                        <option value="Belgium">Belgique</option>
-                        <option value="Italy">Italie</option>
-                        <option value="Luxembourg">Luxembourg</option>
-                        <option value="Poland">Pologne</option>
-                        <option value="Portugal">Portugal</option>
-                      </select>
                     </div>
                   </div>
 
-                  <button type="button" onClick={() => setCurrentStep(2)} className="button-primary w-full py-4">
+                  {/* Address Form (Only for Home Delivery) */}
+                  {shippingMethod === "home" && (
+                    <div className="space-y-4 pt-2">
+                      <h3 className="text-md font-medium">Adresse de livraison</h3>
+                      <div>
+                        <label className="block text-sm font-light mb-2">Adresse *</label>
+                        <input
+                          type="text"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                          placeholder="123 Rue de la République"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="md:col-span-1">
+                          <label className="block text-sm font-light mb-2">Ville *</label>
+                          <input
+                            type="text"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                            placeholder="Paris"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-light mb-2">Code postal *</label>
+                          <input
+                            type="text"
+                            name="postalCode"
+                            value={formData.postalCode}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                            placeholder="75001"
+                          />
+                        </div>
+                        <div className="col-span-2 md:col-span-1">
+                          <label className="block text-sm font-light mb-2">Pays *</label>
+                          <select
+                            name="country"
+                            value={formData.country}
+                            onChange={handleInputChange}
+                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base appearance-none"
+                          >
+                            <option value="France">France</option>
+                            <option value="Spain">Espagne</option>
+                            <option value="Belgium">Belgique</option>
+                            <option value="Italy">Italie</option>
+                            <option value="Luxembourg">Luxembourg</option>
+                            <option value="Poland">Pologne</option>
+                            <option value="Portugal">Portugal</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Mondial Relay Widget (Only for Relay Method) */}
+                  {shippingMethod === "relay" && (
+                    <div className="pt-2">
+                      <MondialRelayWidget
+                        onSelect={setSelectedRelayPoint}
+                        selectedPoint={selectedRelayPoint}
+                      />
+                    </div>
+                  )}
+
+                  <button type="submit" className="button-primary w-full py-4 mt-6">
                     Continuer vers le paiement
                   </button>
                 </div>
@@ -310,66 +440,30 @@ export default function CheckoutContent() {
               {/* Step 2: Payment Information */}
               {currentStep === 2 && (
                 <div className="space-y-4 md:space-y-6">
-                  <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Informations de paiement</h2>
+                  <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Récapitulatif & Paiement</h2>
 
-                  <div>
-                    <label className="block text-sm font-light mb-2">Numéro de carte *</label>
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleInputChange}
-                      placeholder="1234 5678 9012 3456"
-                      required
-                      className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                    />
-                  </div>
+                  <div className="glass-card p-4 rounded-xl border border-white/10">
+                    <p className="text-sm opacity-80 mb-4">Vous êtes sur le point de payer avec <strong>SumUp</strong>.</p>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-light mb-2">Date d'expiration *</label>
-                      <input
-                        type="text"
-                        name="expiryDate"
-                        value={formData.expiryDate}
-                        onChange={handleInputChange}
-                        placeholder="MM/AA"
-                        required
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                      />
+                    {/* Supported Payment Methods Badges */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="bg-white/10 px-2 py-1 rounded text-xs flex items-center gap-1">
+                        <CreditCard className="w-3 h-3" /> Carte Bancaire
+                      </div>
+                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Apple Pay</div>
+                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Google Pay</div>
+                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Visa</div>
+                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Mastercard</div>
                     </div>
-                    <div>
-                      <label className="block text-sm font-light mb-2">CVV *</label>
-                      <input
-                        type="text"
-                        name="cvv"
-                        value={formData.cvv}
-                        onChange={handleInputChange}
-                        placeholder="123"
-                        required
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                      />
-                    </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-light mb-2">Nom sur la carte *</label>
-                    <input
-                      type="text"
-                      name="cardName"
-                      value={formData.cardName}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                      placeholder="Jean Dupont"
-                    />
+                    <p className="text-xs opacity-50">Vous serez redirigé vers la page sécurisée de SumUp pour finaliser votre transaction en toute sécurité.</p>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button type="button" onClick={() => setCurrentStep(1)} className="button-secondary flex-1 py-4">
                       Retour
                     </button>
-                    <button type="button" onClick={() => setCurrentStep(3)} className="button-primary flex-1 py-4">
+                    <button type="submit" className="button-primary flex-1 py-4">
                       Vérifier la commande
                     </button>
                   </div>
@@ -382,29 +476,60 @@ export default function CheckoutContent() {
                   <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Confirmation de commande</h2>
 
                   <div className="glass-effect p-4 rounded-lg">
-                    <h3 className="font-medium mb-3 text-sm md:text-base">Adresse de livraison</h3>
+                    <h3 className="font-medium mb-3 text-sm md:text-base">
+                      {shippingMethod === "home" ? "Adresse de livraison" : "Point Relais"}
+                    </h3>
                     <p className="text-sm opacity-80">
-                      {formData.firstName} {formData.lastName}
+                      <strong>{formData.firstName} {formData.lastName}</strong>
                       <br />
-                      {formData.address}
-                      <br />
-                      {formData.postalCode} {formData.city}
-                      <br />
-                      {formData.country}
+                      {formData.email} | {formData.phone}
+                      <br /><br />
+                      {shippingMethod === "home" ? (
+                        <>
+                          {formData.address}
+                          <br />
+                          {formData.postalCode} {formData.city}
+                          <br />
+                          {formData.country}
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-[#E3003F]">Point Relais: {selectedRelayPoint?.name}</span>
+                          <br />
+                          {selectedRelayPoint?.address}
+                          <br />
+                          {selectedRelayPoint?.zipCode} {selectedRelayPoint?.city}
+                        </>
+                      )}
                     </p>
                   </div>
 
                   <div className="glass-effect p-4 rounded-lg">
-                    <h3 className="font-medium mb-3 text-sm md:text-base">Méthode de paiement</h3>
-                    <p className="text-sm opacity-80">Carte se terminant par {formData.cardNumber.slice(-4)}</p>
+                    <h3 className="font-medium mb-3 text-sm md:text-base">Paiement</h3>
+                    <div className="flex items-center gap-2">
+                      <div className="bg-white p-1 rounded">
+                        {/* Simple SumUp Icon/Text representation */}
+                        <span className="text-black font-bold text-xs">sumup</span>
+                      </div>
+                      <span className="text-sm">Paiement sécurisé via SumUp</span>
+                    </div>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <button type="button" onClick={() => setCurrentStep(2)} className="button-secondary flex-1 py-4">
+                    <button type="button"
+                      onClick={() => setCurrentStep(2)}
+                      disabled={isProcessingPayment}
+                      className="button-secondary flex-1 py-4 disabled:opacity-50"
+                    >
                       Retour
                     </button>
-                    <button type="submit" className="button-primary flex-1 py-4">
-                      Confirmer la commande
+                    <button
+                      type="submit"
+                      disabled={isProcessingPayment}
+                      className="button-primary flex-1 py-4 flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                      {isProcessingPayment ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
+                      {isProcessingPayment ? "Traitement..." : `Payer ${totalWithDelivery.toFixed(2)} €`}
                     </button>
                   </div>
                 </div>
@@ -451,10 +576,17 @@ export default function CheckoutContent() {
             </div>
 
             <div className="mt-6 space-y-3">
-              <div className="flex items-center gap-2 text-xs opacity-70">
-                <Truck className="w-4 h-4" />
-                <span>Livraison gratuite en France</span>
-              </div>
+              {shippingMethod === "home" ? (
+                <div className="flex items-center gap-2 text-xs opacity-70">
+                  <Truck className="w-4 h-4" />
+                  <span>Livraison à domicile</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-xs opacity-70 text-[#E3003F]">
+                  <Store className="w-4 h-4" />
+                  <span>Retrait en Point Relais</span>
+                </div>
+              )}
               <div className="flex items-center gap-2 text-xs opacity-70">
                 <Shield className="w-4 h-4" />
                 <span>Paiement sécurisé SSL</span>
