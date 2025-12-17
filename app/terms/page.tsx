@@ -1,176 +1,152 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import BackButton from "@/components/navigation/back-button"
 
 export default function TermsPage() {
     return (
-        <main className="flex min-h-screen flex-col bg-white text-black">
+        <main className="flex min-h-screen flex-col bg-black text-white selection:bg-[#0BEFD5] selection:text-black">
             <Header />
-            <div className="container mx-auto px-6 py-24 max-w-4xl">
-                <h1 className="text-3xl font-bold mb-8">CONDITIONS GÉNÉRALES DE VENTE (CGV) – X-TREM GRIP</h1>
-                <p className="mb-4 text-sm text-gray-500">Dernière mise à jour : [à compléter]</p>
+            <div className="pt-32 pb-24 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0BEFD5]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-                <p className="mb-8">
-                    Les présentes conditions régissent les ventes conclues sur le site www.xtremgrip.net, édité par l’entreprise individuelle X-Trem Grip, représentée par M. Jordan Deschamps.
-                </p>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">1. Objet</h2>
-                    <p>
-                        Les présentes Conditions Générales de Vente déterminent les droits et obligations de X-Trem Grip et de ses clients dans le cadre de la vente de protections de cadre prédécoupées en matériau antidérapant.
-                    </p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">2. Produits</h2>
-                    <p className="mb-2">Les produits proposés à la vente sont décrits et présentés avec la plus grande exactitude possible. Les photographies et visuels n’ont pas de valeur contractuelle.</p>
-                    <p>Les protections proposées sont :</p>
-                    <ul className="list-disc pl-5">
-                        <li>Prédécoupées</li>
-                        <li>Adaptées à différents modèles selon les cotes disponibles</li>
-                        <li>Réalisées en matériau antidérapant</li>
-                    </ul>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">3. Prix</h2>
-                    <p>
-                        Les prix sont exprimés en euros (€), la TVA est non applicable, art. 293 B du CGI.<br />
-                        X-Trem Grip se réserve le droit de modifier ses tarifs à tout moment, mais les produits sont facturés sur la base du tarif en vigueur au moment de la commande.
-                    </p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">4. Commande</h2>
-                    <p className="mb-2">La validation de la commande implique :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>L’acceptation des présentes CGV</li>
-                        <li>La confirmation du panier</li>
-                        <li>Le paiement de la commande</li>
-                    </ul>
-                    <p>X-Trem Grip se réserve le droit d’annuler toute commande en cas de problème de paiement, fraude, ou commande anormale.</p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">5. Paiement</h2>
-                    <p className="mb-2">Les moyens de paiement acceptés sont :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Stripe (carte bancaire sécurisée)</li>
-                        <li>SumUp</li>
-                    </ul>
-                    <p>
-                        Les données bancaires sont traitées exclusivement par ces prestataires certifiés PCI-DSS.<br />
-                        X-Trem Grip ne conserve aucune donnée bancaire.
-                    </p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">6. Délais de fabrication</h2>
-                    <p className="mb-2">Les délais de fabrication varient de 1 à 30 jours selon :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Les modèles demandés</li>
-                        <li>La disponibilité des côtes</li>
-                        <li>La charge de production</li>
-                    </ul>
-                    <p>Ces délais sont donnés à titre indicatif. En cas de dépassement, le client en est informé.</p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">7. Livraison</h2>
-                    <p className="mb-2">Délais indicatifs après expédition :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>France métropolitaine : 2 à 3 jours ouvrables</li>
-                        <li>Europe : 3 à 5 jours ouvrables</li>
-                        <li>Reste du monde : 7 à 14 jours ouvrables</li>
-                    </ul>
-                    <p className="mb-2">Options express disponibles : 24 à 48h (selon région).</p>
-                    <p className="mb-2">Transporteurs utilisés :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>La Poste</li>
-                        <li>Chronopost</li>
-                        <li>Mondial Relay</li>
-                    </ul>
-                    <p>Un numéro de suivi est transmis au client dès l’expédition.</p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">8. Retraitement – Réception</h2>
-                    <p>
-                        Le client est tenu de vérifier l’état du colis et du produit à réception.<br />
-                        Toute anomalie doit être signalée rapidement à <a href="mailto:xtremgrip@gmail.com" className="text-blue-600 hover:underline">xtremgrip@gmail.com</a> avec preuves photos.
-                    </p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">9. Droit de rétractation</h2>
-                    <p className="mb-4">
-                        Conformément au Code de la consommation (art. L221-18), le client dispose d’un délai de 30 jours à compter de la réception du produit pour exercer son droit de rétractation sans motif.
-                    </p>
-
-                    <h3 className="font-semibold mb-2">Conditions :</h3>
-                    <p className="mb-2">Le produit doit être :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Non utilisé</li>
-                        <li>En parfait état</li>
-                        <li>Retourné dans son emballage d'origine</li>
-                        <li>Accompagné du numéro de retour communiqué par X-Trem Grip</li>
-                    </ul>
-
-                    <p className="mb-4">Veuillez noter qu'une fois le film protecteur recouvrant la partie adhésive retiré, la garantie ne pourra plus être appliquée.</p>
-
-                    <h3 className="font-semibold mb-2">Frais de retour :</h3>
-                    <p className="mb-4">À la charge du client, sauf erreur de préparation ou produit défectueux.</p>
-
-                    <div className="bg-yellow-50 p-4 border-l-4 border-yellow-500">
-                        <p className="font-bold">⛔ Important :</p>
-                        <p>Les produits standard prédécoupés vendus par X-Trem Grip ne sont pas personnalisés → donc le droit de rétractation s’applique normalement.</p>
+                <div className="container mx-auto px-6 max-w-5xl relative z-10">
+                    <div className="mb-12">
+                        <BackButton fallbackUrl="/" label="Retour à l'accueil" className="text-white/60 hover:text-[#0BEFD5]" />
                     </div>
-                </section>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">10. Retour et remboursement</h2>
-                    <p>Après réception et vérification, le remboursement est effectué sous 5 à 10 jours ouvrables selon le mode de paiement utilisé.</p>
-                </section>
+                    <header className="mb-20 text-center">
+                        <h1 className="text-4xl md:text-6xl font-extralight tracking-tight mb-6 uppercase">
+                            Conditions Générales de <span className="text-gradient font-medium">Vente</span>
+                        </h1>
+                        <p className="text-white/50 tracking-widest uppercase text-sm">Dernière mise à jour : 17/12/2025</p>
+                    </header>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">11. Garantie légale</h2>
-                    <p>X-Trem Grip applique :</p>
-                    <ul className="list-disc pl-5">
-                        <li>La garantie légale de conformité (articles L217-3 et suivants du Code de la consommation)</li>
-                        <li>La garantie contre les vices cachés (articles 1641 et suivants du Code civil)</li>
-                    </ul>
-                </section>
+                    <div className="space-y-20 font-light leading-relaxed opacity-90">
+                        {/* Intro */}
+                        <div className="prose prose-invert max-w-none text-lg text-white/80">
+                            <p>
+                                Les présentes conditions régissent les ventes conclues sur le site www.xtremgrip.net, édité par l’entreprise individuelle X-Trem Grip, représentée par M. Jordan Deschamps.
+                            </p>
+                        </div>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">12. Responsabilité</h2>
-                    <p>X-Trem Grip ne saurait être tenu responsable :</p>
-                    <ul className="list-disc pl-5">
-                        <li>En cas d'utilisation non conforme du produit</li>
-                        <li>En cas d’installation incorrecte</li>
-                        <li>Pour les dommages résultant d’un mauvais entretien du support</li>
-                    </ul>
-                </section>
+                        {/* Sections 1-4 */}
+                        <div className="grid md:grid-cols-2 gap-12">
+                            <section>
+                                <h2 className="text-xl font-medium mb-6 text-[#0BEFD5] flex items-center gap-2">
+                                    <span className="text-xs font-bold border border-[#0BEFD5] px-2 py-1 rounded">01</span>
+                                    Objet
+                                </h2>
+                                <p className="text-white/70">
+                                    Les présentes Conditions Générales de Vente déterminent les droits et obligations de X-Trem Grip et de ses clients dans le cadre de la vente de protections de cadre prédécoupées en matériau antidérapant.
+                                </p>
+                            </section>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">13. Service client</h2>
-                    <p>
-                        📩 Email : <a href="mailto:xtremgrip@gmail.com" className="text-blue-600 hover:underline">xtremgrip@gmail.com</a><br />
-                        📞 Téléphone : +33 7 87 10 68 22
-                    </p>
-                </section>
+                            <section>
+                                <h2 className="text-xl font-medium mb-6 text-[#0BEFD5] flex items-center gap-2">
+                                    <span className="text-xs font-bold border border-[#0BEFD5] px-2 py-1 rounded">02</span>
+                                    Produits
+                                </h2>
+                                <p className="text-white/70 mb-4">Les produits proposés à la vente sont décrits et présentés avec la plus grande exactitude possible. Les photographies et visuels n’ont pas de valeur contractuelle.</p>
+                                <ul className="list-disc pl-5 space-y-1 text-white/50 text-sm">
+                                    <li>Prédécoupées</li>
+                                    <li>Adaptées à différents modèles selon les cotes disponibles</li>
+                                    <li>Réalisées en matériau antidérapant</li>
+                                </ul>
+                            </section>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">14. Règlement des litiges</h2>
-                    <p>
-                        En cas de litige, le client doit d’abord contacter le service client.<br />
-                        En l'absence de solution amiable, le client peut recourir gratuitement à la médiation (art. L612-1 du Code de la consommation).<br />
-                        À défaut, les tribunaux français seront seuls compétents.
-                    </p>
-                </section>
+                            <section>
+                                <h2 className="text-xl font-medium mb-6 text-[#0BEFD5] flex items-center gap-2">
+                                    <span className="text-xs font-bold border border-[#0BEFD5] px-2 py-1 rounded">03</span>
+                                    Prix
+                                </h2>
+                                <p className="text-white/70">
+                                    Les prix sont exprimés en euros (€), la TVA est non applicable, art. 293 B du CGI.<br />
+                                    X-Trem Grip se réserve le droit de modifier ses tarifs à tout moment, mais les produits sont facturés sur la base du tarif en vigueur au moment de la commande.
+                                </p>
+                            </section>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">15. Loi applicable</h2>
-                    <p>Les présentes CGV sont soumises au droit français.</p>
-                </section>
+                            <section>
+                                <h2 className="text-xl font-medium mb-6 text-[#0BEFD5] flex items-center gap-2">
+                                    <span className="text-xs font-bold border border-[#0BEFD5] px-2 py-1 rounded">04</span>
+                                    Commande
+                                </h2>
+                                <p className="text-white/70 mb-4">La validation de la commande implique l'acceptation des CGV, la confirmation du panier et le paiement.</p>
+                                <p className="text-white/50 text-sm">X-Trem Grip se réserve le droit d’annuler toute commande en cas de problème de paiement, fraude, ou commande anormale.</p>
+                            </section>
+                        </div>
+
+                        {/* Section 5 & 6 */}
+                        <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-8 md:p-12">
+                            <div className="grid md:grid-cols-2 gap-12">
+                                <section>
+                                    <h2 className="text-xl font-medium mb-6 text-[#0BEFD5]">05. Paiement</h2>
+                                    <p className="text-white/70 mb-4">Moyens de paiement acceptés (Sécurisés PCI-DSS) :</p>
+                                    <ul className="space-y-2">
+                                        <li className="flex items-center gap-3 text-white/80">
+                                            <div className="w-2 h-2 rounded-full bg-[#0BEFD5]"></div>
+                                            Stripe (CB)
+                                        </li>
+                                        <li className="flex items-center gap-3 text-white/80">
+                                            <div className="w-2 h-2 rounded-full bg-[#0BEFD5]"></div>
+                                            SumUp
+                                        </li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h2 className="text-xl font-medium mb-6 text-[#0BEFD5]">06. Fabrication</h2>
+                                    <div className="flex items-baseline gap-2 mb-2">
+                                        <span className="text-4xl font-light text-white">1-30</span>
+                                        <span className="text-sm text-white/50 uppercase tracking-widest">Jours</span>
+                                    </div>
+                                    <p className="text-white/50 text-sm">Délais indicatifs selon modèle et charge de production.</p>
+                                </section>
+                            </div>
+                        </div>
+
+                        {/* Withdrawal Section */}
+                        <section className="border-t border-b border-white/5 py-12">
+                            <h2 className="text-3xl font-light mb-8 text-center uppercase tracking-widest">Rétractation</h2>
+                            <div className="max-w-3xl mx-auto text-center mb-8">
+                                <p className="text-xl font-light text-white mb-6">
+                                    Vous disposez de <span className="text-[#0BEFD5]">30 jours</span> pour changer d'avis.
+                                </p>
+                                <p className="text-white/60 mb-8">
+                                    Le produit doit être retourné neuf, complet, non posé (film protecteur intact).
+                                </p>
+                            </div>
+                            <div className="bg-[#E3003F]/10 p-6 rounded-xl border border-[#E3003F]/20 max-w-2xl mx-auto">
+                                <p className="font-bold text-[#E3003F] mb-1 flex items-center gap-2">
+                                    <span>⛔</span> Important
+                                </p>
+                                <p className="text-[#E3003F]/80 text-sm">Les produits standard prédécoupés ne sont pas personnalisés, le droit de rétractation s’applique donc normalement.</p>
+                            </div>
+                        </section>
+
+                        {/* Remaining Legal items as a compact grid */}
+                        <div className="grid md:grid-cols-3 gap-8 text-sm text-white/60">
+                            {[
+                                { title: "Garantie Légale", content: "Conformité (L217-3) et Vices cachés (1641 Code civil)." },
+                                { title: "Responsabilité", content: "Non responsable en cas de mauvaise pose ou mauvais entretien." },
+                                { title: "Litiges", content: "Médiation gratuite ou tribunaux français compétents." }
+                            ].map((item, i) => (
+                                <section key={i} className="p-6 rounded-xl bg-white/[0.01] border border-white/5">
+                                    <h3 className="text-[#0BEFD5] font-medium mb-2 uppercase tracking-wider text-xs">{item.title}</h3>
+                                    <p>{item.content}</p>
+                                </section>
+                            ))}
+                        </div>
+
+                        {/* Contact */}
+                        <section className="text-center pt-12">
+                            <h2 className="text-xl font-medium mb-6 text-white">Une question sur nos conditions ?</h2>
+                            <a href="mailto:xtremgrip@gmail.com" className="inline-block px-8 py-3 rounded-full border border-white/10 hover:bg-white/5 hover:border-[#0BEFD5] transition-all">
+                                xtremgrip@gmail.com
+                            </a>
+                        </section>
+
+                    </div>
+                </div>
             </div>
             <Footer />
         </main>

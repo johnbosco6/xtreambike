@@ -1,232 +1,128 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import BackButton from "@/components/navigation/back-button"
 
 export default function PrivacyPage() {
     return (
-        <main className="flex min-h-screen flex-col bg-white text-black">
+        <main className="flex min-h-screen flex-col bg-black text-white selection:bg-[#0BEFD5] selection:text-black">
             <Header />
-            <div className="container mx-auto px-6 py-24 max-w-4xl">
-                <h1 className="text-3xl font-bold mb-8">POLITIQUE DE CONFIDENTIALITÉ – X-TREM GRIP</h1>
-                <p className="mb-4 text-sm text-gray-500">Dernière mise à jour : [à compléter]</p>
+            <div className="pt-32 pb-24 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0BEFD5]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-                <p className="mb-8">
-                    La présente politique de confidentialité décrit la manière dont X-Trem Grip, entreprise individuelle située 3 Rue de la Villa Bleue, 65330 Galan, collecte, utilise et protège vos données personnelles lorsque vous utilisez le site www.xtremgrip.net.
-                    <br />
-                    X-Trem Grip s’engage à respecter le Règlement Général sur la Protection des Données (RGPD) et la Loi Informatique et Libertés.
-                </p>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">1. Responsable du traitement</h2>
-                    <p>
-                        X-Trem Grip<br />
-                        Entreprise individuelle – Auto-entreprise<br />
-                        Responsable légal : Jordan DESCHAMPS<br />
-                        SIRET : 883 718 587 00024<br />
-                        Adresse : 3 Rue de la Villa Bleue, 65330 Galan<br />
-                        Email : xtremgrip@gmail.com<br />
-                        Téléphone : +33 7 87 10 68 22
-                    </p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">2. Données que nous collectons</h2>
-                    <p className="mb-4">Nous collectons uniquement les données nécessaires au fonctionnement du site et à la gestion de votre commande.</p>
-
-                    <h3 className="font-semibold mb-2">Données d'identification</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Nom, prénom</li>
-                        <li>Adresse postale</li>
-                        <li>Adresse email</li>
-                        <li>Numéro de téléphone</li>
-                    </ul>
-
-                    <h3 className="font-semibold mb-2">Données liées à la commande</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Produits commandés</li>
-                        <li>Adresse de facturation et livraison</li>
-                        <li>Historique des commandes</li>
-                    </ul>
-
-                    <h3 className="font-semibold mb-2">Données de paiement</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Traitée exclusivement par Stripe ou SumUp</li>
-                        <li>❗ X-Trem Grip ne stocke aucune information bancaire</li>
-                    </ul>
-
-                    <h3 className="font-semibold mb-2">Données techniques</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Adresse IP</li>
-                        <li>Type de navigateur</li>
-                        <li>Cookies</li>
-                        <li>Données Google Analytics</li>
-                    </ul>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">3. Finalités du traitement et bases légales</h2>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse border border-gray-200 mb-4">
-                            <thead>
-                                <tr className="bg-gray-100">
-                                    <th className="border p-2">Finalité</th>
-                                    <th className="border p-2">Base légale</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="border p-2">Gestion des commandes, paiements, expéditions</td>
-                                    <td className="border p-2">Exécution du contrat</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Gestion du compte client</td>
-                                    <td className="border p-2">Exécution du contrat</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Service client et réclamations</td>
-                                    <td className="border p-2">Intérêt légitime</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Envoi d’emails commerciaux (si inscrit)</td>
-                                    <td className="border p-2">Consentement</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Mesure d’audience (Google Analytics)</td>
-                                    <td className="border p-2">Consentement</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Sécurité du site et prévention des fraudes</td>
-                                    <td className="border p-2">Intérêt légitime</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Obligations comptables et légales</td>
-                                    <td className="border p-2">Obligation légale</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div className="container mx-auto px-6 max-w-5xl relative z-10">
+                    <div className="mb-12">
+                        <BackButton fallbackUrl="/" label="Retour à l'accueil" className="text-white/60 hover:text-[#0BEFD5]" />
                     </div>
-                </section>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">4. Destinataires des données</h2>
-                    <p className="mb-4">Vos données sont transmises uniquement aux destinataires suivants :</p>
+                    <header className="mb-20 text-center">
+                        <h1 className="text-4xl md:text-6xl font-extralight tracking-tight mb-6 uppercase">
+                            Politique de <span className="text-gradient font-medium">Confidentialité</span>
+                        </h1>
+                        <p className="text-white/50 tracking-widest uppercase text-sm">Dernière mise à jour : 17/12/2025</p>
+                    </header>
 
-                    <h3 className="font-semibold mb-2">Interne</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>X-Trem Grip (gestion des commandes / support)</li>
-                    </ul>
+                    <div className="space-y-20">
+                        {/* Intro */}
+                        <div className="prose prose-invert max-w-none text-lg font-light text-white/80 leading-relaxed">
+                            <p>
+                                La confiance est au cœur de l'expérience X-Trem Grip. Cette politique détaille en toute transparence la manière dont nous collectons, utilisons et protégeons vos données personnelles sur <span className="text-white">www.xtremgrip.net</span>, conformément au RGPD.
+                            </p>
+                        </div>
 
-                    <h3 className="font-semibold mb-2">Prestataires externes</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Squarespace (hébergement du site)</li>
-                        <li>Stripe / SumUp (paiement sécurisé)</li>
-                        <li>La Poste, Chronopost, Mondial Relay (livraison)</li>
-                        <li>Google Analytics (statistiques)</li>
-                    </ul>
-                    <p>Aucune donnée n’est vendue ni cédée à des tiers non autorisés.</p>
-                </section>
+                        {/* Section 1: Responsable */}
+                        <section className="grid md:grid-cols-[200px_1fr] gap-8 border-t border-white/5 pt-12">
+                            <div className="text-[#0BEFD5] text-xl font-light">01. Responsable</div>
+                            <div>
+                                <h2 className="text-2xl font-light mb-6">L'Entreprise</h2>
+                                <div className="bg-white/5 p-8 rounded-2xl border border-white/5 backdrop-blur-sm">
+                                    <p className="space-y-1 text-white/80">
+                                        <strong className="block text-white mb-2">X-Trem Grip</strong>
+                                        3 Rue de la Villa Bleue, 65330 Galan, France<br />
+                                        SIRET : 883 718 587 00024<br />
+                                        <a href="mailto:xtremgrip@gmail.com" className="text-[#0BEFD5] hover:underline mt-2 inline-block">xtremgrip@gmail.com</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
 
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">5. Durée de conservation</h2>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse border border-gray-200 mb-4">
-                            <thead>
-                                <tr className="bg-gray-100">
-                                    <th className="border p-2">Type de données</th>
-                                    <th className="border p-2">Durée</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="border p-2">Compte client</td>
-                                    <td className="border p-2">Tant que le compte est actif + 3 ans d’inactivité</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Commandes et factures</td>
-                                    <td className="border p-2">10 ans (obligation légale)</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Emails, échanges SAV</td>
-                                    <td className="border p-2">3 ans</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Cookies</td>
-                                    <td className="border p-2">6 à 13 mois</td>
-                                </tr>
-                                <tr>
-                                    <td className="border p-2">Données Analytics</td>
-                                    <td className="border p-2">14 mois</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        {/* Section 2: Data Collection */}
+                        <section className="grid md:grid-cols-[200px_1fr] gap-8 border-t border-white/5 pt-12">
+                            <div className="text-[#0BEFD5] text-xl font-light">02. Données</div>
+                            <div>
+                                <h2 className="text-2xl font-light mb-8">Collecte d'informations</h2>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    {[
+                                        { title: "Identité", items: ["Nom & Prénom", "Email", "Téléphone", "Adresse de livraison"] },
+                                        { title: "Commandes", items: ["Historique d'achat", "Préférences produits", "Paniers sauvegardés"] },
+                                        { title: "Paiement", items: ["Sécurisé par Stripe/SumUp", "Aucune donnée bancaire stockée par X-Trem Grip", "Transactions cryptées SSL"] },
+                                        { title: "Navigation", items: ["Adresse IP", "Type d'appareil", "Cookies de session", "Analytics"] }
+                                    ].map((card, idx) => (
+                                        <div key={idx} className="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+                                            <h3 className="text-white font-medium mb-4">{card.title}</h3>
+                                            <ul className="space-y-2 text-sm text-white/60">
+                                                {card.items.map((item, i) => <li key={i}>• {item}</li>)}
+                                            </ul>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Section 3: Usage */}
+                        <section className="grid md:grid-cols-[200px_1fr] gap-8 border-t border-white/5 pt-12">
+                            <div className="text-[#0BEFD5] text-xl font-light">03. Utilisation</div>
+                            <div>
+                                <h2 className="text-2xl font-light mb-8">Finalités & Base Légale</h2>
+                                <div className="overflow-hidden rounded-xl border border-white/5 bg-white/[0.02]">
+                                    <table className="w-full text-left">
+                                        <thead className="bg-white/5 text-white/90 text-sm uppercase tracking-wider">
+                                            <tr>
+                                                <th className="p-4 font-medium">Pourquoi ?</th>
+                                                <th className="p-4 font-medium">Base Légale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-white/5 text-white/70 text-sm">
+                                            <tr><td className="p-4">Traitement et expédition des commandes</td><td className="p-4 text-[#0BEFD5]">Contrat</td></tr>
+                                            <tr><td className="p-4">Service client et SAV</td><td className="p-4 text-[#0BEFD5]">Intérêt légitime</td></tr>
+                                            <tr><td className="p-4">Comptabilité et obligations légales</td><td className="p-4 text-[#0BEFD5]">Loi</td></tr>
+                                            <tr><td className="p-4">Amélioration du site (Analytics)</td><td className="p-4 text-[#0BEFD5]">Consentement</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Section 4: Sharing */}
+                        <section className="grid md:grid-cols-[200px_1fr] gap-8 border-t border-white/5 pt-12">
+                            <div className="text-[#0BEFD5] text-xl font-light">04. Partage</div>
+                            <div>
+                                <h2 className="text-2xl font-light mb-4">Destinataires</h2>
+                                <p className="text-white/70 mb-6">Vos données ne sont jamais vendues. Elles sont partagées uniquement avec nos partenaires essentiels pour assurer le service :</p>
+                                <div className="flex flex-wrap gap-3">
+                                    {['Stripe', 'SumUp', 'La Poste', 'Chronopost', 'Mondial Relay', 'Google Analytics'].map((partner) => (
+                                        <span key={partner} className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-white/80">
+                                            {partner}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Section 5: Rights */}
+                        <section className="grid md:grid-cols-[200px_1fr] gap-8 border-t border-white/5 pt-12">
+                            <div className="text-[#0BEFD5] text-xl font-light">05. Vos Droits</div>
+                            <div>
+                                <h2 className="text-2xl font-light mb-6">Contrôle Total</h2>
+                                <p className="text-white/70 mb-8">Conformément au RGPD, vous disposez des droits suivants sur vos données : accès, rectification, effacement, portabilité et opposition.</p>
+                                <a href="mailto:xtremgrip@gmail.com" className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#0BEFD5] text-black font-medium hover:bg-[#0BEFD5]/90 transition-colors">
+                                    Exercer mes droits par email
+                                </a>
+                            </div>
+                        </section>
+
                     </div>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">6. Transferts hors Union Européenne</h2>
-                    <p>
-                        Squarespace, Google Analytics, Stripe et SumUp sont susceptibles d’effectuer des transferts hors UE.<br />
-                        Ces transferts sont encadrés par :
-                    </p>
-                    <ul className="list-disc pl-5">
-                        <li>Clauses Contractuelles Types (SCC)</li>
-                        <li>Politiques conformes au RGPD</li>
-                    </ul>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">7. Sécurité des données</h2>
-                    <p>Nous mettons en place des mesures techniques et organisationnelles telles que :</p>
-                    <ul className="list-disc pl-5">
-                        <li>Chiffrement SSL (HTTPS)</li>
-                        <li>Stockage sécurisé</li>
-                        <li>Restrictions d’accès</li>
-                        <li>Mesures anti-intrusion</li>
-                        <li>Prestataires certifiés</li>
-                    </ul>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">8. Vos droits RGPD</h2>
-                    <p className="mb-4">Vous disposez de :</p>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>✔ Droit d’accès</li>
-                        <li>✔ Droit de rectification</li>
-                        <li>✔ Droit d’effacement</li>
-                        <li>✔ Droit d’opposition</li>
-                        <li>✔ Droit à la limitation</li>
-                        <li>✔ Droit à la portabilité</li>
-                        <li>✔ Droit au retrait du consentement</li>
-                        <li>✔ Droit de réclamation auprès de la CNIL</li>
-                    </ul>
-                    <p>
-                        📩 Pour exercer vos droits :<br />
-                        <a href="mailto:xtremgrip@gmail.com" className="text-blue-600 hover:underline">xtremgrip@gmail.com</a>
-                    </p>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">9. Cookies</h2>
-                    <p className="mb-4">Notre site utilise différents types de cookies :</p>
-                    <h3 className="font-semibold mb-2">Cookies nécessaires</h3>
-                    <ul className="list-disc pl-5 mb-4">
-                        <li>Fonctionnement du site</li>
-                        <li>Gestion du panier</li>
-                        <li>Connexion au compte client</li>
-                    </ul>
-                    <h3 className="font-semibold mb-2">Cookies analytiques (Google Analytics)</h3>
-                    <ul className="list-disc pl-5">
-                        <li>Statistiques de navigation</li>
-                        <li>Performance du site</li>
-                    </ul>
-                </section>
-
-                <section className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">10. Modifications</h2>
-                    <p>
-                        La présente politique peut être modifiée pour rester conforme à la loi ou à nos pratiques.<br />
-                        La version en vigueur est toujours disponible sur cette page.
-                    </p>
-                </section>
+                </div>
             </div>
             <Footer />
         </main>

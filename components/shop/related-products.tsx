@@ -1,64 +1,58 @@
+"use client"
+
+import { useMemo } from "react"
+import Image from "next/image"
 import Link from "next/link"
+import { products } from "@/lib/products-data"
 
 export default function RelatedProducts() {
-  // Related products with correct image mapping
-  const relatedProducts = [
-    {
-      id: 4,
-      name: "YZ250F (2019-2023)",
-      price: "29,99 €",
-      brand: "YAMAHA",
-      category: "250cc 4T",
-    },
-    {
-      id: 5,
-      name: "YZ250F (2024-2025)",
-      price: "29,99 €",
-      brand: "YAMAHA",
-      category: "250cc 4T",
-    },
-    {
-      id: 6,
-      name: "YZ450F (2018-2022)",
-      price: "29,99 €",
-      brand: "YAMAHA",
-      category: "450cc 4T",
-    },
-    {
-      id: 7,
-      name: "YZ450F (2023-2025)",
-      price: "29,99 €",
-      brand: "YAMAHA",
-      category: "450cc 4T",
-    },
-    {
-      id: 28,
-      name: "TF 450-X (2025)",
-      price: "24,99 €",
-      brand: "TRIUMPH",
-      category: "450cc 4T",
-    },
-  ]
+  // Get 4 random products
+  const relatedProducts = useMemo(() => {
+    // Shuffle array and take first 4
+    const shuffled = [...products].sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, 4)
+  }, [])
 
   return (
-    <div className="mt-12 md:mt-16">
-      <h2 className="text-xl md:text-2xl font-light mb-6 md:mb-8">Produits similaires</h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="py-12 border-t border-white/5">
+      <h2 className="text-2xl font-light mb-8">Produits similaires</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {relatedProducts.map((product) => (
-          <Link href={`/shop/product/${product.id}`} key={product.id} className="group">
-            <div className="glass-card rounded-lg overflow-hidden transition-all duration-300 h-full flex flex-col">
-              <div className="relative h-36 md:h-48 overflow-hidden bg-gradient-to-br from-[#0046BD]/20 to-[#FFFFFF]/10 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-light opacity-30 mb-1">{product.brand}</div>
-                  <div className="text-xs opacity-60">{product.category}</div>
+          <Link href={`/shop/product/${product.id}`} key={product.id} className="group block h-full">
+            <div className="glass-card rounded-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(11,239,213,0.15)] hover:border-[#0BEFD5]/30 h-full flex flex-col">
+              {/* Image Container */}
+              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gradient-to-br from-[#0046BD]/20 to-[#FFFFFF]/10 flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
+                <div className="relative w-full h-full transform group-hover:scale-105 transition-transform duration-500">
+                  <Image
+                    src={product.image || "/placeholder.svg"}
+                    alt={product.name}
+                    fill
+                    quality={100}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-contain p-2"
+                  />
                 </div>
               </div>
-              <div className="p-3 md:p-4 flex-1 flex flex-col">
-                <h3 className="font-light text-xs md:text-sm mb-2 flex-1 line-clamp-2">{product.name}</h3>
-                <div className="flex justify-between items-end">
-                  <p className="font-medium text-sm md:text-base">{product.price}</p>
-                  <span className="button-secondary text-xs px-2 py-1 md:px-3 md:py-1.5 cursor-pointer">Voir</span>
+
+              {/* Content */}
+              <div className="p-4 flex-1 flex flex-col justify-between bg-black/40 backdrop-blur-sm">
+                <div>
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="text-xs font-semibold text-[#0BEFD5] tracking-wider uppercase bg-[#0BEFD5]/10 px-2 py-0.5 rounded">
+                      {product.brand}
+                    </div>
+                  </div>
+                  <h3 className="text-sm font-medium leading-snug mb-3 group-hover:text-[#0BEFD5] transition-colors line-clamp-2">
+                    {product.name}
+                  </h3>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                  <span className="text-lg font-bold text-white">{product.price}</span>
+                  <span className="text-xs text-[#0BEFD5] border border-[#0BEFD5] px-2 py-1 rounded hover:bg-[#0BEFD5] hover:text-black transition-colors uppercase font-medium">
+                    Voir
+                  </span>
                 </div>
               </div>
             </div>

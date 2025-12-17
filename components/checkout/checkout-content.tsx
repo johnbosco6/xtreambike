@@ -197,8 +197,11 @@ export default function CheckoutContent() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-xs font-light line-clamp-1">{item.name}</h4>
-                    <div className="flex justify-between items-center mt-1">
-                      <span className="text-xs opacity-70">Qté: {item.quantity}</span>
+                    <div className="flex flex-col mt-1 gap-1">
+                      <span className="text-xs opacity-70">
+                        {item.color && <span className="mr-2">Couleur: {item.color}</span>}
+                        Qté: {item.quantity}
+                      </span>
                       <span className="text-sm font-medium">{(item.price * item.quantity).toFixed(2)} €</span>
                     </div>
                   </div>
@@ -550,9 +553,12 @@ export default function CheckoutContent() {
                     <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-contain p-1" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-light line-clamp-2">{item.name}</h4>
-                    <div className="flex justify-between items-center mt-1">
-                      <span className="text-xs opacity-70">Qté: {item.quantity}</span>
+                    <h4 className="text-xs font-light line-clamp-1">{item.name}</h4>
+                    <div className="flex flex-col mt-1 gap-1">
+                      <span className="text-xs opacity-70">
+                        {item.color && <span className="mr-2">Couleur: {item.color}</span>}
+                        Qté: {item.quantity}
+                      </span>
                       <span className="text-sm font-medium">{(item.price * item.quantity).toFixed(2)} €</span>
                     </div>
                   </div>

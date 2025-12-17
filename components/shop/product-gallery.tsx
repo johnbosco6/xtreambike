@@ -230,6 +230,84 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
         name: "Protection Maître Cylindre Arrière",
         image: "/images/products/works-connection-rear-master-cylinder-protection-grey.png",
       },
+      {
+        id: 41,
+        brand: "YAMAHA",
+        name: "125YZ / 250YZ (2005-2024)",
+        image: "/images/products/yamaha-yz125-250-frame-protection.png",
+      },
+      {
+        id: 42,
+        brand: "YAMAHA",
+        name: "YZ250F 19-23 / YZ450F 18-22",
+        image: "/images/products/yamaha-yz250f-450f-18-23-frame-protection.png",
+      },
+      {
+        id: 43,
+        brand: "YAMAHA",
+        name: "YZ250F 24-25 / YZ450F 23-25",
+        image: "/images/products/yamaha-yz250f-450f-23-25-frame-protection.png",
+      },
+      {
+        id: 44,
+        brand: "KOVE",
+        name: "450 RALLY Clutch (2024-2025)",
+        image: "/images/products/kove-450-rally-clutch-cover-protection.png",
+      },
+      {
+        id: 45,
+        brand: "STARK",
+        name: "MX 22-25 / EX 24-25 Case",
+        image: "/images/products/stark-mx-ex-case-protection.jpg",
+      },
+      {
+        id: 46,
+        brand: "HONDA",
+        name: "CRF Side Plate (2021-2025)",
+        image: "/images/products/honda-crf-side-plate-protection.png",
+      },
+      {
+        id: 47,
+        brand: "KAWASAKI",
+        name: "KXF Side Plate (2017-2020)",
+        image: "/images/products/kawasaki-kxf-side-plate-protection.png",
+      },
+      {
+        id: 48,
+        brand: "KAWASAKI",
+        name: "KXF Side Plate (2021-2024)",
+        image: "/images/products/kawasaki-kxf-side-plate-21-24-protection.png",
+      },
+      {
+        id: 49,
+        brand: "YAMAHA",
+        name: "YZ Side Plate (2015-2021)",
+        image: "/images/products/yamaha-yz125-250-side-plate-protection.png",
+      },
+      {
+        id: 50,
+        brand: "YAMAHA",
+        name: "YZ Side Plate (2022-2025)",
+        image: "/images/products/yamaha-yz125-250-side-plate-22-25-protection.png",
+      },
+      {
+        id: 51,
+        brand: "YAMAHA",
+        name: "YZ Side Plate (2023-2025)",
+        image: "/images/products/yamaha-yz250f-450f-side-plate-24-25-protection.jpg",
+      },
+      {
+        id: 52,
+        brand: "STARK",
+        name: "MX/EX Side Plate (22-25)",
+        image: "/images/products/stark-mx-ex-side-plate-protection.jpg",
+      },
+      {
+        id: 53,
+        brand: "TRIUMPH",
+        name: "TF 250-X Side Plate (24-25)",
+        image: "/images/products/triumph-tf250x-side-plate-protection.jpg",
+      },
     ]
 
     return products.find((p) => p.id === Number.parseInt(productId)) // Parse string to number for comparison
@@ -266,7 +344,11 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
         // YZ250F/450F Side Plate Right variations
         images.push("/images/products/yamaha-yz250f-450f-24-25-side-plate-right.jpeg")
         images.push("/images/products/yamaha-yz250f-450f-side-plate-right-detail-1.jpeg")
+        images.push("/images/products/yamaha-yz250f-450f-side-plate-right-detail-1.jpeg")
         images.push("/images/products/yamaha-yz250f-450f-side-plate-right-detail-2.jpeg")
+      } else if (numericProductId === 51) {
+        // YZ250F/450F (24-25) Side Plate variations
+        images.push("/images/products/yamaha-yz250f-450f-side-plate-24-25-protection-detail.jpg")
       }
     }
 
@@ -342,6 +424,13 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
       images.push("/images/products/works-connection-rear-master-cylinder-protection-black.png")
     }
 
+    // STARK Products
+    else if (product.brand === "STARK") {
+      if (numericProductId === 52) {
+        images.push("/images/products/stark-mx-ex-side-plate-protection-detail.jpg")
+      }
+    }
+
     return images.filter((img) => img && !img.includes("placeholder.svg"))
   }
 
@@ -363,6 +452,8 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
           src={images[currentImageIndex] || "/placeholder.svg?height=400&width=400&query=product protection"}
           alt={`${product?.name || "Product"} - Image ${currentImageIndex + 1}`}
           fill
+          quality={100}
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="object-contain p-4"
           priority
         />
@@ -412,6 +503,7 @@ export default function ProductGallery({ productId }: ProductGalleryProps) {
                 src={image || "/placeholder.svg?height=400&width=400&query=product protection"}
                 alt={`${product?.name || "Product"} - Thumbnail ${index + 1}`}
                 fill
+                quality={100}
                 className="object-contain p-2"
               />
             </button>
