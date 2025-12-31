@@ -1,14 +1,17 @@
 "use client"
 
 import { useState, useMemo } from "react"
+import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpDown, Search } from "lucide-react"
 import { products } from "@/lib/products-data"
 
 export default function ProductGrid() {
+  const searchParams = useSearchParams()
+  const initialBrand = searchParams.get("brand") || ""
   const [sortOption, setSortOption] = useState("brand-asc")
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState(initialBrand)
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {

@@ -52,7 +52,7 @@ export default function AboutStory() {
               sur le terrain, testée dans l'intensité de la course.
             </p>
           </div>
-          <div className="glass-card p-2 rounded-lg relative">
+          <div className="relative">
             <div className="overflow-hidden rounded-lg cursor-grab active:cursor-grabbing" ref={emblaRef}>
               <div className="flex">
                 {storyImages.map((src, index) => (
@@ -62,7 +62,7 @@ export default function AboutStory() {
                         src={src}
                         alt={`X-Trem Grip Story Image ${index + 1}`}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                       />
                     </div>
                   </div>

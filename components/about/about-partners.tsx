@@ -29,18 +29,13 @@ export default function AboutPartners() {
 
         <div className="grid md:grid-cols-2 gap-12 mt-16">
           {riders.map((rider, index) => (
-            <div key={index} className="glass-card rounded-lg overflow-hidden">
-              <div className="grid md:grid-cols-2">
-                <div className="relative h-64 md:h-auto overflow-hidden">
-                  <Image src={rider.image || "/placeholder.svg"} alt={rider.name} fill className="object-cover" />
+            <div key={index} className="glass-card rounded-lg overflow-hidden p-8">
+              <div className="flex flex-col h-full">
+                <div className="inline-block px-3 py-1 bg-[#FFFF00]/20 text-[#FFFF00] text-xs rounded-full mb-3 self-start">
+                  {rider.type}
                 </div>
-                <div className="p-6">
-                  <div className="inline-block px-3 py-1 bg-[#FFFF00]/20 text-[#FFFF00] text-xs rounded-full mb-3">
-                    {rider.type}
-                  </div>
-                  <h3 className="text-xl font-light mb-3">{rider.name}</h3>
-                  <p className="text-sm font-light opacity-70 mb-4">{rider.description}</p>
-                </div>
+                <h3 className="text-xl font-light mb-3">{rider.name}</h3>
+                <p className="text-base font-light opacity-80 leading-relaxed italic">"{rider.description}"</p>
               </div>
             </div>
           ))}

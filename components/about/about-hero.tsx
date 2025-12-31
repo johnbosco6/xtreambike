@@ -13,25 +13,17 @@ const heroImages = [
 ]
 
 export default function AboutHero() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000 })])
-
   return (
     <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden flex items-center">
-      {/* Hero Carousel */}
-      <div className="absolute inset-0" ref={emblaRef}>
-        <div className="flex h-full">
-          {heroImages.map((src, index) => (
-            <div className="flex-[0_0_100%] min-w-0 relative h-full" key={index}>
-              <Image
-                src={src}
-                alt={`Motocycliste en action ${index + 1}`}
-                fill
-                priority={index === 0}
-                className="object-cover object-center"
-              />
-            </div>
-          ))}
-        </div>
+      {/* Static Hero Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/about-hero/hero-1.jpg"
+          alt="Valentin performing a wheelie"
+          fill
+          priority
+          className="object-cover object-center"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/30"></div>
       </div>
 

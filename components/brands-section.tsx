@@ -95,7 +95,7 @@ export default function BrandsSection() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-6 md:gap-8 mt-12 md:mt-16">
           {brands.map((brand, index) => (
             <Link
-              href="/shop"
+              href={`/shop?brand=${encodeURIComponent(brand.name)}`}
               key={index}
               className="
                 h-32 w-full flex items-center justify-center p-6 rounded-xl
