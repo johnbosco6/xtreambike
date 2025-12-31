@@ -103,7 +103,24 @@ export default function CheckoutContent() {
           body: JSON.stringify({
             amount: totalWithDelivery,
             email: formData.email,
-            returnUrl: returnUrl
+            returnUrl: returnUrl,
+            items: state.items.map(item => ({
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              color: item.color
+            })),
+            customerName: `${formData.firstName} ${formData.lastName}`,
+            shippingAddress: shippingMethod === "home" ? {
+              address: formData.address,
+              city: formData.city,
+              postalCode: formData.postalCode,
+              country: formData.country
+            } : null,
+            deliveryMethod: shippingMethod,
+            deliveryDetails: shippingMethod === "relay" ? selectedRelayPoint : null,
+            shippingCost: deliveryCost
           })
         })
 

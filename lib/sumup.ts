@@ -1,21 +1,46 @@
 import SumUp from "@sumup/sdk";
+import { getSumUpKeys } from "./api-keys";
 
 export class SumUpService {
-    private client: SumUp;
-    private merchantCode: string;
+    private client: SumUp | null = null;
+    private merchantCode: string = "";
+    private initialized: boolean = false;
 
-    constructor() {
-        const apiKey = process.env.SUMUP_API_KEY || "";
-        this.merchantCode = process.env.SUMUP_MERCHANT_CODE || "";
-
-        if (!apiKey || !this.merchantCode) {
-            console.warn("SumUp credentials (SUMUP_API_KEY, SUMUP_MERCHANT_CODE) are missing.");
+    /**
+     * Initialize the SumUp client with credentials from Supabase
+     * This is async because we need to fetch from the database
+     */
+    private async initialize() {
+        if (this.initialized) {
+            return;
         }
 
-        this.client = new SumUp({ apiKey });
+        try {
+            const keys = await getSumUpKeys();
+            const apiKey = keys.api_key;
+            this.merchantCode = keys.merchant_code;
+
+            if (!apiKey || !this.merchantCode) {
+                console.warn("SumUp credentials (api_key, merchant_code) are missing from Supabase.");
+                return;
+            }
+
+            this.client = new SumUp({ apiKey });
+            this.initialized = true;
+        } catch (error) {
+            console.error("Failed to initialize SumUp service:", error);
+            throw error;
+        }
     }
 
-    async createCheckout(amount: number, currency: string = "PLN", returnUrl: string, email: string) {
+    async createCheckout(amount: number, currency: string = "EUR", returnUrl: string, email: string) {
+        // Ensure we're initialized
+        await this.initialize();
+
+        if (!this.client) {
+            throw new Error("SumUp client not initialized");
+        }
+
         const checkoutRef = `ORDER-${Date.now()}`; // In production, use your DB ID
 
         try {
@@ -40,3 +65,4 @@ export class SumUpService {
 }
 
 export const sumupService = new SumUpService();
+
