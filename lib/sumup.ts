@@ -7,7 +7,7 @@ export class SumUpService {
     private initialized: boolean = false;
 
     /**
-     * Initialize the SumUp client with credentials from Supabase
+     * Initialize the SumUp client with credentials from Supabase or Environment Variables
      * This is async because we need to fetch from the database
      */
     private async initialize() {
@@ -16,12 +16,34 @@ export class SumUpService {
         }
 
         try {
-            const keys = await getSumUpKeys();
-            const apiKey = keys.api_key;
-            this.merchantCode = keys.merchant_code;
+            // Priority 1: Try fetching from Supabase
+            let apiKey: string | undefined;
+            let merchantCode: string | undefined;
+
+            try {
+                const keys = await getSumUpKeys();
+                apiKey = keys.api_key;
+                merchantCode = keys.merchant_code;
+            } catch (error) {
+                console.warn("Failed to fetch SumUp keys from Supabase, trying env vars...", error);
+            }
+
+            // Priority 2: Fallback to environment variables
+            if (!apiKey) {
+                apiKey = process.env.SUMUP_API_KEY;
+            }
+            if (!merchantCode) {
+                merchantCode = process.env.SUMUP_MERCHANT_CODE;
+            }
+
+            this.merchantCode = merchantCode || "";
 
             if (!apiKey || !this.merchantCode) {
-                console.warn("SumUp credentials (api_key, merchant_code) are missing from Supabase.");
+                const missing = [];
+                if (!apiKey) missing.push("SUMUP_API_KEY");
+                if (!this.merchantCode) missing.push("SUMUP_MERCHANT_CODE");
+
+                console.error(`SumUp initialization failed. Missing credentials: ${missing.join(", ")}. Checked both Supabase and Environment Variables.`);
                 return;
             }
 

@@ -79,7 +79,8 @@ export async function getMondialRelayConfig(): Promise<MondialRelayConfig> {
 }
 
 // Legacy export for backwards compatibility (will be deprecated)
-// Use getMondialRelayConfig() instead
+// Use getMondialRelayConfig() instead for runtime API calls
+// This version is safe for build-time static analysis
 export const MONDIAL_RELAY_CONFIG = {
     api1: {
         url: process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'https://api.mondialrelay.com/Web_Services.asmx',
