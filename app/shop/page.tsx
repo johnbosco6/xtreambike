@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
@@ -48,7 +49,9 @@ export default function ShopPage() {
           </div>
         </div>
 
-        <ProductGrid />
+        <Suspense fallback={<div className="text-center py-20 text-gray-500">Chargement des produits...</div>}>
+          <ProductGrid />
+        </Suspense>
       </div>
     </div>
   )
