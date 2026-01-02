@@ -84,6 +84,20 @@ export class SumUpService {
             throw error;
         }
     }
+
+    async getCheckout(checkoutId: string) {
+        await this.initialize();
+        if (!this.client) throw new Error("SumUp client not initialized");
+
+        try {
+            // @ts-ignore - SDK typing might be incomplete for newer methods
+            const checkout = await this.client.checkouts.findById(checkoutId);
+            return checkout;
+        } catch (error) {
+            console.error("SumUp GetCheckout Error:", error);
+            throw error;
+        }
+    }
 }
 
 export const sumupService = new SumUpService();

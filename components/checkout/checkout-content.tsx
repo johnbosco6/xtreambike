@@ -5,7 +5,7 @@ import { useCart } from "@/contexts/cart-context"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { CreditCard, Truck, Shield, Check, ChevronDown, ChevronUp, Store, Home, Loader2 } from "lucide-react"
+import { CreditCard, Truck, Shield, Check, ChevronDown, ChevronUp, Store, Home, Loader2, X } from "lucide-react"
 import MondialRelayWidget from "./mondial-relay-widget"
 
 type ShippingMethod = "home" | "relay"
@@ -42,11 +42,38 @@ export default function CheckoutContent() {
 
   const [selectedRelayPoint, setSelectedRelayPoint] = useState<any>(null)
 
-  // Check for success return from SumUp
+  const [paymentStatus, setPaymentStatus] = useState<"idle" | "verifying" | "paid" | "failed">("idle")
+
+  // Check for SumUp callback
   useEffect(() => {
-    if (searchParams.get("payment-success") === "true") {
+    const checkoutId = searchParams.get("checkoutId") || searchParams.get("id")
+    const paymentSuccess = searchParams.get("payment-success")
+
+    if (paymentSuccess === "true") {
+      // Legacy/Manual mock success
       setCurrentStep(4)
       clearCart()
+      return
+    }
+
+    if (checkoutId) {
+      setPaymentStatus("verifying")
+      fetch(`/api/sumup/verify?checkoutId=${checkoutId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "PAID") {
+            setPaymentStatus("paid")
+            setCurrentStep(4)
+            clearCart()
+          } else {
+            setPaymentStatus("failed")
+            // Don't advance step, stay on checkout to retry
+          }
+        })
+        .catch(err => {
+          console.error("Verification failed", err)
+          setPaymentStatus("failed")
+        })
     }
   }, [searchParams, clearCart])
 
@@ -95,7 +122,8 @@ export default function CheckoutContent() {
       // Initiate SumUp Payment
       setIsProcessingPayment(true)
       try {
-        const returnUrl = `${window.location.origin}/checkout?payment-success=true`
+        // Use the checkout page itself as the return URL to handle callback logic
+        const returnUrl = `${window.location.origin}/checkout`
 
         const response = await fetch("/api/sumup/checkout", {
           method: "POST",
@@ -148,7 +176,7 @@ export default function CheckoutContent() {
     }
   }
 
-  if (state.items.length === 0 && currentStep !== 4) {
+  if (state.items.length === 0 && currentStep !== 4 && paymentStatus !== "failed") {
     return (
       <div className="text-center py-8 md:py-16">
         <div className="glass-card p-6 md:p-8 rounded-xl max-w-md mx-auto">
@@ -164,18 +192,40 @@ export default function CheckoutContent() {
     )
   }
 
+  // Verifying State
+  if (paymentStatus === "verifying") {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <Loader2 className="w-10 h-10 animate-spin text-[#0BEFD5] mb-4" />
+        <h2 className="text-xl font-light">Vérification de votre paiement...</h2>
+      </div>
+    )
+  }
+
   // Success page
   if (currentStep === 4) {
     return (
       <div className="text-center py-8 md:py-16">
-        <div className="glass-card p-6 md:p-8 rounded-xl max-w-md mx-auto">
-          <div className="w-12 h-12 md:w-16 md:h-16 bg-[#0BEFD5]/20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
-            <Check className="w-6 h-6 md:w-8 md:h-8 text-[#0BEFD5]" />
+        <div className="glass-card p-6 md:p-8 rounded-xl max-w-md mx-auto relative overflow-hidden">
+          {/* Success Banner Background */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-[#0BEFD5]"></div>
+
+          <div className="w-16 h-16 bg-[#0BEFD5]/10 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-[#0BEFD5]/50">
+            <Check className="w-8 h-8 text-[#0BEFD5]" />
           </div>
-          <h2 className="text-lg md:text-xl font-light mb-4">Commande confirmée !</h2>
-          <p className="font-light opacity-70 mb-6 text-sm md:text-base">
-            Merci pour votre achat. Vous recevrez un email de confirmation sous peu.
-          </p>
+
+          <h2 className="text-2xl font-light mb-2 text-[#0BEFD5]">Paiement Validé</h2>
+          <p className="text-lg font-medium mb-6">Commande confirmée !</p>
+
+          <div className="bg-white/5 rounded-lg p-4 mb-8 text-left border border-white/10">
+            <p className="font-light text-sm opacity-80 mb-2">
+              Merci pour votre achat. Votre commande a bien été enregistrée.
+            </p>
+            <p className="font-bold text-sm text-white">
+              Veuillez surveiller votre boîte mail pour la confirmation et les détails d'expédition.
+            </p>
+          </div>
+
           <div className="space-y-3">
             <Link href="/shop" className="button-primary w-full text-center block">
               Continuer vos achats
@@ -193,6 +243,25 @@ export default function CheckoutContent() {
     <div className="space-y-6">
       {/* Mobile Order Summary Toggle */}
       <div className="lg:hidden">
+        {/* Failure Banner */}
+        {paymentStatus === "failed" && (
+          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-center">
+            <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <X className="w-6 h-6 text-red-500" />
+            </div>
+            <h3 className="text-lg font-medium text-red-400 mb-2">Paiement Refusé</h3>
+            <p className="text-sm opacity-80 mb-4">
+              La transaction n'a pas pu aboutir. Veuillez vérifier vos informations ou utiliser un autre moyen de paiement.
+            </p>
+            <button
+              onClick={() => setPaymentStatus("idle")}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            >
+              Réessayer
+            </button>
+          </div>
+        )}
+
         <button
           onClick={() => setShowOrderSummary(!showOrderSummary)}
           className="w-full glass-card p-4 rounded-xl flex items-center justify-between"
@@ -248,8 +317,27 @@ export default function CheckoutContent() {
         {/* Checkout Form */}
         <div className="lg:col-span-2">
           <div className="glass-card p-4 md:p-6 rounded-xl">
-            {/* Mobile-Optimized Progress Steps */}
+            {/* Progress Steps */}
             <div className="mb-6 md:mb-8">
+              {/* Failure Banner (Desktop/Main) */}
+              {paymentStatus === "failed" && (
+                <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-center">
+                  <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <X className="w-6 h-6 text-red-500" />
+                  </div>
+                  <h3 className="text-lg font-medium text-red-400 mb-2">Paiement Refusé</h3>
+                  <p className="text-sm opacity-80 mb-4">
+                    La transaction n'a pas pu aboutir. Veuillez vérifier vos informations ou utiliser un autre moyen de paiement.
+                  </p>
+                  <button
+                    onClick={() => setPaymentStatus("idle")}
+                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
+                    Réessayer
+                  </button>
+                </div>
+              )}
+
               <div className="flex items-center justify-between">
                 {[1, 2, 3].map((step) => (
                   <div key={step} className="flex items-center flex-1">
