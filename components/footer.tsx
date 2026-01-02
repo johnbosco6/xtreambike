@@ -54,67 +54,40 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/shipping-returns" className="font-light opacity-70 hover:opacity-100 transition-opacity">
-                  Livraison & Retours
-                </Link>
-              </li>
-              <li>
-                <Link href="/shipping-returns" className="font-light opacity-70 hover:opacity-100 transition-opacity">
-                  Garantie
+                  Livraison & Garantie
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-light tracking-wider uppercase mb-6">Suivez-nous</h3>
-            <div className="flex space-x-4 mb-8">
+            <h3 className="text-lg font-light tracking-wider uppercase mb-6">Contact</h3>
+            <ul className="space-y-4">
+              <li className="font-light opacity-70">
+                <span className="block text-xs uppercase opacity-50 mb-1">Email</span>
+                <a href="mailto:xtremgrip@gmail.com" className="hover:text-[#0BEFD5] transition-colors">xtremgrip@gmail.com</a>
+              </li>
+              {/* Phone number placeholder - uncomment if provided
+              <li className="font-light opacity-70">
+                <span className="block text-xs uppercase opacity-50 mb-1">Téléphone</span>
+                <a href="tel:+33600000000" className="hover:text-[#0BEFD5] transition-colors">+33 6 00 00 00 00</a>
+              </li>
+              */}
+              <li className="font-light opacity-70">
+                <span className="block text-xs uppercase opacity-50 mb-1">Adresse</span>
+                3 Rue de la Villa Bleue<br />65330 Galan, France
+              </li>
+            </ul>
+            <div className="flex space-x-4 mt-8">
               <a
-                href="https://facebook.com"
+                href="https://instagram.com/xtremgrip"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="opacity-70 hover:opacity-100 transition-opacity"
-              >
-                <Facebook size={20} />
-                <span className="sr-only">Facebook</span>
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-70 hover:opacity-100 transition-opacity"
+                className="opacity-70 hover:opacity-100 transition-opacity p-2 bg-white/5 rounded-full hover:bg-[#0BEFD5]/20 hover:text-[#0BEFD5]"
               >
                 <Instagram size={20} />
                 <span className="sr-only">Instagram</span>
               </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-70 hover:opacity-100 transition-opacity"
-              >
-                <Twitter size={20} />
-                <span className="sr-only">Twitter</span>
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-70 hover:opacity-100 transition-opacity"
-              >
-                <Youtube size={20} />
-                <span className="sr-only">YouTube</span>
-              </a>
-            </div>
-            <div>
-              <h4 className="font-light mb-4">Newsletter</h4>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Votre email"
-                  className="bg-black/30 px-4 py-2 rounded-l-full focus:outline-none focus:ring-1 focus:ring-[#0BEFD5] text-sm"
-                />
-                <button className="bg-[#4A2CD6] px-4 py-2 rounded-r-full hover:bg-opacity-90 text-sm">S'abonner</button>
-              </div>
             </div>
           </div>
         </div>

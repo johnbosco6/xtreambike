@@ -27,7 +27,7 @@ export default function ShippingReturnsPage() {
                     <div className="grid md:grid-cols-3 gap-8 mb-20">
                         {[
                             { title: "Livraison", desc: "Expédition internationale", icon: "🌍" },
-                            { title: "Retours", desc: "30 Jours pour changer d'avis", icon: "↺" },
+                            { title: "Retours", desc: "14 Jours pour changer d'avis", icon: "↺" },
                             { title: "Garantie", desc: "Qualité Premium Assurée", icon: "🛡️" }
                         ].map((hero, i) => (
                             <div key={i} className="glass-card p-6 rounded-2xl text-center border border-white/5">
@@ -87,7 +87,7 @@ export default function ShippingReturnsPage() {
                             <div className="grid md:grid-cols-2 gap-12">
                                 <div>
                                     <p className="text-white/80 leading-relaxed mb-6">
-                                        Vous disposez de <strong>30 jours</strong> après réception pour nous retourner un produit si celui-ci ne vous convient pas.
+                                        Vous disposez de <strong>14 jours</strong> après réception pour nous retourner un produit si celui-ci ne vous convient pas.
                                     </p>
                                     <ul className="space-y-4">
                                         <li className="flex items-start gap-4">
