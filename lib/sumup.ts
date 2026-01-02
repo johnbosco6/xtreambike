@@ -55,7 +55,7 @@ export class SumUpService {
         }
     }
 
-    async createCheckout(amount: number, currency: string = "EUR", returnUrl: string, email: string) {
+    async createCheckout(amount: number, currency: string = "EUR", returnUrl: string, email: string, description: string = "X-Trem Grip Order") {
         // Ensure we're initialized
         await this.initialize();
 
@@ -70,7 +70,7 @@ export class SumUpService {
                 checkout_reference: checkoutRef,
                 amount,
                 currency: currency as any,
-                description: "X-Trem Grip Order",
+                description: description,
                 redirect_url: returnUrl,
                 merchant_code: this.merchantCode,
                 hosted_checkout: {

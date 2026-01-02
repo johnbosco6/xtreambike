@@ -47,12 +47,18 @@ export async function POST(request: Request) {
             throw new Error('Failed to create order in database');
         }
 
+        // Construct detailed description for SumUp
+        // Example: "Order #1234 - John Doe - 2x Grip, 1x Cleaner"
+        const itemSummary = items.map((item: any) => `${item.quantity}x ${item.name} (${item.color || 'Standard'})`).join(', ');
+        const description = `Order ${order.order_number} - ${customerName} - ${itemSummary}`.substring(0, 250); // specific max length if needed
+
         // Create SumUp checkout
         const checkout: any = await sumupService.createCheckout(
             parseFloat(amount),
             "EUR",
             returnUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.order_number}`,
-            email
+            email,
+            description
         );
 
         // Create payment transaction record

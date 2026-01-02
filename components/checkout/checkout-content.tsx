@@ -581,45 +581,77 @@ export default function CheckoutContent() {
               {/* Step 3: Order Confirmation */}
               {currentStep === 3 && (
                 <div className="space-y-4 md:space-y-6">
-                  <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Confirmation de commande</h2>
+                  <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Vérification de la commande</h2>
 
-                  <div className="glass-effect p-4 rounded-lg">
-                    <h3 className="font-medium mb-3 text-sm md:text-base">
-                      {shippingMethod === "home" ? "Adresse de livraison" : "Point Relais"}
-                    </h3>
-                    <p className="text-sm opacity-80">
-                      <strong>{formData.firstName} {formData.lastName}</strong>
-                      <br />
-                      {formData.email} | {formData.phone}
-                      <br /><br />
-                      {shippingMethod === "home" ? (
-                        <>
-                          {formData.address}
-                          <br />
-                          {formData.postalCode} {formData.city}
-                          <br />
-                          {formData.country}
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-[#E3003F]">Point Relais: {selectedRelayPoint?.name}</span>
-                          <br />
-                          {selectedRelayPoint?.address}
-                          <br />
-                          {selectedRelayPoint?.zipCode} {selectedRelayPoint?.city}
-                        </>
-                      )}
-                    </p>
+                  {/* Product Review */}
+                  <div className="glass-card p-4 rounded-xl border border-white/10 mb-4">
+                    <h3 className="font-medium mb-3 text-sm md:text-base text-[#0BEFD5]">Articles ({state.items.length})</h3>
+                    <div className="space-y-3">
+                      {state.items.map((item) => (
+                        <div key={item.id} className="flex gap-3 border-b border-white/5 pb-3 last:border-0 last:pb-0">
+                          <div className="relative w-12 h-12 bg-black/20 rounded-lg overflow-hidden flex-shrink-0">
+                            <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-contain p-1" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-light">{item.name}</h4>
+                            <div className="text-xs opacity-70 mt-1">
+                              {item.color && <span className="mr-2">Couleur: {item.color}</span>}
+                              <span className="block sm:inline">Qté: {item.quantity}</span>
+                            </div>
+                          </div>
+                          <div className="text-sm font-medium">
+                            {(item.price * item.quantity).toFixed(2)} €
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="glass-effect p-4 rounded-lg">
-                    <h3 className="font-medium mb-3 text-sm md:text-base">Paiement</h3>
-                    <div className="flex items-center gap-2">
-                      <div className="bg-white p-1 rounded">
-                        {/* Simple SumUp Icon/Text representation */}
-                        <span className="text-black font-bold text-xs">sumup</span>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {/* Shipping Review */}
+                    <div className="glass-effect p-4 rounded-lg">
+                      <h3 className="font-medium mb-3 text-sm md:text-base border-b border-white/10 pb-2">Livraison</h3>
+                      <p className="text-sm opacity-80 leading-relaxed">
+                        <strong>{formData.firstName} {formData.lastName}</strong>
+                        <br />
+                        {formData.email}
+                        <br />
+                        {formData.phone}
+                        <br /><br />
+                        {shippingMethod === "home" ? (
+                          <>
+                            {formData.address}
+                            <br />
+                            {formData.postalCode} {formData.city}
+                            <br />
+                            {formData.country}
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-[#E3003F] font-medium">Point Relais Mondial Relay</span>
+                            <br />
+                            {selectedRelayPoint?.name}
+                            <br />
+                            {selectedRelayPoint?.address}
+                            <br />
+                            {selectedRelayPoint?.zipCode} {selectedRelayPoint?.city}
+                          </>
+                        )}
+                      </p>
+                    </div>
+
+                    {/* Payment Method Review */}
+                    <div className="glass-effect p-4 rounded-lg">
+                      <h3 className="font-medium mb-3 text-sm md:text-base border-b border-white/10 pb-2">Paiement</h3>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="bg-white p-1 rounded">
+                          <span className="text-black font-bold text-xs px-1">sumup</span>
+                        </div>
+                        <span className="text-sm">Carte Bancaire / Apple Pay</span>
                       </div>
-                      <span className="text-sm">Paiement sécurisé via SumUp</span>
+                      <p className="text-xs opacity-60">
+                        Transaction sécurisée et cryptée. Vous allez être redirigé pour finaliser le paiement.
+                      </p>
                     </div>
                   </div>
 
