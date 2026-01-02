@@ -45,12 +45,15 @@ export default function ProductGrid() {
         product.name.toLowerCase().includes(searchLower) ||
         product.brand.toLowerCase().includes(searchLower) ||
         product.category.toLowerCase().includes(searchLower) ||
-        product.compatibility?.some((comp) => comp.toLowerCase().includes(searchLower))
+        product.compatibility?.some((comp) => comp.toLowerCase().includes(searchLower)) ||
+        product.description?.toLowerCase().includes(searchLower) ||
+        product.features?.some((feature) => feature.toLowerCase().includes(searchLower))
 
       if (!matchesSearch) return false
 
       // 2. Brand Filter
-      if (selectedBrand && product.brand !== selectedBrand) return false
+      // Case-insensitive comparison for robustness
+      if (selectedBrand && product.brand.toLowerCase() !== selectedBrand.toLowerCase()) return false
 
       // 3. Type Filter
       if (selectedType && product.category !== selectedType) return false
