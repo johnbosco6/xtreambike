@@ -25,6 +25,25 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: '/livraison',
+        destination: '/shipping-returns',
+        permanent: true,
+      },
+      {
+        source: '/garantie',
+        destination: '/shipping-returns',
+        permanent: true,
+      },
+      {
+        source: '/confidentialite',
+        destination: '/privacy',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextConfig
