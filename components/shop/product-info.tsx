@@ -199,11 +199,18 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         </div>
       </div>
 
-      {/* Add to Cart */}
       <button onClick={handleAddToCart} className="button-primary w-full py-4 text-lg" disabled={!product?.inStock}>
         <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
         {product?.inStock ? "Ajouter au panier" : "Rupture de stock"}
       </button>
+
+      {/* Description */}
+      {product?.description && (
+        <div className="pt-4 pb-2">
+          <h3 className="font-medium mb-3">Description</h3>
+          <p className="text-sm opacity-80 whitespace-pre-line leading-relaxed">{product.description}</p>
+        </div>
+      )}
 
       {/* Features */}
       <div>

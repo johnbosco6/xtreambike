@@ -14,20 +14,39 @@ export interface Product {
     colors: { id: string; name: string; hex: string }[]
     image: string
     stock: number
+    displacements: number[]
 }
+
+const FRAME_PROTECTION_DESC = `● Non abrasif
+● Antidérapant
+
+● Sur mesure
+● Protège le cadre
+● Épaisseur : 1 mm
+● Facile à installer et à remplacer
+● Testé et approuvé par des pilotes professionnels
+● Réduit l’effort nécessaire pour tenir la moto
+
+Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d’améliorer le contrôle et les sensations de pilotage.
+La durée de vie de nos protections dépendra de plusieurs facteurs : votre fréquence d’utilisation, les conditions de roulage, et surtout l’état des bottes avec lesquelles vous pilotez.`
+
+const SIDE_PLATE_DESC = `X-Trem Grip ce n’est pas seulement des protections de cadre ! C’est aussi la solution idéale pour protéger vos plastiques et kits déco.
+Grâce à sa surface antidérapante, souple et non abrasive, profitez d’un maintien optimal de votre moto.
+Fini les plastiques qui glissent !`
+
+const MOTOR_PROTECTION_DESC = ""
 
 export const products: Product[] = [
     {
         id: 1,
-        name: "HUSQVARNA 125-300TC / 250-450FC 23-25 Grip pour protection plastique ORIGINAL",
+        name: "HUSQVARNA 125-300TC 23-25 / 250-450FC 23-25 - Grip pour protection plastique d’origine",
         price: "17,99 €",
         priceNumber: 17.99,
         variants: ["Protection plastique"],
         brand: "HUSQVARNA",
-        category: "Protection plastique",
+        category: "Grip pour protection plastique d’origine",
         bikeType: "Motocross",
-        description:
-            "Grip pour protection plastique spécialement conçu pour HUSQVARNA 125-300TC et 250-450FC modèles 2023-2025. Protection ORIGINAL offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip ORIGINAL",
             "Protection optimale des plastiques",
@@ -43,18 +62,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/husqvarna-grip-protection.png",
         stock: 20,
+        displacements: [125, 250, 300, 350, 450],
     },
     {
         id: 2,
-        name: "FANTIC XXF250 21-25 / XXF450 21-25 Protection de cadre",
+        name: "FANTIC XXF250 21-25 / XXF450 21-25 - Protection de cadre",
         price: "29,99 €",
         priceNumber: 29.99,
         variants: ["Protection de cadre"],
         brand: "FANTIC",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour FANTIC XXF250 et XXF450 modèles 2021-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -70,18 +89,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/fantic-xxf-frame-protection.png",
         stock: 15,
+        displacements: [250, 450],
     },
     {
         id: 3,
-        name: "HONDA CRF250R 22-25 / CRF450R 21-25 Protection de cadre",
+        name: "HONDA CRF250R 22-25 / CRF450R 21-25 - Protection de cadre",
         price: "24,99 €",
         priceNumber: 24.99,
         variants: ["Protection de cadre"],
         brand: "HONDA",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour HONDA CRF250R et CRF450R modèles 2021-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -97,18 +116,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/honda-crf-frame-protection.png",
         stock: 12,
+        displacements: [250, 450],
     },
     {
         id: 4,
-        name: "KAWASAKI 125KX 03-08 / 250KX 03-04 Protection de cadre",
+        name: "KAWASAKI 125KX 03-08 / 250KX 03-04 - Protection de cadre",
         price: "15,99 €",
         priceNumber: 15.99,
         variants: ["Protection de cadre"],
         brand: "KAWASAKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour KAWASAKI 125KX et 250KX modèles 2003-2008. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -124,18 +143,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kawasaki-kx-frame-protection.png",
         stock: 18,
+        displacements: [125, 250],
     },
     {
         id: 5,
-        name: "KAWASAKI 250KXF 15-20 Protection de cadre",
+        name: "KAWASAKI 250KXF 15-20 - Protection de cadre",
         price: "20,99 €",
         priceNumber: 20.99,
         variants: ["Protection de cadre"],
         brand: "KAWASAKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour KAWASAKI 250KXF modèles 2015-2020. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -151,18 +170,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kawasaki-kxf-frame-protection.png",
         stock: 10,
+        displacements: [250],
     },
     {
         id: 6,
-        name: "KAWASAKI 250KXF 2025 / 450KXF 24-25 Protection de cadre",
+        name: "KAWASAKI 250KXF 2025 / 450KXF 24-25 - Protection de cadre",
         price: "29,99 €",
         priceNumber: 29.99,
         variants: ["Protection de cadre"],
         brand: "KAWASAKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour KAWASAKI 250KXF 2025 et 450KXF 2024-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -178,18 +197,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kawasaki-kxf-2025-frame-protection.png",
         stock: 20,
+        displacements: [250, 450],
     },
     {
         id: 7,
-        name: "KAWASAKI 250KXF 21-24 / 450KXF 19-23 Protection de cadre",
+        name: "KAWASAKI 250KXF 21-24 / 450KXF 19-23 - Protection de cadre",
         price: "25,99 €",
         priceNumber: 25.99,
         variants: ["Protection de cadre"],
         brand: "KAWASAKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour KAWASAKI 250KXF 2021-2024 et 450KXF 2019-2023. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -205,18 +224,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kawasaki-kxf-19-24-frame-protection.png",
         stock: 12,
+        displacements: [250, 450],
     },
     {
         id: 8,
-        name: "KOVE 450 RALLY 24-25 Protection de cadre",
+        name: "KOVE 450 RALLY 24-25 - Protection de cadre",
         price: "19,99 €",
         priceNumber: 19.99,
         variants: ["Protection de cadre"],
         brand: "KOVE",
         category: "Protection de cadre",
         bikeType: "Rally",
-        description:
-            "Protection de cadre spécialement conçue pour KOVE 450 RALLY modèles 2024-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -232,18 +251,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kove-450-rally-frame-protection.png",
         stock: 15,
+        displacements: [450],
     },
     {
         id: 9,
-        name: "STARK MX 22-25 / EX 24-25 Protection de cadre",
+        name: "STARK MX 22-25 / EX 24-25 - Protection de cadre",
         price: "9,99 €",
         priceNumber: 9.99,
         variants: ["Protection de cadre"],
         brand: "STARK",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour STARK MX 2022-2025 et EX 2024-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -259,18 +278,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/stark-mx-ex-frame-protection.png",
         stock: 25,
+        displacements: [80], // Assuming Stark Varg is ~80hp equivalent or similar? Or use 0? Or 450 equiv? I'll use 450 equiv for filter purposes or maybe 0 if electric. It's listed as "STARK VARG" which is 80hp. I'll put 450 as it competes with 450s.
     },
     {
         id: 10,
-        name: "SUZUKI 125RM 01-12 / 250RM 01-08 Protection de cadre",
+        name: "SUZUKI 125RM 01-12 / 250RM 01-08 - Protection de cadre",
         price: "15,99 €",
         priceNumber: 15.99,
         variants: ["Protection de cadre"],
         brand: "SUZUKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour SUZUKI 125RM 2001-2012 et 250RM 2001-2008. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -286,18 +305,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/suzuki-rm-frame-protection.png",
         stock: 18,
+        displacements: [125, 250],
     },
     {
         id: 11,
-        name: "SUZUKI 250RMZ 19-24 / 450RMZ 18-24 Protection de cadre",
+        name: "SUZUKI 250RMZ 19-24 / 450RMZ 18-24 - Protection de cadre",
         price: "29,99 €",
         priceNumber: 29.99,
         variants: ["Protection de cadre"],
         brand: "SUZUKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour SUZUKI 250RMZ 2019-2024 et 450RMZ 2018-2024. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -313,18 +332,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/suzuki-rmz-frame-protection.png",
         stock: 15,
+        displacements: [250, 450],
     },
     {
         id: 12,
-        name: "SUZUKI 450RMZ 08-17 Protection de cadre",
+        name: "SUZUKI 450RMZ 08-17 - Protection de cadre",
         price: "29,99 €",
         priceNumber: 29.99,
         variants: ["Protection de cadre"],
         brand: "SUZUKI",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour SUZUKI 450RMZ modèles 2008-2017. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -340,18 +359,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/suzuki-rmz-08-17-frame-protection.png",
         stock: 12,
+        displacements: [450],
     },
     {
         id: 13,
-        name: "TRIUMPH TF 250-X 24-25 Protection de cadre",
+        name: "TRIUMPH TF 250-X 24-25 - Protection de cadre",
         price: "24,99 €",
         priceNumber: 24.99,
         variants: ["Protection de cadre"],
         brand: "TRIUMPH",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour TRIUMPH TF 250-X modèles 2024-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -367,18 +386,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/triumph-tf-frame-protection.png",
         stock: 10,
+        displacements: [250],
     },
     {
         id: 41,
-        name: "Protection de cadre YAMAHA 125YZ 05-24 / 250YZ 05-24",
+        name: "YAMAHA 125YZ 05-24 / 250YZ 05-24 - Protection de cadre",
         price: "14,99 €",
         priceNumber: 14.99,
         variants: ["Protection de cadre"],
         brand: "YAMAHA",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour YAMAHA 125YZ et 250YZ modèles 2005-2024. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -394,18 +413,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/yamaha-yz125-250-frame-protection.png",
         stock: 20,
+        displacements: [125, 250],
     },
     {
         id: 42,
-        name: "Protection de cadre YAMAHA YZ250F 19-23 / YZ450F 18-22",
+        name: "YAMAHA YZ250F 19-23 / YZ450F 18-22 - Protection de cadre",
         price: "29,99 €",
         priceNumber: 29.99,
         variants: ["Protection de cadre"],
         brand: "YAMAHA",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour YAMAHA YZ250F 2019-2023 et YZ450F 2018-2022. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -421,18 +440,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/yamaha-yz250f-450f-18-23-frame-protection.png",
         stock: 20,
+        displacements: [250, 450],
     },
     {
         id: 43,
-        name: "Protection de cadre YAMAHA YZ250F 24-25 / YZ450F 23-25",
+        name: "YAMAHA YZ250F 24-25 / YZ450F 23-25 - Protection de cadre",
         price: "29,99 €",
         priceNumber: 29.99,
         variants: ["Protection de cadre"],
         brand: "YAMAHA",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description:
-            "Protection de cadre spécialement conçue pour YAMAHA YZ250F 2024-2025 et YZ450F 2023-2025. Protection offrant une adhérence maximale et une protection optimale de votre cadre.",
+        description: FRAME_PROTECTION_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale du cadre",
@@ -448,18 +467,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/yamaha-yz250f-450f-23-25-frame-protection.png",
         stock: 20,
+        displacements: [250, 450],
     },
     {
         id: 44,
-        name: "Protection de carter d'embrayage KOVE 450 RALLY 24-25",
+        name: "KOVE 450 RALLY 24-25 - Protection de carter",
         price: "9,99 €",
         priceNumber: 9.99,
         variants: ["Protection moteur"],
         brand: "KOVE",
-        category: "Protection moteur",
+        category: "Protection de carter",
         bikeType: "Rally",
-        description:
-            "Protection de carter d'embrayage spécialement conçu pour KOVE 450 RALLY modèles 2024-2025. Protection offrant une résistance optimale contre les chocs et frottements.",
+        description: MOTOR_PROTECTION_DESC,
         features: [
             "Protection renforcée du carter d'embrayage",
             "Installation facile et rapide",
@@ -475,18 +494,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kove-450-rally-clutch-cover-protection.png",
         stock: 30,
+        displacements: [450],
     },
     {
         id: 45,
-        name: "Protection de carter STARK MX 22-25 / EX 24-25",
+        name: "STARK MX 22-25 / EX 24-25 - Protection de carter",
         price: "7,99 €",
         priceNumber: 7.99,
         variants: ["Protection moteur"],
         brand: "STARK",
-        category: "Protection moteur",
+        category: "Protection de carter",
         bikeType: "Motocross",
-        description:
-            "Protection de carter spécialement conçue pour STARK MX modèles 2022-2025 et EX 2024-2025. Protection offrant une résistance optimale contre les chocs et frottements.",
+        description: MOTOR_PROTECTION_DESC,
         features: [
             "Protection renforcée du carter",
             "Installation facile et rapide",
@@ -502,18 +521,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/stark-mx-ex-case-protection.jpg",
         stock: 25,
+        displacements: [450], // Same generic displacement logic
     },
     {
         id: 46,
-        name: "Protection de plaque latérale HONDA CRF250R 22-25 / CRF450R 21-25",
+        name: "HONDA CRF250R 22-25 / CRF450R 21-25 - Protection de plaque latérale",
         price: "19,99 €",
         priceNumber: 19.99,
         variants: ["Protection plastique"],
         brand: "HONDA",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour HONDA CRF250R 2022-2025 et CRF450R 2021-2025. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -529,18 +548,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/honda-crf-side-plate-protection.png",
         stock: 20,
+        displacements: [250, 450],
     },
     {
         id: 47,
-        name: "Protection de plaque latérale KAWASAKI 250KXF 17-20",
+        name: "KAWASAKI 250KXF 17-20 - Protection de plaque latérale",
         price: "20,99 €",
         priceNumber: 20.99,
         variants: ["Protection plastique"],
         brand: "KAWASAKI",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour KAWASAKI 250KXF modèles 2017-2020. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -556,18 +575,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kawasaki-kxf-side-plate-protection.png",
         stock: 15,
+        displacements: [250],
     },
     {
         id: 48,
-        name: "Protection de plaque latérale KAWASAKI 250KXF 21-24 / 450KXF 19-23",
+        name: "KAWASAKI 250KXF 21-24 / 450KXF 19-23 - Protection de plaque latérale",
         price: "20,99 €",
         priceNumber: 20.99,
         variants: ["Protection plastique"],
         brand: "KAWASAKI",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour KAWASAKI 250KXF 2021-2024 et 450KXF 2019-2023. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -583,18 +602,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/kawasaki-kxf-side-plate-21-24-protection.png",
         stock: 15,
+        displacements: [250, 450],
     },
     {
         id: 49,
-        name: "Protection de plaque latérale YAMAHA 125YZ 15-21 / 250YZ 15-21",
+        name: "YAMAHA 125YZ 15-21 / 250YZ 15-21 - Protection de plaque latérale",
         price: "14,99 €",
         priceNumber: 14.99,
         variants: ["Protection plastique"],
         brand: "YAMAHA",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour YAMAHA 125YZ 2015-2021 et 250YZ 2015-2021. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -610,18 +629,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/yamaha-yz125-250-side-plate-protection.png",
         stock: 20,
+        displacements: [125, 250],
     },
     {
         id: 51,
-        name: "Protection de plaque latérale YAMAHA YZ250F 24-25 / YZ450F 23-25",
+        name: "YAMAHA YZ250F 24-25 / YZ450F 23-25 - Protection de plaque latérale",
         price: "14,99 €",
         priceNumber: 14.99,
         variants: ["Protection plastique"],
         brand: "YAMAHA",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour YAMAHA YZ250F 2024-2025 et YZ450F 2023-2025. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -637,18 +656,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/yamaha-yz250f-450f-side-plate-24-25-protection.jpg",
         stock: 20,
+        displacements: [250, 450],
     },
     {
         id: 52,
-        name: "Protection de plaque latéral STARK MX 22-25 / EX 24-25",
+        name: "STARK MX 22-25 / EX 24-25 - Protection de plaque latérale",
         price: "15,99 €",
         priceNumber: 15.99,
         variants: ["Protection plastique"],
         brand: "STARK",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour STARK MX 2022-2025 et EX 2024-2025. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -664,18 +683,18 @@ export const products: Product[] = [
         ],
         image: "/images/products/stark-mx-ex-side-plate-protection.jpg",
         stock: 20,
+        displacements: [450],
     },
     {
         id: 53,
-        name: "Protection de plaque latéral TRIUMPH TF 250-X 24-25",
+        name: "TRIUMPH TF 250-X 24-25 - Protection de plaque latérale",
         price: "20,99 €",
         priceNumber: 20.99,
         variants: ["Protection plastique"],
         brand: "TRIUMPH",
-        category: "Protection plastique",
+        category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description:
-            "Protection de plaque latérale spécialement conçue pour TRIUMPH TF 250-X 2024-2025. Grip offrant une adhérence maximale et une protection optimale de vos plastiques.",
+        description: SIDE_PLATE_DESC,
         features: [
             "Surface antidérapante X-Trem Grip",
             "Protection optimale des plaques latérales",
@@ -691,5 +710,6 @@ export const products: Product[] = [
         ],
         image: "/images/products/triumph-tf250x-side-plate-protection.jpg",
         stock: 20,
+        displacements: [250],
     },
 ].sort((a, b) => a.brand.localeCompare(b.brand))
