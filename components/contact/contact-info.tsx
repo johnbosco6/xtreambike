@@ -56,33 +56,13 @@ export default function ContactInfo() {
 
         <div className="flex flex-wrap gap-4">
           <a
-            href="https://instagram.com"
+            href="https://instagram.com/xtremgrip"
             target="_blank"
             rel="noopener noreferrer"
             className="glass-effect p-4 rounded-full hover:bg-[#F50CA0]/20 transition-colors"
           >
             <Instagram className="w-6 h-6" />
             <span className="sr-only">Instagram</span>
-          </a>
-
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-effect p-4 rounded-full hover:bg-[#4A2CD6]/20 transition-colors"
-          >
-            <Facebook className="w-6 h-6" />
-            <span className="sr-only">Facebook</span>
-          </a>
-
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-effect p-4 rounded-full hover:bg-[#0BEFD5]/20 transition-colors"
-          >
-            <Twitter className="w-6 h-6" />
-            <span className="sr-only">Twitter</span>
           </a>
         </div>
       </div>
@@ -96,6 +76,6 @@ export default function ContactInfo() {
           Voir la FAQ
         </a>
       </div>
-    </div>
+    </div >
   )
 }
