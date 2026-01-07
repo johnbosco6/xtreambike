@@ -1,6 +1,7 @@
-
-import { getMondialRelayConfig } from '../lib/mondial-relay/config';
-import { searchPointRelais } from '../lib/mondial-relay/services/point-relais-search';
+// @ts-nocheck
+const { getMondialRelayConfig } = require('../lib/mondial-relay/config');
+const { searchPointRelais } = require('../lib/mondial-relay/services/point-relais-search');
+require('dotenv').config({ path: '.env.local' });
 
 async function testMondialRelay() {
     console.log('Testing Mondial Relay API...');
@@ -19,7 +20,7 @@ async function testMondialRelay() {
         });
 
         console.log(`\nFound ${points.length} points:`);
-        points.forEach(p => {
+        points.forEach((p: any) => {
             console.log(`- [${p.id}] ${p.name} (${p.postalCode} ${p.city})`);
         });
 
