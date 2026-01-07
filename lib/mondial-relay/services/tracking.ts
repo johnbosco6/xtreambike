@@ -1,5 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
-import { MONDIAL_RELAY_CONFIG } from '../config';
+import { getMondialRelayConfig } from '../config';
 import { generateTrackingSecurityKey } from '../security';
 import type { TrackingResponse, TrackingEvent } from '../types';
 
@@ -30,6 +30,7 @@ export async function getTracking(params: {
     shipmentNumber: string;
     language?: string;
 }): Promise<FormattedTrackingData> {
+    const config = await getMondialRelayConfig();
     const { shipmentNumber, language = 'FR' } = params;
 
     // Validate shipment number (8 digits)
@@ -37,8 +38,8 @@ export async function getTracking(params: {
         throw new Error('Invalid shipment number format. Must be 8 digits.');
     }
 
-    const enseigne = MONDIAL_RELAY_CONFIG.api1.enseigne;
-    const privateKey = MONDIAL_RELAY_CONFIG.api1.privateKey;
+    const enseigne = config.api1.enseigne;
+    const privateKey = config.api1.privateKey;
 
     // Generate security key
     const security = generateTrackingSecurityKey({
@@ -57,7 +58,7 @@ export async function getTracking(params: {
     });
 
     // Make API call
-    const response = await fetch(MONDIAL_RELAY_CONFIG.api1.url, {
+    const response = await fetch(config.api1.url, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/xml; charset=utf-8',

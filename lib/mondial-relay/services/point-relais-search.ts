@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser';
-import { MONDIAL_RELAY_CONFIG } from '../config';
-import { generatePointRelaisSearchSecurityKey } from '../security';
+import { getMondialRelayConfig } from '../config';
+import { generatePointRelaisSearchSecurityKey, formatGPSCoordinate } from '../security';
 import type {
     PointRelaisSearchParams,
     PointRelaisSearchResponse,
@@ -27,14 +27,16 @@ export async function searchPointRelais(params: {
     maxResults?: number;
     pointRelaisId?: string;
 }): Promise<FormattedPointRelais[]> {
+    const config = await getMondialRelayConfig();
+
     const {
         postalCode,
         country,
         latitude,
         longitude,
         deliveryMode = '24R',
-        searchRadius = MONDIAL_RELAY_CONFIG.defaults.searchRadius,
-        maxResults = MONDIAL_RELAY_CONFIG.defaults.maxResults,
+        searchRadius = config.defaults.searchRadius,
+        maxResults = config.defaults.maxResults,
         pointRelaisId,
     } = params;
 
@@ -43,8 +45,8 @@ export async function searchPointRelais(params: {
         throw new Error('Either postalCode, GPS coordinates, or pointRelaisId must be provided');
     }
 
-    const enseigne = MONDIAL_RELAY_CONFIG.api1.enseigne;
-    const privateKey = MONDIAL_RELAY_CONFIG.api1.privateKey;
+    const enseigne = config.api1.enseigne;
+    const privateKey = config.api1.privateKey;
 
     // Format parameters
     const searchParams: Partial<PointRelaisSearchParams> = {
@@ -73,6 +75,7 @@ export async function searchPointRelais(params: {
         enseigne,
         pays: country,
         numPointRelais: searchParams.NumPointRelais,
+        ville: '', // Mandatory for hash
         cp: searchParams.CP,
         latitude: searchParams.Latitude,
         longitude: searchParams.Longitude,
@@ -81,6 +84,8 @@ export async function searchPointRelais(params: {
         action: searchParams.Action,
         delaiEnvoi: searchParams.DelaiEnvoi?.toString(),
         rayonRecherche: searchParams.RayonRecherche?.toString(),
+        typeActivite: '', // Mandatory for hash
+        nace: '', // Mandatory for hash
         nombreResultats: (searchParams.NombreResultats ?? 10).toString(),
         privateKey,
     });
@@ -93,7 +98,7 @@ export async function searchPointRelais(params: {
     });
 
     // Make API call
-    const response = await fetch(MONDIAL_RELAY_CONFIG.api1.url, {
+    const response = await fetch(config.api1.url, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/xml; charset=utf-8',
@@ -189,10 +194,7 @@ function formatPointRelais(pr: PointRelais): FormattedPointRelais {
 /**
  * Format GPS coordinate to Mondial Relay format
  */
-function formatGPSCoordinate(coordinate: number): string {
-    const formatted = coordinate.toFixed(7);
-    return formatted.padStart(11, '0');
-}
+
 
 /**
  * Get error message from error code

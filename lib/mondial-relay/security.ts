@@ -11,12 +11,13 @@ export function generateMD5Hash(data: string): string {
 
 /**
  * Generate security key for Point Relais search (WSI4_PointRelais_Recherche)
- * Order: [Enseigne][Pays][NumPointRelais][CP][Latitude][Longitude][Taille][Poids][Action][DelaiEnvoi][RayonRecherche][NombreResultats][CLE PRIVEE]
+ * Order: [Enseigne][Pays][NumPointRelais][Ville][CP][Latitude][Longitude][Taille][Poids][Action][DelaiEnvoi][RayonRecherche][TypeActivite][NACE][NombreResultats][CLE PRIVEE]
  */
 export function generatePointRelaisSearchSecurityKey(params: {
     enseigne: string;
     pays: string;
     numPointRelais?: string;
+    ville?: string;
     cp?: string;
     latitude?: string;
     longitude?: string;
@@ -25,6 +26,8 @@ export function generatePointRelaisSearchSecurityKey(params: {
     action?: string;
     delaiEnvoi?: string;
     rayonRecherche?: string;
+    typeActivite?: string;
+    nace?: string;
     nombreResultats: string;
     privateKey: string;
 }): string {
@@ -32,6 +35,7 @@ export function generatePointRelaisSearchSecurityKey(params: {
         params.enseigne,
         params.pays,
         params.numPointRelais || '',
+        params.ville || '',
         params.cp || '',
         params.latitude || '',
         params.longitude || '',
@@ -40,6 +44,8 @@ export function generatePointRelaisSearchSecurityKey(params: {
         params.action || '',
         params.delaiEnvoi || '',
         params.rayonRecherche || '',
+        params.typeActivite || '',
+        params.nace || '',
         params.nombreResultats,
         params.privateKey,
     ].join('');
