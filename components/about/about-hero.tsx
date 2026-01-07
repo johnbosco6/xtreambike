@@ -1,16 +1,6 @@
 "use client"
 
 import Image from "next/image"
-import useEmblaCarousel from "embla-carousel-react"
-import Autoplay from "embla-carousel-autoplay"
-
-const heroImages = [
-  "/images/about-hero/hero-1.jpg",
-  "/images/about-hero/hero-2.jpg",
-  "/images/about-hero/hero-3.jpg",
-  "/images/about-hero/hero-4.jpg",
-  "/images/about-hero/hero-5.jpg",
-]
 
 export default function AboutHero() {
   return (
@@ -18,8 +8,8 @@ export default function AboutHero() {
       {/* Static Hero Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/about-hero/hero-1.jpg"
-          alt="Valentin performing a wheelie"
+          src="/images/about-hero-beach-wheelie.jpg"
+          alt="Pilote X-Trem Grip en wheeling sur la plage"
           fill
           priority
           className="object-cover object-center"
