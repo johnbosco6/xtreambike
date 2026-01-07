@@ -4,19 +4,19 @@ import Image from "next/image"
 
 export default function AboutHero() {
   return (
-    <section className="relative w-full">
-      {/* Hero Image - Intrinsic Height */}
-      <div className="relative w-full">
+    <section className="relative w-full bg-neutral-900">
+      {/* Hero Image - Intrinsic Height with Max Constraint */}
+      <div className="relative w-full flex justify-center max-h-[70vh] overflow-hidden">
         <Image
           src="/images/about-hero-beach-wheelie.jpg"
           alt="Pilote X-Trem Grip en wheeling sur la plage"
           width={1920}
           height={1280}
           priority
-          className="w-full h-auto block"
+          className="w-auto h-auto max-h-[70vh] object-contain"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30 pointer-events-none"></div>
       </div>
 
       {/* Content - Absolute Overlay */}
