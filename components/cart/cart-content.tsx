@@ -94,11 +94,7 @@ export default function CartContent() {
               <span className="opacity-70">Sous-total</span>
               <span>{state.total.toFixed(2)} €</span>
             </div>
-            <div className="flex justify-between">
-              <span className="opacity-70">Livraison</span>
-              <span className="text-[#0BEFD5]">Gratuite</span>
-            </div>
-            {/* TVA removed as prices are TTC */}
+            {/* Delivery row removed */}
             <div className="border-t border-white/10 pt-4">
               <div className="flex justify-between text-lg font-medium">
                 <span>Total</span>
@@ -121,7 +117,7 @@ export default function CartContent() {
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-xs opacity-70">Livraison gratuite en France métropolitaine</p>
+            {/* Text removed */}
           </div>
         </div>
       </div>
