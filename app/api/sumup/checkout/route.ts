@@ -55,12 +55,43 @@ export async function POST(request: Request) {
         const description = `Order ${order.order_number} - ${customerName} - ${itemSummary}`.substring(0, 250); // specific max length if needed
 
         // Create SumUp checkout
+        // Map frontend address to SumUp structure
+        const customerDetails = {
+            firstName: customerName?.split(' ')[0] || '',
+            lastName: customerName?.split(' ').slice(1).join(' ') || '',
+            address: shippingAddress?.address || '',
+            city: shippingAddress?.city || '',
+            postalCode: shippingAddress?.postalCode || '',
+            country: typeof shippingAddress?.country === 'string' && shippingAddress.country.length === 2
+                ? shippingAddress.country
+                : 'FR' // Default or mapped country code needed. 
+            // Note: Our frontend maps "France" -> "FR" for Mondial Relay. 
+            // Inspecting earlier code: checkout-content maps it for API call BUT 
+            // formData.country is stored as "France" or "Poland". 
+            // SumUp likely needs ISO 2-letter.
+        };
+
+        // Simple helper for country mapping if needed 
+        // (Assuming shippingAddress.country might be "France")
+        const countryMap: Record<string, string> = {
+            "France": "FR", "Belgique": "BE", "Belgium": "BE",
+            "Espagne": "ES", "Spain": "ES", "Allemagne": "DE", "Germany": "DE",
+            "Italie": "IT", "Italy": "IT", "Luxembourg": "LU",
+            "Pays-Bas": "NL", "Netherlands": "NL", "Autriche": "AT", "Austria": "AT",
+            "Portugal": "PT", "Pologne": "PL", "Poland": "PL"
+        };
+
+        if (shippingAddress?.country && countryMap[shippingAddress.country]) {
+            customerDetails.country = countryMap[shippingAddress.country];
+        }
+
         const checkout: any = await sumupService.createCheckout(
             parseFloat(amount),
             "EUR",
             returnUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.order_number}`,
             email,
-            description
+            description,
+            customerDetails
         );
 
         // Create payment transaction record

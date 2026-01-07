@@ -55,7 +55,21 @@ export class SumUpService {
         }
     }
 
-    async createCheckout(amount: number, currency: string = "EUR", returnUrl: string, email: string, description: string = "X-Trem Grip Order") {
+    async createCheckout(
+        amount: number,
+        currency: string = "EUR",
+        returnUrl: string,
+        email: string,
+        description: string = "X-Trem Grip Order",
+        customerDetails?: {
+            firstName?: string;
+            lastName?: string;
+            address?: string;
+            city?: string;
+            postalCode?: string;
+            country?: string;
+        }
+    ) {
         // Ensure we're initialized
         await this.initialize();
 
@@ -66,17 +80,36 @@ export class SumUpService {
         const checkoutRef = `ORDER-${Date.now()}`; // In production, use your DB ID
 
         try {
-            const checkout = await this.client.checkouts.create({
+            const checkoutPayload: any = {
                 checkout_reference: checkoutRef,
                 amount,
                 currency: currency as any,
                 description: description,
                 redirect_url: returnUrl,
                 merchant_code: this.merchantCode,
+                pay_to_email: email, // Pre-fill email
                 hosted_checkout: {
                     enabled: true,
                 },
-            } as any);
+            };
+
+            // Add personal details if available
+            // Note: SumUp API structure for personal_details
+            if (customerDetails) {
+                checkoutPayload.personal_details = {
+                    first_name: customerDetails.firstName,
+                    last_name: customerDetails.lastName,
+                    email: email,
+                    address: {
+                        line1: customerDetails.address,
+                        city: customerDetails.city,
+                        postal_code: customerDetails.postalCode,
+                        country: customerDetails.country || 'FR'
+                    }
+                };
+            }
+
+            const checkout = await this.client.checkouts.create(checkoutPayload);
 
             return checkout;
         } catch (error) {
