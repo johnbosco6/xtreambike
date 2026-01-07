@@ -81,7 +81,7 @@ export async function searchPointRelais(params: {
         action: searchParams.Action,
         delaiEnvoi: searchParams.DelaiEnvoi?.toString(),
         rayonRecherche: searchParams.RayonRecherche?.toString(),
-        nombreResultats: searchParams.NombreResultats.toString(),
+        nombreResultats: (searchParams.NombreResultats ?? 10).toString(),
         privateKey,
     });
 

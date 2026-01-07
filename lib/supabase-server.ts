@@ -1,10 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './supabase-types';
 
-// Lazy initialization to prevent build-time errors
-let supabaseAdminInstance: ReturnType<typeof createClient<Database>> | null = null;
+// Cached instance
+let supabaseAdminInstance: SupabaseClient<Database> | null = null;
 
-function getSupabaseAdmin() {
+function getSupabaseAdmin(): SupabaseClient<Database> {
     if (supabaseAdminInstance) {
         return supabaseAdminInstance;
     }
@@ -21,23 +21,24 @@ function getSupabaseAdmin() {
         );
     }
 
-    supabaseAdminInstance = createClient<Database>(supabaseUrl, supabaseServiceRoleKey, {
-        auth: {
-            autoRefreshToken: false,
-            persistSession: false
+    supabaseAdminInstance = createClient<Database>(
+        supabaseUrl,
+        supabaseServiceRoleKey,
+        {
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false
+            },
+            db: {
+                schema: 'public'
+            }
         }
-    });
+    );
 
     return supabaseAdminInstance;
 }
 
 // Server-side client with service role key (bypasses RLS)
 // ONLY use this in API routes and server components
-// This uses a Proxy to enable lazy initialization
-export const supabaseAdmin = new Proxy({} as ReturnType<typeof createClient<Database>>, {
-    get(target, prop) {
-        const client = getSupabaseAdmin();
-        const value = (client as any)[prop];
-        return typeof value === 'function' ? value.bind(client) : value;
-    }
-});
+// Export the typed client directly instead of using a Proxy
+export const supabaseAdmin = getSupabaseAdmin();

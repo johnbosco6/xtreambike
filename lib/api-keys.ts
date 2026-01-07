@@ -29,7 +29,10 @@ export class ApiKeysService {
         const { data, error } = await supabaseAdmin
             .from('api_keys')
             .select('key_name, key_value')
-            .eq('service_name', serviceName);
+            .eq('service_name', serviceName) as {
+                data: Array<{ key_name: string; key_value: string }> | null;
+                error: any
+            };
 
         if (error) {
             console.error(`Error fetching API keys for ${serviceName}:`, error);
