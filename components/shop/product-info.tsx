@@ -22,7 +22,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
   const getDeliveryOptions = (country: string) => {
     const deliveryOptions: Record<string, { name: string; price: number; days: string }[]> = {
       France: [
-        { name: "La Poste", price: 4.9, days: "2-3 jours ouvrés" },
+        { name: "La Poste", price: 4.9, days: "2-5 jours ouvrés" },
         { name: "Mondial Relay", price: 4.19, days: "3-5 jours ouvrés" },
       ],
       Spain: [{ name: "Mondial Relay", price: 6.47, days: "4-6 jours ouvrés" }],
@@ -250,7 +250,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
           <Truck className="w-5 h-5 text-[#0BEFD5]" />
           <div>
             <div className="text-sm font-medium">Livraison rapide</div>
-            <div className="text-xs opacity-70">2-3 jours ouvrés</div>
+            <div className="text-xs opacity-70">2-5 jours ouvrés</div>
           </div>
         </div>
         <div className="flex items-center gap-3">
