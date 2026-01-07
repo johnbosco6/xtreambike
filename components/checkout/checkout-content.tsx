@@ -33,6 +33,9 @@ export default function CheckoutContent() {
     postalCode: "",
     country: "France",
 
+    // Postal Code for Relay (For Auto-Search)
+    relayPostalCode: "",
+
     // Payment Info
     cardNumber: "", // Kept for UI but not processed if using SumUp
     expiryDate: "",
@@ -41,6 +44,10 @@ export default function CheckoutContent() {
   })
 
   const [selectedRelayPoint, setSelectedRelayPoint] = useState<any>(null)
+  const [autoSelected, setAutoSelected] = useState(false)
+  const [searchingRelay, setSearchingRelay] = useState(false)
+  const [showManualSearch, setShowManualSearch] = useState(false)
+  const [relaySearchError, setRelaySearchError] = useState<string | null>(null)
 
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "verifying" | "paid" | "failed">("idle")
 
@@ -96,9 +103,53 @@ export default function CheckoutContent() {
   const deliveryCost = getDeliveryCost(formData.country, shippingMethod)
   const totalWithDelivery = state.total + deliveryCost
 
+  // Auto-search for nearest Point Relais when postal code is entered
+  const autoSearchNearestRelayPoint = async (zipCode: string) => {
+    setSearchingRelay(true)
+    setRelaySearchError(null)
+
+    try {
+      const response = await fetch('/api/mondial-relay/search-points', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postalCode: zipCode,
+          country: 'FR',
+          deliveryMode: '24R',
+          maxResults: 1  // Only fetch the nearest point
+        })
+      })
+
+      const data = await response.json()
+
+      if (data.success && data.pointsRelais && data.pointsRelais.length > 0) {
+        const nearestPoint = data.pointsRelais[0]
+        setSelectedRelayPoint(nearestPoint)
+        setAutoSelected(true)
+        setShowManualSearch(false)
+      } else {
+        setRelaySearchError('Aucun Point Relais trouvé pour ce code postal')
+        setSelectedRelayPoint(null)
+        setAutoSelected(false)
+      }
+    } catch (error) {
+      console.error('Auto-search error:', error)
+      setRelaySearchError('Erreur lors de la recherche automatique')
+      setSelectedRelayPoint(null)
+      setAutoSelected(false)
+    } finally {
+      setSearchingRelay(false)
+    }
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+
+    // Auto-search when relay postal code is complete (5 digits)
+    if (name === 'relayPostalCode' && value.length === 5 && /^\d{5}$/.test(value)) {
+      autoSearchNearestRelayPoint(value)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -531,13 +582,96 @@ export default function CheckoutContent() {
                     </div>
                   )}
 
-                  {/* Mondial Relay Widget (Only for Relay Method) */}
+                  {/* Postal Code & Auto-Selection for Relay Method */}
                   {shippingMethod === "relay" && (
-                    <div className="pt-2">
-                      <MondialRelayWidget
-                        onSelect={setSelectedRelayPoint}
-                        selectedPoint={selectedRelayPoint}
-                      />
+                    <div className="space-y-4 pt-2">
+                      <h3 className="text-md font-medium">Point Relais®</h3>
+
+                      {/* Postal Code Input */}
+                      <div>
+                        <label className="block text-sm font-light mb-2">Code postal *</label>
+                        <input
+                          type="text"
+                          name="relayPostalCode"
+                          value={formData.relayPostalCode}
+                          onChange={handleInputChange}
+                          required
+                          maxLength={5}
+                          className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                          placeholder="75001"
+                        />
+                        <p className="text-xs opacity-60 mt-2">
+                          {searchingRelay ? 'Recherche en cours...' : 'Nous rechercherons automatiquement le Point Relais le plus proche'}
+                        </p>
+                      </div>
+
+                      {/* Error Message */}
+                      {relaySearchError && (
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-sm text-red-400">
+                          {relaySearchError}
+                        </div>
+                      )}
+
+                      {/* Auto-Selected Point Banner */}
+                      {autoSelected && selectedRelayPoint && (
+                        <div className="bg-[#E3003F]/10 border-2 border-[#E3003F] rounded-xl p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="p-2 bg-[#E3003F] rounded-full flex-shrink-0">
+                              <Store className="w-5 h-5 text-white" />
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="font-medium text-white mb-1 flex items-center gap-2">
+                                <Check className="w-4 h-4 text-[#0BEFD5]" />
+                                Point Relais sélectionné automatiquement
+                              </h4>
+                              <p className="text-sm opacity-80 mb-2">
+                                Le point le plus proche de vous :
+                              </p>
+                              <div className="bg-black/20 rounded-lg p-3 space-y-1">
+                                <div className="font-medium">{selectedRelayPoint.name}</div>
+                                <div className="text-sm opacity-70">{selectedRelayPoint.address}</div>
+                                <div className="text-sm opacity-70">
+                                  {selectedRelayPoint.postalCode} {selectedRelayPoint.city}
+                                </div>
+                                <div className="text-xs text-[#0BEFD5] mt-2">
+                                  📍 À {selectedRelayPoint.distance}m de votre code postal
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setShowManualSearch(true)}
+                                className="mt-3 text-sm text-[#0BEFD5] hover:underline"
+                              >
+                                Choisir un autre Point Relais
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Manual Search Override */}
+                      {showManualSearch && (
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium">Rechercher un autre point</h4>
+                            <button
+                              type="button"
+                              onClick={() => setShowManualSearch(false)}
+                              className="text-sm text-white/50 hover:text-white"
+                            >
+                              Annuler
+                            </button>
+                          </div>
+                          <MondialRelayWidget
+                            onSelect={(point) => {
+                              setSelectedRelayPoint(point)
+                              setAutoSelected(false)
+                              setShowManualSearch(false)
+                            }}
+                            selectedPoint={selectedRelayPoint}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
 
