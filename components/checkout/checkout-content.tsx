@@ -100,24 +100,43 @@ export default function CheckoutContent() {
   const deliveryCost = getDeliveryCost(formData.country, shippingMethod)
   const totalWithDelivery = state.total + deliveryCost
 
+
+  // Helper to map country name to ISO code
+  const getCountryCode = (countryName: string) => {
+    const map: Record<string, string> = {
+      "France": "FR",
+      "Spain": "ES",
+      "Belgium": "BE",
+      "Italy": "IT",
+      "Luxembourg": "LU",
+      "Poland": "PL",
+      "Portugal": "PT"
+    }
+    return map[countryName] || "FR"
+  }
+
   // Auto-search for nearest Point Relais when postal code is entered
   const autoSearchNearestRelayPoint = async (zipCode: string) => {
     setSearchingRelay(true)
     setRelaySearchError(null)
 
     try {
+      const countryCode = getCountryCode(formData.country)
+      console.log(`Searching relay points for ${zipCode}, ${countryCode}`)
+
       const response = await fetch('/api/mondial-relay/search-points', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           postalCode: zipCode,
-          country: 'FR',
+          country: countryCode,
           deliveryMode: '24R',
           maxResults: 1  // Only fetch the nearest point
         })
       })
 
       const data = await response.json()
+      console.log('Relay search result:', data)
 
       if (data.success && data.pointsRelais && data.pointsRelais.length > 0) {
         const nearestPoint = data.pointsRelais[0]
@@ -125,7 +144,7 @@ export default function CheckoutContent() {
         setAutoSelected(true)
         setShowManualSearch(false)
       } else {
-        setRelaySearchError('Aucun Point Relais trouvé pour ce code postal')
+        setRelaySearchError(`Aucun Point Relais trouvé pour ${zipCode} (${countryCode}).`)
         setSelectedRelayPoint(null)
         setAutoSelected(false)
       }
