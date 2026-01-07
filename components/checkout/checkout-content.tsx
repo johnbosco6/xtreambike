@@ -33,9 +33,6 @@ export default function CheckoutContent() {
     postalCode: "",
     country: "France",
 
-    // Postal Code for Relay (For Auto-Search)
-    relayPostalCode: "",
-
     // Payment Info
     cardNumber: "", // Kept for UI but not processed if using SumUp
     expiryDate: "",
@@ -146,8 +143,8 @@ export default function CheckoutContent() {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
 
-    // Auto-search when relay postal code is complete (5 digits)
-    if (name === 'relayPostalCode' && value.length === 5 && /^\d{5}$/.test(value)) {
+    // Auto-search when postal code is complete (5 digits) and shipping method is relay
+    if (name === 'postalCode' && shippingMethod === 'relay' && value.length === 5 && /^\d{5}$/.test(value)) {
       autoSearchNearestRelayPoint(value)
     }
   }
@@ -157,7 +154,7 @@ export default function CheckoutContent() {
 
     if (currentStep === 1) {
       if (shippingMethod === "relay") {
-        if (!formData.relayPostalCode || formData.relayPostalCode.length !== 5) {
+        if (!formData.postalCode || formData.postalCode.length !== 5) {
           alert("Veuillez entrer un code postal valide (5 chiffres).")
           return
         }
@@ -529,91 +526,77 @@ export default function CheckoutContent() {
                     </div>
                   </div>
 
-                  {/* Address Form (Only for Home Delivery) */}
-                  {shippingMethod === "home" && (
-                    <div className="space-y-4 pt-2">
-                      <h3 className="text-md font-medium">Adresse de livraison</h3>
-                      <div>
-                        <label className="block text-sm font-light mb-2">Adresse *</label>
+                  {/* Address Form (Required for both Home Delivery and Relay) */}
+                  <div className="space-y-4 pt-2">
+                    <h3 className="text-md font-medium">Adresse</h3>
+                    <div>
+                      <label className="block text-sm font-light mb-2">Adresse *</label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
+                        placeholder="123 Rue de la République"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="md:col-span-1">
+                        <label className="block text-sm font-light mb-2">Ville *</label>
                         <input
                           type="text"
-                          name="address"
-                          value={formData.address}
+                          name="city"
+                          value={formData.city}
                           onChange={handleInputChange}
                           required
                           className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                          placeholder="123 Rue de la République"
+                          placeholder="Paris"
                         />
                       </div>
-
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div className="md:col-span-1">
-                          <label className="block text-sm font-light mb-2">Ville *</label>
-                          <input
-                            type="text"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleInputChange}
-                            required
-                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                            placeholder="Paris"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-light mb-2">Code postal *</label>
-                          <input
-                            type="text"
-                            name="postalCode"
-                            value={formData.postalCode}
-                            onChange={handleInputChange}
-                            required
-                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
-                            placeholder="75001"
-                          />
-                        </div>
-                        <div className="col-span-2 md:col-span-1">
-                          <label className="block text-sm font-light mb-2">Pays *</label>
-                          <select
-                            name="country"
-                            value={formData.country}
-                            onChange={handleInputChange}
-                            className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base appearance-none"
-                          >
-                            <option value="France">France</option>
-                            <option value="Spain">Espagne</option>
-                            <option value="Belgium">Belgique</option>
-                            <option value="Italy">Italie</option>
-                            <option value="Luxembourg">Luxembourg</option>
-                            <option value="Poland">Pologne</option>
-                            <option value="Portugal">Portugal</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Postal Code & Auto-Selection for Relay Method */}
-                  {shippingMethod === "relay" && (
-                    <div className="space-y-4 pt-2">
-                      <h3 className="text-md font-medium">Point Relais®</h3>
-
-                      {/* Postal Code Input */}
                       <div>
                         <label className="block text-sm font-light mb-2">Code postal *</label>
                         <input
                           type="text"
-                          name="relayPostalCode"
-                          value={formData.relayPostalCode}
+                          name="postalCode"
+                          value={formData.postalCode}
                           onChange={handleInputChange}
                           required
-                          maxLength={5}
                           className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base"
                           placeholder="75001"
                         />
-                        <p className="text-xs opacity-60 mt-2">
-                          {searchingRelay ? 'Recherche en cours...' : 'Nous rechercherons automatiquement le Point Relais le plus proche'}
-                        </p>
+                        {shippingMethod === "relay" && (
+                          <p className="text-xs opacity-60 mt-2">
+                            {searchingRelay ? 'Recherche en cours...' : 'Le Point Relais le plus proche sera automatiquement détecté'}
+                          </p>
+                        )}
                       </div>
+                      <div className="col-span-2 md:col-span-1">
+                        <label className="block text-sm font-light mb-2">Pays *</label>
+                        <select
+                          name="country"
+                          value={formData.country}
+                          onChange={handleInputChange}
+                          className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#0BEFD5] text-base appearance-none"
+                        >
+                          <option value="France">France</option>
+                          <option value="Spain">Espagne</option>
+                          <option value="Belgium">Belgique</option>
+                          <option value="Italy">Italie</option>
+                          <option value="Luxembourg">Luxembourg</option>
+                          <option value="Poland">Pologne</option>
+                          <option value="Portugal">Portugal</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  {/* Relay Selection Logic */}
+                  {shippingMethod === "relay" && (
+                    <div className="space-y-4 pt-2">
+                      <h3 className="text-md font-medium">Point Relais® détecté</h3>
 
                       {/* Error Message */}
                       {relaySearchError && (
@@ -632,10 +615,10 @@ export default function CheckoutContent() {
                             <div className="flex-1">
                               <h4 className="font-medium text-white mb-1 flex items-center gap-2">
                                 <Check className="w-4 h-4 text-[#0BEFD5]" />
-                                Point Relais sélectionné automatiquement
+                                Point Relais sélectionné
                               </h4>
                               <p className="text-sm opacity-80 mb-2">
-                                Le point le plus proche de vous :
+                                Le point le plus proche de votre adresse :
                               </p>
                               <div className="bg-black/20 rounded-lg p-3 space-y-1">
                                 <div className="font-medium">{selectedRelayPoint.name}</div>
@@ -644,7 +627,7 @@ export default function CheckoutContent() {
                                   {selectedRelayPoint.postalCode} {selectedRelayPoint.city}
                                 </div>
                                 <div className="text-xs text-[#0BEFD5] mt-2">
-                                  📍 À {selectedRelayPoint.distance}m de votre code postal
+                                  📍 À {selectedRelayPoint.distance}m
                                 </div>
                               </div>
                               <button
