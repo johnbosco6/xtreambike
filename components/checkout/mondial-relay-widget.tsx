@@ -2,25 +2,16 @@
 
 import { useState } from "react"
 import { Search, MapPin, Check, Loader2 } from "lucide-react"
-
-interface RelayPoint {
-    id: string
-    name: string
-    address: string
-    city: string
-    zipCode: string
-    country: string
-    hours: Record<string, string[]>
-}
+import type { FormattedPointRelais } from "@/lib/mondial-relay/types"
 
 interface MondialRelayWidgetProps {
-    onSelect: (point: RelayPoint) => void
-    selectedPoint?: RelayPoint | null
+    onSelect: (point: FormattedPointRelais) => void
+    selectedPoint?: FormattedPointRelais | null
 }
 
 export default function MondialRelayWidget({ onSelect, selectedPoint }: MondialRelayWidgetProps) {
     const [zipCode, setZipCode] = useState("")
-    const [points, setPoints] = useState<RelayPoint[]>([])
+    const [points, setPoints] = useState<FormattedPointRelais[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const [hasSearched, setHasSearched] = useState(false)
@@ -34,22 +25,28 @@ export default function MondialRelayWidget({ onSelect, selectedPoint }: MondialR
         setHasSearched(false)
 
         try {
-            const response = await fetch("/api/mondialrelay/search", {
+            const response = await fetch("/api/mondial-relay/search-points", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ zipCode }),
+                body: JSON.stringify({
+                    postalCode: zipCode,
+                    country: "FR",
+                    deliveryMode: "24R",
+                    maxResults: 20
+                }),
             })
 
             const data = await response.json()
 
-            if (!response.ok) {
+            if (!response.ok || !data.success) {
                 throw new Error(data.error || "Failed to fetch relay points")
             }
 
-            setPoints(data.points)
+            setPoints(data.pointsRelais || [])
             setHasSearched(true)
         } catch (err: any) {
             setError(err.message)
+            setPoints([])
         } finally {
             setLoading(false)
         }
@@ -110,7 +107,7 @@ export default function MondialRelayWidget({ onSelect, selectedPoint }: MondialR
                                     <div>
                                         <div className="font-medium text-sm text-white">{point.name}</div>
                                         <div className="text-xs text-white/70 mt-1">{point.address}</div>
-                                        <div className="text-xs text-white/70">{point.zipCode} {point.city}</div>
+                                        <div className="text-xs text-white/70">{point.postalCode} {point.city}</div>
                                     </div>
                                     {selectedPoint?.id === point.id && (
                                         <div className="bg-[#E3003F] p-1 rounded-full">
@@ -128,7 +125,7 @@ export default function MondialRelayWidget({ onSelect, selectedPoint }: MondialR
                 <div className="glass-card p-4 rounded-xl border border-[#0BEFD5]/30 bg-[#0BEFD5]/5">
                     <h4 className="text-sm font-medium text-[#0BEFD5] mb-2">Point Relais sélectionné :</h4>
                     <div className="text-sm font-medium">{selectedPoint.name}</div>
-                    <div className="text-xs text-white/70">{selectedPoint.address}, {selectedPoint.zipCode} {selectedPoint.city}</div>
+                    <div className="text-xs text-white/70">{selectedPoint.address}, {selectedPoint.postalCode} {selectedPoint.city}</div>
                 </div>
             )}
         </div>
