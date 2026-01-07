@@ -17,24 +17,19 @@ export interface Product {
     displacements: number[]
 }
 
-const FRAME_PROTECTION_DESC = `● Non abrasif
-● Antidérapant
-
-● Sur mesure
-● Protège le cadre
-● Épaisseur : 1 mm
-● Facile à installer et à remplacer
-● Testé et approuvé par des pilotes professionnels
-● Réduit l’effort nécessaire pour tenir la moto
-
-Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d’améliorer le contrôle et les sensations de pilotage.
+const PRODUCT_DESCRIPTION = `Nos protections sont avant tout conçues pour apporter un maximum de GRIP à votre moto, afin d’améliorer le contrôle et les sensations de pilotage.
 La durée de vie de nos protections dépendra de plusieurs facteurs : votre fréquence d’utilisation, les conditions de roulage, et surtout l’état des bottes avec lesquelles vous pilotez.`
 
-const SIDE_PLATE_DESC = `X-Trem Grip ce n’est pas seulement des protections de cadre ! C’est aussi la solution idéale pour protéger vos plastiques et kits déco.
-Grâce à sa surface antidérapante, souple et non abrasive, profitez d’un maintien optimal de votre moto.
-Fini les plastiques qui glissent !`
-
-const MOTOR_PROTECTION_DESC = ""
+const PRODUCT_FEATURES = [
+    "Non abrasif",
+    "Antidérapant",
+    "Sur mesure",
+    "Protège le cadre",
+    "Épaisseur : 1 mm",
+    "Facile à installer et à remplacer",
+    "Testé et approuvé par des pilotes professionnels",
+    "Réduit l’effort nécessaire pour tenir la moto",
+]
 
 export const products: Product[] = [
     {
@@ -46,14 +41,8 @@ export const products: Product[] = [
         brand: "Husqvarna",
         category: "Grip pour protection plastique d’origine",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip ORIGINAL",
-            "Protection optimale des plastiques",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["HUSQVARNA 125-300TC 2023-2025", "HUSQVARNA 250-450FC 2023-2025"],
         inStock: true,
         colors: [
@@ -73,14 +62,8 @@ export const products: Product[] = [
         brand: "Fantic",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["FANTIC XXF250 2021-2025", "FANTIC XXF450 2021-2025"],
         inStock: true,
         colors: [
@@ -100,14 +83,8 @@ export const products: Product[] = [
         brand: "Honda",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["HONDA CRF250R 2022-2025", "HONDA CRF450R 2021-2025"],
         inStock: true,
         colors: [
@@ -127,14 +104,8 @@ export const products: Product[] = [
         brand: "Kawasaki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KAWASAKI 125KX 2003-2008", "KAWASAKI 250KX 2003-2004"],
         inStock: true,
         colors: [
@@ -154,14 +125,8 @@ export const products: Product[] = [
         brand: "Kawasaki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KAWASAKI 250KXF 2015-2020"],
         inStock: true,
         colors: [
@@ -181,14 +146,8 @@ export const products: Product[] = [
         brand: "Kawasaki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KAWASAKI 250KXF 2025", "KAWASAKI 450KXF 2024-2025"],
         inStock: true,
         colors: [
@@ -208,14 +167,8 @@ export const products: Product[] = [
         brand: "Kawasaki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KAWASAKI 250KXF 2021-2024", "KAWASAKI 450KXF 2019-2023"],
         inStock: true,
         colors: [
@@ -235,14 +188,8 @@ export const products: Product[] = [
         brand: "Kove",
         category: "Protection de cadre",
         bikeType: "Rally",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KOVE 450 RALLY 2024-2025"],
         inStock: true,
         colors: [
@@ -262,14 +209,8 @@ export const products: Product[] = [
         brand: "Stark Varg",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["STARK MX 2022-2025", "STARK EX 2024-2025"],
         inStock: true,
         colors: [
@@ -289,14 +230,8 @@ export const products: Product[] = [
         brand: "Suzuki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["SUZUKI 125RM 2001-2012", "SUZUKI 250RM 2001-2008"],
         inStock: true,
         colors: [
@@ -316,14 +251,8 @@ export const products: Product[] = [
         brand: "Suzuki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["SUZUKI 250RMZ 2019-2024", "SUZUKI 450RMZ 2018-2024"],
         inStock: true,
         colors: [
@@ -343,14 +272,8 @@ export const products: Product[] = [
         brand: "Suzuki",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["SUZUKI 450RMZ 2008-2017"],
         inStock: true,
         colors: [
@@ -370,14 +293,8 @@ export const products: Product[] = [
         brand: "Triumph",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["TRIUMPH TF 250-X 2024-2025"],
         inStock: true,
         colors: [
@@ -397,14 +314,8 @@ export const products: Product[] = [
         brand: "Yamaha",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["YAMAHA 125YZ 2005-2024", "YAMAHA 250YZ 2005-2024"],
         inStock: true,
         colors: [
@@ -424,14 +335,8 @@ export const products: Product[] = [
         brand: "Yamaha",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["YAMAHA YZ250F 2019-2023", "YAMAHA YZ450F 2018-2022"],
         inStock: true,
         colors: [
@@ -451,14 +356,8 @@ export const products: Product[] = [
         brand: "Yamaha",
         category: "Protection de cadre",
         bikeType: "Motocross",
-        description: FRAME_PROTECTION_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale du cadre",
-            "Installation facile sans modification",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["YAMAHA YZ250F 2024-2025", "YAMAHA YZ450F 2023-2025"],
         inStock: true,
         colors: [
@@ -478,14 +377,8 @@ export const products: Product[] = [
         brand: "Kove",
         category: "Protection de carter",
         bikeType: "Rally",
-        description: MOTOR_PROTECTION_DESC,
-        features: [
-            "Protection renforcée du carter d'embrayage",
-            "Installation facile et rapide",
-            "Matériau haute résistance aux impacts",
-            "Design adapté au moteur KOVE",
-            "Testé en conditions rallye",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KOVE 450 RALLY 2024-2025"],
         inStock: true,
         colors: [
@@ -505,14 +398,8 @@ export const products: Product[] = [
         brand: "Stark Varg",
         category: "Protection de carter",
         bikeType: "Motocross",
-        description: MOTOR_PROTECTION_DESC,
-        features: [
-            "Protection renforcée du carter",
-            "Installation facile et rapide",
-            "Matériau haute résistance aux impacts",
-            "Design adapté au moteur STARK",
-            "Testé en conditions course",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["STARK MX 2022-2025", "STARK EX 2024-2025"],
         inStock: true,
         colors: [
@@ -532,14 +419,8 @@ export const products: Product[] = [
         brand: "Honda",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["HONDA CRF250R 2022-2025", "HONDA CRF450R 2021-2025"],
         inStock: true,
         colors: [
@@ -559,14 +440,8 @@ export const products: Product[] = [
         brand: "Kawasaki",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KAWASAKI 250KXF 2017-2020"],
         inStock: true,
         colors: [
@@ -586,14 +461,8 @@ export const products: Product[] = [
         brand: "Kawasaki",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["KAWASAKI 250KXF 2021-2024", "KAWASAKI 450KXF 2019-2023"],
         inStock: true,
         colors: [
@@ -613,14 +482,8 @@ export const products: Product[] = [
         brand: "Yamaha",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["YAMAHA 125YZ 2015-2021", "YAMAHA 250YZ 2015-2021"],
         inStock: true,
         colors: [
@@ -640,14 +503,8 @@ export const products: Product[] = [
         brand: "Yamaha",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["YAMAHA YZ250F 2024-2025", "YAMAHA YZ450F 2023-2025"],
         inStock: true,
         colors: [
@@ -667,14 +524,8 @@ export const products: Product[] = [
         brand: "Stark Varg",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["STARK MX 2022-2025", "STARK EX 2024-2025"],
         inStock: true,
         colors: [
@@ -694,14 +545,8 @@ export const products: Product[] = [
         brand: "Triumph",
         category: "Protection de plaque latérale",
         bikeType: "Motocross",
-        description: SIDE_PLATE_DESC,
-        features: [
-            "Surface antidérapante X-Trem Grip",
-            "Protection optimale des plaques latérales",
-            "Installation facile et rapide",
-            "Matériau haute résistance",
-            "Compatible avec kit déco",
-        ],
+        description: PRODUCT_DESCRIPTION,
+        features: PRODUCT_FEATURES,
         compatibility: ["TRIUMPH TF 250-X 2024-2025"],
         inStock: true,
         colors: [
