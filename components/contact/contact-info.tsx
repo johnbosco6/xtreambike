@@ -23,7 +23,9 @@ export default function ContactInfo() {
             <Phone className="w-5 h-5 text-[#F50CA0] mt-1" />
             <div>
               <h3 className="font-medium text-sm mb-1">Téléphone</h3>
-              <p className="font-light text-sm opacity-70">+33 (0)7 87 10 68 22</p>
+              <a href="tel:+33787106822" className="font-light text-sm opacity-70 hover:opacity-100 hover:text-[#0BEFD5] transition-colors">
+                +33 (0)7 87 10 68 22
+              </a>
             </div>
           </div>
 

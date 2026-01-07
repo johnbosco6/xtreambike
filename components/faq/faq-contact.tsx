@@ -25,7 +25,7 @@ export default function FaqContact() {
           </Link>
 
           <a
-            href="tel:+33123456789"
+            href="tel:+33787106822"
             className="flex items-center gap-3 p-3 glass-effect rounded-lg hover:bg-white/5 transition-colors"
           >
             <div className="w-10 h-10 rounded-full bg-[#F50CA0]/20 flex items-center justify-center">
@@ -33,7 +33,7 @@ export default function FaqContact() {
             </div>
             <div>
               <h3 className="font-medium text-sm">Appelez-nous</h3>
-              <p className="text-xs opacity-70">+33 (0)1 23 45 67 89</p>
+              <p className="text-xs opacity-70">+33 (0)7 87 10 68 22</p>
             </div>
           </a>
 
