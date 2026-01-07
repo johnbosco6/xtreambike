@@ -26,8 +26,10 @@ interface MondialRelayConfig {
     };
 }
 
+// ... (imports remain the same)
+
 /**
- * Get Mondial Relay configuration from Supabase
+ * Get Mondial Relay configuration from Supabase with fallback to Environment Variables
  * This is async because we need to fetch from the database
  */
 export async function getMondialRelayConfig(): Promise<MondialRelayConfig> {
@@ -36,46 +38,65 @@ export async function getMondialRelayConfig(): Promise<MondialRelayConfig> {
         return cachedConfig;
     }
 
+    let keys = {
+        api1_url: '',
+        api1_enseigne: '',
+        api1_private_key: '',
+        api1_marque: '',
+    };
+
     try {
-        const keys = await getMondialRelayKeys();
-
-        cachedConfig = {
-            api1: {
-                url: keys.api1_url || 'https://api.mondialrelay.com/Web_Services.asmx',
-                enseigne: keys.api1_enseigne || '',
-                privateKey: keys.api1_private_key || '',
-                marque: keys.api1_marque || '',
-            },
-            defaults: {
-                searchRadius: 50, // km
-                maxResults: 20,
-                defaultCountry: 'FR',
-                defaultLanguage: 'FR',
-            },
-            deliveryModes: {
-                '24R': {
-                    name: 'Point Relais® Standard',
-                    description: 'Livraison en Point Relais® (L + XL + S + C)',
-                    maxRadius: 100, // km
-                },
-                '24L': {
-                    name: 'Point Relais® XL',
-                    description: 'Livraison en Point Relais® XL',
-                    maxRadius: 100, // km
-                },
-                'XOH': {
-                    name: 'Express D+1',
-                    description: 'Livraison Express en Point Relais®',
-                    maxRadius: 75, // km
-                },
-            },
-        };
-
-        return cachedConfig;
+        // Try to fetch from Supabase
+        keys = await getMondialRelayKeys() as any;
     } catch (error) {
-        console.error('Failed to load Mondial Relay config from Supabase:', error);
-        throw error;
+        console.warn('Failed to load Mondial Relay config from Supabase, falling back to environment variables.');
     }
+
+    // Fallback to environment variables if keys are missing from Supabase
+    // Note: process.env will be available at runtime in Vercel
+    const url = keys.api1_url || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'https://api.mondialrelay.com/Web_Services.asmx';
+    const enseigne = keys.api1_enseigne || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE || '';
+    const privateKey = keys.api1_private_key || process.env.MONDIAL_RELAY_API1_PRIVATE_KEY || '';
+    const marque = keys.api1_marque || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_MARQUE || '';
+
+    // Validate essential keys
+    if (!enseigne || !privateKey) {
+        console.warn('Mondial Relay keys are missing (Enseigne or Private Key). Tracking and Points Search will fail.');
+    }
+
+    cachedConfig = {
+        api1: {
+            url,
+            enseigne,
+            privateKey,
+            marque,
+        },
+        defaults: {
+            searchRadius: 50, // km
+            maxResults: 20,
+            defaultCountry: 'FR',
+            defaultLanguage: 'FR',
+        },
+        deliveryModes: {
+            '24R': {
+                name: 'Point Relais® Standard',
+                description: 'Livraison en Point Relais® (L + XL + S + C)',
+                maxRadius: 100, // km
+            },
+            '24L': {
+                name: 'Point Relais® XL',
+                description: 'Livraison en Point Relais® XL',
+                maxRadius: 100, // km
+            },
+            'XOH': {
+                name: 'Express D+1',
+                description: 'Livraison Express en Point Relais®',
+                maxRadius: 75, // km
+            },
+        },
+    };
+
+    return cachedConfig;
 }
 
 // Legacy export for backwards compatibility (will be deprecated)
