@@ -156,9 +156,19 @@ export default function CheckoutContent() {
     e.preventDefault()
 
     if (currentStep === 1) {
-      if (shippingMethod === "relay" && !selectedRelayPoint) {
-        alert("Veuillez sélectionner un Point Relais.")
-        return
+      if (shippingMethod === "relay") {
+        if (!formData.relayPostalCode || formData.relayPostalCode.length !== 5) {
+          alert("Veuillez entrer un code postal valide (5 chiffres).")
+          return
+        }
+        if (!selectedRelayPoint) {
+          if (searchingRelay) {
+            alert("Recherche en cours, veuillez patienter...")
+            return
+          }
+          alert("Aucun Point Relais trouvé pour ce code postal. Veuillez vérifier le code postal ou choisir un autre point.")
+          return
+        }
       }
       setCurrentStep(2)
       return
