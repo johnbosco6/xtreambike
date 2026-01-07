@@ -301,7 +301,9 @@ export default function CheckoutContent() {
                 <span>{state.total.toFixed(2)} €</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="opacity-70">Livraison</span>
+                <span className="opacity-70">
+                  {shippingMethod === "relay" ? "Point Relais" : "Livraison"}
+                </span>
                 <span className="text-[#0BEFD5]">{deliveryCost.toFixed(2)} €</span>
               </div>
               <div className="flex justify-between font-medium border-t border-white/10 pt-2">
@@ -709,7 +711,9 @@ export default function CheckoutContent() {
                 <span>{state.total.toFixed(2)} €</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="opacity-70">Livraison</span>
+                <span className="opacity-70">
+                  {shippingMethod === "relay" ? "Point Relais" : "Livraison"}
+                </span>
                 <span className="text-[#0BEFD5]">{deliveryCost.toFixed(2)} €</span>
               </div>
               <div className="flex justify-between text-lg font-medium border-t border-white/10 pt-3">
