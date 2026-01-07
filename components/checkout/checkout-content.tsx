@@ -729,9 +729,18 @@ export default function CheckoutContent() {
                   <span>Livraison à domicile</span>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 text-xs opacity-70 text-[#E3003F]">
-                  <Store className="w-4 h-4" />
-                  <span>Retrait en Point Relais</span>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-xs opacity-70 text-[#E3003F]">
+                    <Store className="w-4 h-4" />
+                    <span>Retrait en Point Relais</span>
+                  </div>
+                  {selectedRelayPoint && (
+                    <div className="text-xs bg-[#E3003F]/10 border border-[#E3003F]/20 rounded-lg p-3 space-y-1">
+                      <div className="font-medium text-white">{selectedRelayPoint.name}</div>
+                      <div className="opacity-70">{selectedRelayPoint.address}</div>
+                      <div className="opacity-70">{selectedRelayPoint.postalCode} {selectedRelayPoint.city}</div>
+                    </div>
+                  )}
                 </div>
               )}
               <div className="flex items-center gap-2 text-xs opacity-70">
