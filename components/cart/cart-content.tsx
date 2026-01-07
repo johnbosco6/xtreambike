@@ -98,14 +98,11 @@ export default function CartContent() {
               <span className="opacity-70">Livraison</span>
               <span className="text-[#0BEFD5]">Gratuite</span>
             </div>
-            <div className="flex justify-between">
-              <span className="opacity-70">TVA (20%)</span>
-              <span>{(state.total * 0.2).toFixed(2)} €</span>
-            </div>
+            {/* TVA removed as prices are TTC */}
             <div className="border-t border-white/10 pt-4">
               <div className="flex justify-between text-lg font-medium">
                 <span>Total</span>
-                <span>{(state.total * 1.2).toFixed(2)} €</span>
+                <span>{state.total.toFixed(2)} €</span>
               </div>
             </div>
           </div>
