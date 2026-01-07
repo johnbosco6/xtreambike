@@ -29,7 +29,7 @@ export default function FooterLegal() {
           <div>
             <h3 className="text-lg font-light tracking-wider uppercase mb-6">X-Trem Grip</h3>
             <p className="font-light opacity-70 leading-relaxed">
-              Spécialiste des poignées de moto premium pour une expérience de conduite inégalée.
+              La protection de cadre qui apporte du GRIP sans abîmer les bottes !
             </p>
           </div>
 
