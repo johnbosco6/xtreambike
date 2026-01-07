@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+export const dynamic = 'force-dynamic';
+
 import { sumupService } from "@/lib/sumup";
 import { OrdersService } from "@/lib/orders-service";
 import { PaymentsService } from "@/lib/payments-service";

@@ -40,5 +40,10 @@ function getSupabaseAdmin(): SupabaseClient<Database> {
 
 // Server-side client with service role key (bypasses RLS)
 // ONLY use this in API routes and server components
-// Export the typed client directly instead of using a Proxy
-export const supabaseAdmin = getSupabaseAdmin();
+// Export the typed client directly using a Proxy for lazy initialization
+export const supabaseAdmin = new Proxy({} as SupabaseClient<Database>, {
+    get: (target, prop) => {
+        const client = getSupabaseAdmin();
+        return Reflect.get(client, prop);
+    }
+});
