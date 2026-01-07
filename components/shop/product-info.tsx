@@ -238,26 +238,12 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
       </div>
 
       {/* Guarantees */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-white/10">
-        <div className="flex items-center gap-3">
-          <Shield className="w-5 h-5 text-[#0BEFD5]" />
-          <div>
-            <div className="text-sm font-medium">Garantie 2 ans</div>
-            <div className="text-xs opacity-70">Qualité assurée</div>
-          </div>
-        </div>
+      <div className="pt-6 border-t border-white/10">
         <div className="flex items-center gap-3">
           <Truck className="w-5 h-5 text-[#0BEFD5]" />
           <div>
             <div className="text-sm font-medium">Livraison rapide</div>
             <div className="text-xs opacity-70">2-5 jours ouvrés</div>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <RotateCcw className="w-5 h-5 text-[#0BEFD5]" />
-          <div>
-            <div className="text-sm font-medium">Retour 30 jours</div>
-            <div className="text-xs opacity-70">Satisfait ou remboursé</div>
           </div>
         </div>
       </div>
