@@ -53,14 +53,8 @@ export default function FaqAccordion() {
     {
       question: "Quelle est votre politique de retour ?",
       answer:
-        "Nous offrons une politique de retour de 30 jours à compter de la date de réception de votre commande. Les produits doivent être retournés dans leur emballage d'origine, non utilisés et en parfait état. Pour initier un retour, connectez-vous à votre compte client ou contactez notre service client qui vous fournira un numéro d'autorisation de retour. Les frais de retour sont à la charge du client, sauf en cas de produit défectueux ou d'erreur de notre part. Une fois le retour reçu et vérifié, le remboursement est traité dans un délai de 5 à 10 jours ouvrables.",
+        "Nous offrons une politique de retour de 14 jours à compter de la date de réception de votre commande. Les produits doivent être retournés dans leur emballage d'origine, non utilisés et en parfait état. Pour initier un retour, connectez-vous à votre compte client ou contactez notre service client qui vous fournira un numéro d'autorisation de retour. Les frais de retour sont à la charge du client, sauf en cas de produit défectueux ou d'erreur de notre part. Une fois le retour reçu et vérifié, le remboursement est traité dans un délai de 5 à 10 jours ouvrables.",
       category: "commandes",
-    },
-    {
-      question: "Proposez-vous une garantie sur vos produits ?",
-      answer:
-        "Oui, tous nos produits sont couverts par une garantie constructeur. Cette garantie s'applique uniquement aux produits stockés dans leur emballage d'origine avant toute utilisation. Veuillez noter qu'une fois le film protecteur recouvrant la partie adhésive retiré, la garantie ne pourra plus être appliquée.",
-      category: "garantie",
     },
   ]
 
@@ -76,7 +70,6 @@ export default function FaqAccordion() {
     { id: "produits", name: "Produits" },
     { id: "installation", name: "Installation" },
     { id: "commandes", name: "Commandes" },
-    { id: "garantie", name: "Garantie" },
   ]
 
   return (
@@ -85,9 +78,8 @@ export default function FaqAccordion() {
         {categories.map((category) => (
           <button
             key={category.id}
-            className={`px-3 py-1.5 rounded-full text-xs ${
-              activeCategory === category.id ? "bg-[#4A2CD6] text-white" : "glass-effect hover:bg-white/10"
-            }`}
+            className={`px-3 py-1.5 rounded-full text-xs ${activeCategory === category.id ? "bg-[#4A2CD6] text-white" : "glass-effect hover:bg-white/10"
+              }`}
             onClick={() => setActiveCategory(category.id)}
           >
             {category.name}

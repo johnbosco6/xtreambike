@@ -73,13 +73,8 @@ export default function FooterLegal() {
                 </Link>
               </li>
               <li>
-                <Link href="/shipping" className="font-light opacity-70 hover:opacity-100 transition-opacity">
+                <Link href="/shipping-returns" className="font-light opacity-70 hover:opacity-100 transition-opacity">
                   Livraison & Retours
-                </Link>
-              </li>
-              <li>
-                <Link href="/warranty" className="font-light opacity-70 hover:opacity-100 transition-opacity">
-                  Garantie
                 </Link>
               </li>
             </ul>

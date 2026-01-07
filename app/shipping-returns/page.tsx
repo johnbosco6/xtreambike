@@ -78,67 +78,44 @@ export default function ShippingReturnsPage() {
                             </div>
                         </section>
 
-                        {/* Retours */}
+                        {/* Retours & Politique */}
                         <section>
                             <h2 className="text-3xl font-light mb-8 flex items-center gap-4">
                                 <span className="w-12 h-[1px] bg-[#4A2CD6]"></span>
-                                Retours & Échanges
+                                Politique de Retours
                             </h2>
-                            <div className="grid md:grid-cols-2 gap-12">
-                                <div>
-                                    <p className="text-white/80 leading-relaxed mb-6">
-                                        Vous disposez de <strong>14 jours</strong> après réception pour nous retourner un produit si celui-ci ne vous convient pas.
-                                    </p>
-                                    <ul className="space-y-4">
-                                        <li className="flex items-start gap-4">
-                                            <span className="text-[#4A2CD6] mt-1">✓</span>
-                                            <span className="text-white/70">Le produit doit être neuf et complet.</span>
-                                        </li>
-                                        <li className="flex items-start gap-4">
-                                            <span className="text-[#4A2CD6] mt-1">✓</span>
-                                            <span className="text-white/70">Le film protecteur de l'adhésif doit être <strong className="text-white">intact</strong>.</span>
-                                        </li>
-                                        <li className="flex items-start gap-4">
-                                            <span className="text-[#4A2CD6] mt-1">✓</span>
-                                            <span className="text-white/70">Emballage soigneux pour le transport.</span>
-                                        </li>
-                                    </ul>
+                            <div className="glass-card p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
+                                <p className="text-white/80 leading-relaxed text-lg mb-8">
+                                    Nous offrons une politique de retour de <strong>14 jours</strong> à compter de la date de réception de votre commande.
+                                </p>
+                                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                                    <div className="space-y-4">
+                                        <div className="flex items-start gap-4">
+                                            <span className="w-6 h-6 rounded-full bg-[#0BEFD5]/20 flex items-center justify-center text-[#0BEFD5] text-xs mt-1">1</span>
+                                            <p className="text-white/70 text-sm">Les produits doivent être retournés dans leur emballage d'origine, non utilisés et en parfait état.</p>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <span className="w-6 h-6 rounded-full bg-[#0BEFD5]/20 flex items-center justify-center text-[#0BEFD5] text-xs mt-1">2</span>
+                                            <p className="text-white/70 text-sm">Pour initier un retour, connectez-vous à votre compte client ou contactez notre service client pour obtenir un numéro d'autorisation.</p>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="flex items-start gap-4">
+                                            <span className="w-6 h-6 rounded-full bg-[#0BEFD5]/20 flex items-center justify-center text-[#0BEFD5] text-xs mt-1">3</span>
+                                            <p className="text-white/70 text-sm">Les frais de retour sont à la charge du client, sauf en cas de produit défectueux ou d'erreur de notre part.</p>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <span className="w-6 h-6 rounded-full bg-[#0BEFD5]/20 flex items-center justify-center text-[#0BEFD5] text-xs mt-1">4</span>
+                                            <p className="text-white/70 text-sm">Une fois le retour reçu et vérifié, le remboursement est traité dans un délai de 5 à 10 jours ouvrables.</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="bg-white/[0.02] p-8 rounded-2xl border border-white/5">
-                                    <h3 className="text-white font-medium mb-4">Comment procéder ?</h3>
-                                    <ol className="space-y-6 relative border-l border-white/10 ml-3 pl-8">
-                                        <li className="relative">
-                                            <span className="absolute -left-[39px] w-5 h-5 rounded-full bg-[#4A2CD6] border-4 border-black"></span>
-                                            <span className="block text-sm text-white/50 mb-1">Étape 1</span>
-                                            Envoyez un email à <a href="mailto:xtremgrip@gmail.com" className="text-white hover:underline">xtremgrip@gmail.com</a>
-                                        </li>
-                                        <li className="relative">
-                                            <span className="absolute -left-[39px] w-5 h-5 rounded-full bg-white/20 border-4 border-black"></span>
-                                            <span className="block text-sm text-white/50 mb-1">Étape 2</span>
-                                            Recevez votre bon de retour
-                                        </li>
-                                        <li className="relative">
-                                            <span className="absolute -left-[39px] w-5 h-5 rounded-full bg-white/20 border-4 border-black"></span>
-                                            <span className="block text-sm text-white/50 mb-1">Étape 3</span>
-                                            Remboursement sous 7 jours après réception
-                                        </li>
-                                    </ol>
+                                <div className="text-center pt-8 border-t border-white/5">
+                                    <a href="mailto:xtremgrip@gmail.com" className="text-[#0BEFD5] hover:text-white transition-colors uppercase tracking-widest text-sm border-b border-[#0BEFD5] pb-1">
+                                        Contacter le service client
+                                    </a>
                                 </div>
                             </div>
-                        </section>
-
-                        {/* Garantie */}
-                        <section className="text-center max-w-2xl mx-auto">
-                            <div className="inline-block p-4 rounded-full bg-[#0BEFD5]/10 mb-6">
-                                <span className="text-3xl">🛡️</span>
-                            </div>
-                            <h2 className="text-3xl font-light mb-6">Garantie X-Trem</h2>
-                            <p className="text-white/70 leading-relaxed mb-8">
-                                Nous garantissons la conformité et la qualité de nos adhésifs. En cas de défaut avéré ou d'erreur de notre part, nous prenons en charge l'intégralité des frais d'échange.
-                            </p>
-                            <a href="mailto:xtremgrip@gmail.com" className="text-[#0BEFD5] hover:text-white transition-colors uppercase tracking-widest text-sm border-b border-[#0BEFD5] pb-1">
-                                Contacter le SAV
-                            </a>
                         </section>
 
                     </div>
