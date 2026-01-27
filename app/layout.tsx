@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { CartProvider } from "@/contexts/cart-context"
 import CookieBanner from "@/components/cookie-banner"
+import MaintenanceBanner from "@/components/maintenance-banner"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <CartProvider>
+          <MaintenanceBanner />
           {children}
           <CookieBanner />
         </CartProvider>
