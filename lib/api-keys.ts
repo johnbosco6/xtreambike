@@ -84,5 +84,5 @@ export class ApiKeysService {
 }
 
 // Convenience functions for specific services
-export const getSumUpKeys = () => ApiKeysService.getServiceKeys('sumup');
+
 export const getMondialRelayKeys = () => ApiKeysService.getServiceKeys('mondial_relay');

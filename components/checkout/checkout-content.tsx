@@ -48,38 +48,7 @@ export default function CheckoutContent() {
 
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "verifying" | "paid" | "failed">("idle")
 
-  // Check for SumUp callback
-  useEffect(() => {
-    const checkoutId = searchParams.get("checkoutId") || searchParams.get("id")
-    const paymentSuccess = searchParams.get("payment-success")
 
-    if (paymentSuccess === "true") {
-      // Legacy/Manual mock success
-      setCurrentStep(4)
-      clearCart()
-      return
-    }
-
-    if (checkoutId) {
-      setPaymentStatus("verifying")
-      fetch(`/api/sumup/verify?checkoutId=${checkoutId}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === "PAID") {
-            setPaymentStatus("paid")
-            setCurrentStep(4)
-            clearCart()
-          } else {
-            setPaymentStatus("failed")
-            // Don't advance step, stay on checkout to retry
-          }
-        })
-        .catch(err => {
-          console.error("Verification failed", err)
-          setPaymentStatus("failed")
-        })
-    }
-  }, [searchParams, clearCart])
 
   const getDeliveryCost = (country: string, method: ShippingMethod) => {
     // Mondial Relay is usually cheaper
@@ -196,19 +165,15 @@ export default function CheckoutContent() {
     }
 
     if (currentStep === 3) {
-      // Initiate SumUp Payment
+      // Submit Order
       setIsProcessingPayment(true)
       try {
-        // Use the checkout page itself as the return URL to handle callback logic
-        const returnUrl = `${window.location.origin}/checkout`
-
-        const response = await fetch("/api/sumup/checkout", {
+        const response = await fetch("/api/orders/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: totalWithDelivery,
             email: formData.email,
-            returnUrl: returnUrl,
             items: state.items.map(item => ({
               id: item.id,
               name: item.name,
@@ -232,22 +197,16 @@ export default function CheckoutContent() {
         const data = await response.json()
 
         if (!response.ok) {
-          throw new Error(data.error || "Payment initialization failed")
+          throw new Error(data.error || "Order creation failed")
         }
 
-        if (data.redirectUrl) {
-          window.location.href = data.redirectUrl
-        } else if (data.checkoutId) {
-          // Redirect to SumUp Checkout Page
-          // We use the standard checkout URL structure
-          window.location.href = `https://checkout.sumup.com/page/pay?id=${data.checkoutId}`
-        } else {
-          throw new Error("No checkout ID received")
-        }
+        // Success
+        setCurrentStep(4)
+        clearCart()
 
       } catch (err: any) {
         console.error(err)
-        alert("Une erreur est survenue lors de l'initialisation du paiement: " + err.message)
+        alert("Une erreur est survenue lors de la commande: " + err.message)
         setIsProcessingPayment(false)
       }
     }
@@ -269,15 +228,7 @@ export default function CheckoutContent() {
     )
   }
 
-  // Verifying State
-  if (paymentStatus === "verifying") {
-    return (
-      <div className="flex flex-col items-center justify-center py-20">
-        <Loader2 className="w-10 h-10 animate-spin text-[#0BEFD5] mb-4" />
-        <h2 className="text-xl font-light">Vérification de votre paiement...</h2>
-      </div>
-    )
-  }
+
 
   // Success page
   if (currentStep === 4) {
@@ -296,7 +247,7 @@ export default function CheckoutContent() {
 
           <div className="bg-white/5 rounded-lg p-4 mb-8 text-left border border-white/10">
             <p className="font-light text-sm opacity-80 mb-2">
-              Merci pour votre achat. Votre commande a bien été enregistrée.
+              Merci pour votre commande. Elle a bien été enregistrée.
             </p>
             <p className="font-bold text-sm text-white">
               Veuillez surveiller votre boîte mail pour la confirmation et les détails d'expédition.
@@ -699,20 +650,7 @@ export default function CheckoutContent() {
                   <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Récapitulatif & Paiement</h2>
 
                   <div className="glass-card p-4 rounded-xl border border-white/10">
-                    <p className="text-sm opacity-80 mb-4">Vous êtes sur le point de payer avec <strong>SumUp</strong>.</p>
-
-                    {/* Supported Payment Methods Badges */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <div className="bg-white/10 px-2 py-1 rounded text-xs flex items-center gap-1">
-                        <CreditCard className="w-3 h-3" /> Carte Bancaire
-                      </div>
-                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Apple Pay</div>
-                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Google Pay</div>
-                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Visa</div>
-                      <div className="bg-white/10 px-2 py-1 rounded text-xs">Mastercard</div>
-                    </div>
-
-                    <p className="text-xs opacity-50">Vous serez redirigé vers la page sécurisée de SumUp pour finaliser votre transaction en toute sécurité.</p>
+                    <p className="text-sm opacity-80 mb-4">Confirmez votre commande pour finaliser.</p>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -792,13 +730,10 @@ export default function CheckoutContent() {
                     <div className="glass-effect p-4 rounded-lg">
                       <h3 className="font-medium mb-3 text-sm md:text-base border-b border-white/10 pb-2">Paiement</h3>
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="bg-white p-1 rounded">
-                          <span className="text-black font-bold text-xs px-1">sumup</span>
-                        </div>
-                        <span className="text-sm">Carte Bancaire / Apple Pay</span>
+                        <span className="text-sm">Commande validée</span>
                       </div>
                       <p className="text-xs opacity-60">
-                        Transaction sécurisée et cryptée. Vous allez être redirigé pour finaliser le paiement.
+                        En confirmant, vous acceptez nos conditions générales de vente.
                       </p>
                     </div>
                   </div>
@@ -817,7 +752,7 @@ export default function CheckoutContent() {
                       className="button-primary flex-1 py-4 flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {isProcessingPayment ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                      {isProcessingPayment ? "Traitement..." : `Payer ${totalWithDelivery.toFixed(2)} €`}
+                      {isProcessingPayment ? "Traitement..." : `Valider ${totalWithDelivery.toFixed(2)} €`}
                     </button>
                   </div>
                 </div>
@@ -900,7 +835,7 @@ export default function CheckoutContent() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }

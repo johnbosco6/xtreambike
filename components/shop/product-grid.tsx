@@ -17,6 +17,8 @@ export default function ProductGrid() {
   const [selectedBrand, setSelectedBrand] = useState(initialBrand)
   const [selectedType, setSelectedType] = useState("")
   const [selectedDisplacement, setSelectedDisplacement] = useState<number | "">("")
+  const [selectedYear, setSelectedYear] = useState<number | "">("")
+  const [selectedColor, setSelectedColor] = useState("")
   const [sortOption, setSortOption] = useState("brand-asc")
 
   // Sync URL params with state
@@ -35,6 +37,22 @@ export default function ProductGrid() {
 
   const availableTypes = useMemo(() => {
     return Array.from(new Set(products.map((p) => p.category))).sort()
+  }, [])
+
+  const availableYears = useMemo(() => {
+    const years = new Set<number>()
+    products.forEach((p) => {
+      if (p.yearStart && p.yearEnd) {
+        for (let year = p.yearStart; year <= p.yearEnd; year++) {
+          years.add(year)
+        }
+      }
+    })
+    return Array.from(years).sort((a, b) => b - a)
+  }, [])
+
+  const availableColors = useMemo(() => {
+    return Array.from(new Set(products.map((p) => p.color).filter(Boolean))).sort()
   }, [])
 
   const filteredProducts = useMemo(() => {
@@ -63,9 +81,21 @@ export default function ProductGrid() {
         return false
       }
 
+      // 5. Year Filter
+      if (selectedYear && product.yearStart && product.yearEnd) {
+        if (selectedYear < product.yearStart || selectedYear > product.yearEnd) {
+          return false
+        }
+      }
+
+      // 6. Color Filter
+      if (selectedColor && product.color !== selectedColor) {
+        return false
+      }
+
       return true
     })
-  }, [searchQuery, selectedBrand, selectedType, selectedDisplacement])
+  }, [searchQuery, selectedBrand, selectedType, selectedDisplacement, selectedYear, selectedColor])
 
   const sortedProducts = useMemo(() => {
     return [...filteredProducts].sort((a, b) => {
@@ -90,9 +120,11 @@ export default function ProductGrid() {
     setSelectedBrand("")
     setSelectedType("")
     setSelectedDisplacement("")
+    setSelectedYear("")
+    setSelectedColor("")
   }
 
-  const hasActiveFilters = searchQuery || selectedBrand || selectedType || selectedDisplacement
+  const hasActiveFilters = searchQuery || selectedBrand || selectedType || selectedDisplacement || selectedYear || selectedColor
 
   return (
     <div>
@@ -183,6 +215,30 @@ export default function ProductGrid() {
             ))}
           </select>
 
+          {/* Year */}
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value ? Number(e.target.value) : "")}
+            className="flex-1 min-w-[120px] bg-black/20 border border-white/10 text-white py-2 px-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0BEFD5] text-sm"
+          >
+            <option value="">Année</option>
+            {availableYears.map((y) => (
+              <option key={y} value={y} className="text-black">{y}</option>
+            ))}
+          </select>
+
+          {/* Color */}
+          <select
+            value={selectedColor}
+            onChange={(e) => setSelectedColor(e.target.value)}
+            className="flex-1 min-w-[120px] bg-black/20 border border-white/10 text-white py-2 px-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0BEFD5] text-sm"
+          >
+            <option value="">Couleur</option>
+            {availableColors.map((c) => (
+              <option key={c} value={c} className="text-black">{c}</option>
+            ))}
+          </select>
+
           {/* Sort */}
           <div className="relative min-w-[160px]">
             <select
@@ -265,17 +321,15 @@ export default function ProductGrid() {
                   </div>
 
                   <div className="space-y-3">
-                    {/* Colors */}
-                    {product.colors && (
-                      <div className="flex gap-1.5">
-                        {product.colors.map((color, idx) => (
-                          <div
-                            key={idx}
-                            className="w-3 h-3 rounded-full border border-white/20"
-                            style={{ backgroundColor: color.hex }}
-                            title={color.name}
-                          />
-                        ))}
+                    {/* Color Badge */}
+                    {product.color && (
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-4 h-4 rounded-full border border-white/30"
+                          style={{ backgroundColor: product.colorHex }}
+                          title={product.color}
+                        />
+                        <span className="text-xs text-gray-400">{product.color}</span>
                       </div>
                     )}
 
