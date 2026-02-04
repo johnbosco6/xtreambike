@@ -1,5 +1,10 @@
+"use client"
+
+import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { products } from "@/lib/products-data"
+import { products, Product } from "@/lib/products-data"
+import { ShoppingCart, Star, Shield, Truck, RotateCcw, Minus, Plus } from "lucide-react"
+import { useCart } from "@/contexts/cart-context"
 
 interface ProductInfoProps {
   productId: string
@@ -12,8 +17,6 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
   const product = products.find((p) => p.id === Number(productId))
 
   // Get all variants of this specific model (same brand, name/model, but different category or color)
-  // Our data generation uses the full description but the 'name' contains the model info.
-  // Actually, we can filter by brand and the part of the name before the category/color suffix.
   const relatedVariants = useMemo(() => {
     if (!product) return []
     // Extract base model name from product.name (before " - ")
@@ -28,7 +31,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         colors.set(p.color, { name: p.color, hex: p.colorHex, id: p.id })
       }
     })
-    return Array.from(colors.values())
+    return Array.from(colors.values()) as { name: string; hex: string; id: number }[]
   }, [relatedVariants, product?.category])
 
   const availableTypes = useMemo(() => {
@@ -38,21 +41,12 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         types.set(p.category, { name: p.category, id: p.id })
       }
     })
-    return Array.from(types.values())
+    return Array.from(types.values()) as { name: string; id: number }[]
   }, [relatedVariants, product?.color])
 
   const [quantity, setQuantity] = useState(1)
   const [selectedCountry, setSelectedCountry] = useState("France")
   const [selectedDelivery, setSelectedDelivery] = useState(0)
-  const deliveryOptions = getDeliveryOptions(selectedCountry)
-
-  const handleColorChange = (propId: number) => {
-    router.push(`/shop/product/${propId}`)
-  }
-
-  const handleTypeChange = (propId: number) => {
-    router.push(`/shop/product/${propId}`)
-  }
 
   const getDeliveryOptions = (country: string) => {
     const deliveryOptions: Record<string, { name: string; price: number; days: string }[]> = {
@@ -70,6 +64,15 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
     return deliveryOptions[country] || deliveryOptions.France
   }
 
+  const deliveryOptions = getDeliveryOptions(selectedCountry)
+
+  const handleColorChange = (propId: number) => {
+    router.push(`/shop/product/${propId}`)
+  }
+
+  const handleTypeChange = (propId: number) => {
+    router.push(`/shop/product/${propId}`)
+  }
 
   const handleAddToCart = () => {
     if (!product) {
