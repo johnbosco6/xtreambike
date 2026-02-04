@@ -52,7 +52,10 @@ export default function ProductGrid() {
   }, [])
 
   const availableColors = useMemo(() => {
-    return Array.from(new Set(products.map((p) => p.color).filter(Boolean))).sort()
+    const allowedColors = ["Transparent", "Noir", "Gris"]
+    return Array.from(new Set(products.map((p) => p.color).filter(Boolean)))
+      .filter((color) => allowedColors.includes(color))
+      .sort()
   }, [])
 
   const filteredProducts = useMemo(() => {
