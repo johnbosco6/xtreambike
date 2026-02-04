@@ -131,7 +131,7 @@ function getCategoryFromFolder(folderName: string): string {
     return 'Protection';
 }
 
-// Get color from filename
+// Get color/side from filename
 function getColorInfo(filename: string): { color: string; colorHex: string } | null {
     const upperFilename = filename.toUpperCase();
     if (upperFilename.includes('GRIS')) {
@@ -143,11 +143,20 @@ function getColorInfo(filename: string): { color: string; colorHex: string } | n
     if (upperFilename.includes('TRANSPARENT')) {
         return { color: 'Transparent', colorHex: '#FFFFFF' };
     }
+    if (upperFilename.includes('DROITE')) {
+        return { color: 'Droite', colorHex: '#CCCCCC' };
+    }
+    if (upperFilename.includes('GAUCHE')) {
+        if (upperFilename.includes('GAUCHE 2') || upperFilename.includes('GAUCHE2')) {
+            return { color: 'Gauche 2', colorHex: '#CCCCCC' };
+        }
+        return { color: 'Gauche', colorHex: '#CCCCCC' };
+    }
     return null;
 }
 
 // Sanitize filename for web
-function sanitizeFilename(brand: string, model: string, category: string, color: string): string {
+function sanitizeFilename(brand: string, model: string, category: string, color: string, ext: string): string {
     const combined = `${brand}-${model}-${category}-${color}`
         .toLowerCase()
         .replace(/[éèê]/g, 'e')
@@ -157,7 +166,7 @@ function sanitizeFilename(brand: string, model: string, category: string, color:
         .replace(/-+/g, '-')
         .replace(/^-|-$/g, '');
 
-    return `${combined}.svg`;
+    return `${combined}${ext}`;
 }
 
 // Extract model name from folder
@@ -210,9 +219,12 @@ function scanProducts(): ProductEntry[] {
                 return;
             }
 
-            // Read SVG files in this folder
+            // Read image files in this folder
             const files = fs.readdirSync(productPath)
-                .filter(f => f.toLowerCase().endsWith('.svg'));
+                .filter(f => {
+                    const ext = path.extname(f).toLowerCase();
+                    return ['.svg', '.jpeg', '.jpg', '.png'].includes(ext);
+                });
 
             files.forEach(file => {
                 const colorInfo = getColorInfo(file);
@@ -268,7 +280,8 @@ function generateProductsFile() {
     const productDataArray: string[] = [];
 
     products.forEach((product) => {
-        const targetFilename = sanitizeFilename(product.brand, product.model, product.category, product.color);
+        const ext = path.extname(product.imagePath).toLowerCase();
+        const targetFilename = sanitizeFilename(product.brand, product.model, product.category, product.color, ext);
         const targetPath = path.join(TARGET_IMAGE_DIR, targetFilename);
 
         // Copy file
@@ -288,11 +301,34 @@ function generateProductsFile() {
             : 'Voir description';
 
         // Build product object
+        const isTransparent = product.color === 'Transparent';
+        const modelUpper = product.model.toUpperCase();
+        const isTriumphTf = product.brand === 'TRIUMPH' && (modelUpper.includes('TF250-X') || modelUpper.includes('TF450-X') || modelUpper.includes('TF250X') || modelUpper.includes('TF450X'));
+        const isYamahaYzf = product.brand === 'YAMAHA' && (modelUpper.includes('YZ250F') || modelUpper.includes('YZ450F') || modelUpper.includes('250YZF') || modelUpper.includes('450YZF')) && product.category === 'Protection de plaque latérale';
+
+        // KTM Rules
+        const isKtm125_150SX = product.brand === 'KTM' && modelUpper.includes('125-150SX');
+        const isKtm125_300SX = product.brand === 'KTM' && modelUpper.includes('125-300SX');
+        const isGripOrigine = product.category === "Grip de protection plastique d'ORIGINE";
+        const isProtectionCadre = product.category === "Protection de cadre";
+
+        // Specific Pricing Rules
+        let price = "29,99 €";
+        let priceNumber = 29.99;
+
+        if (isYamahaYzf || (isKtm125_150SX && isProtectionCadre) || (isKtm125_300SX && isProtectionCadre)) {
+            price = "14,99 €";
+            priceNumber = 14.99;
+        } else if (isTriumphTf || isTransparent || (isKtm125_150SX && isGripOrigine)) {
+            price = "19,99 €";
+            priceNumber = 19.99;
+        }
+
         const productObj = `    {
         id: ${productId},
         name: "${productName}",
-        price: "29,99 €",
-        priceNumber: 29.99,
+        price: "${price}",
+        priceNumber: ${priceNumber},
         variants: ["${product.category}"],
         brand: "${product.brand}",
         category: "${product.category}",
@@ -365,7 +401,7 @@ export default products;
     console.log(`${'='.repeat(80)}`);
     console.log(`Generated: ${OUTPUT_FILE}`);
     console.log(`Total products: ${products.length}`);
-    console.log(`All products priced at: 29,99 €`);
+    console.log(`Summary: Yamaha/KTM Cadre: 14,99 €, Triumph/KTM Grip/Transparent: 19,99 €, Others: 29,99 €`);
     console.log(`Each color is now a separate product!`);
     console.log('='.repeat(80));
 }
