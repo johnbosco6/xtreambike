@@ -37,20 +37,21 @@ export default function BrandsSection() {
                   hover:bg-gradient-to-br hover:from-white/45 hover:via-slate-50/35 hover:to-slate-700/85
                   hover:border-white/25 hover:-translate-y-1
                   transition-all duration-300 ease-out
-                  relative overflow-hidden
-                  before:absolute before:top-0 before:left-0 before:right-0 before:h-0.5 
-                  before:bg-gradient-to-r before:from-transparent before:via-white/50 before:to-transparent
-                  after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px
-                  after:bg-gradient-to-r after:from-transparent after:via-black/30 after:to-transparent
+                  relative overflow-visible group
                 "
               >
-                <div className="relative w-full h-full flex items-center justify-center">
+                {/* Individual logo hover border - strictly on the edge */}
+                <div className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
+                  <div className="w-full h-full rounded-xl border-[1.5px] border-transparent bg-gradient-to-r from-[var(--yellow)] via-[var(--orange)] to-[var(--yellow)] [mask-image:linear-gradient(#fff_0_0)_padding-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] [-webkit-mask-composite:xor] animate-[shimmer_4s_linear_infinite] bg-[length:200%_auto]"></div>
+                </div>
+
+                <div className="relative w-full h-full flex items-center justify-center z-10">
                   <Image
                     src={brand.logo || "/placeholder.svg"}
                     alt={`Logo ${brand.name}`}
                     width={120}
                     height={120}
-                    className="object-contain max-w-full max-h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] brightness-125 contrast-125"
+                    className="object-contain max-w-full max-h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] brightness-125 contrast-125 transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
               </Link>
