@@ -1,10 +1,4 @@
-"use client"
-
-import { useState } from "react"
-import { ShoppingCart } from "lucide-react"
-import { useCart } from "@/contexts/cart-context"
-import { Star, Shield, Truck, RotateCcw } from "lucide-react"
-import { Minus, Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { products } from "@/lib/products-data"
 
 interface ProductInfoProps {
@@ -12,12 +6,53 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({ productId }: ProductInfoProps) {
+  const router = useRouter()
   const { addItem } = useCart()
-  const [selectedVariant, setSelectedVariant] = useState(0)
-  const [quantity, setQuantity] = useState(1)
-  const [selectedColor, setSelectedColor] = useState("")
 
   const product = products.find((p) => p.id === Number(productId))
+
+  // Get all variants of this specific model (same brand, name/model, but different category or color)
+  // Our data generation uses the full description but the 'name' contains the model info.
+  // Actually, we can filter by brand and the part of the name before the category/color suffix.
+  const relatedVariants = useMemo(() => {
+    if (!product) return []
+    // Extract base model name from product.name (before " - ")
+    const baseModel = product.name.split(" - ")[0]
+    return products.filter(p => p.brand === product.brand && p.name.startsWith(baseModel))
+  }, [product])
+
+  const availableColors = useMemo(() => {
+    const colors = new Map()
+    relatedVariants.forEach(p => {
+      if (p.category === product?.category) {
+        colors.set(p.color, { name: p.color, hex: p.colorHex, id: p.id })
+      }
+    })
+    return Array.from(colors.values())
+  }, [relatedVariants, product?.category])
+
+  const availableTypes = useMemo(() => {
+    const types = new Map()
+    relatedVariants.forEach(p => {
+      if (p.color === product?.color) {
+        types.set(p.category, { name: p.category, id: p.id })
+      }
+    })
+    return Array.from(types.values())
+  }, [relatedVariants, product?.color])
+
+  const [quantity, setQuantity] = useState(1)
+  const [selectedCountry, setSelectedCountry] = useState("France")
+  const [selectedDelivery, setSelectedDelivery] = useState(0)
+  const deliveryOptions = getDeliveryOptions(selectedCountry)
+
+  const handleColorChange = (propId: number) => {
+    router.push(`/shop/product/${propId}`)
+  }
+
+  const handleTypeChange = (propId: number) => {
+    router.push(`/shop/product/${propId}`)
+  }
 
   const getDeliveryOptions = (country: string) => {
     const deliveryOptions: Record<string, { name: string; price: number; days: string }[]> = {
@@ -35,9 +70,6 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
     return deliveryOptions[country] || deliveryOptions.France
   }
 
-  const [selectedCountry, setSelectedCountry] = useState("France")
-  const [selectedDelivery, setSelectedDelivery] = useState(0)
-  const deliveryOptions = getDeliveryOptions(selectedCountry)
 
   const handleAddToCart = () => {
     if (!product) {
@@ -46,19 +78,16 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
     }
 
     try {
-      const cartItem = {
-        id: `${product.id}-${selectedVariant}-${selectedColor}`,
+      addItem({
+        id: product.id,
         name: product.name,
         price: product.priceNumber,
-        variant: product.variants[selectedVariant],
-        color: selectedColor || product.colors?.[0]?.name || "",
+        variant: product.category,
+        color: product.color,
         image: product.image,
         brand: product.brand,
         quantity: quantity,
-      }
-
-      console.log("[v0] Adding item to cart:", cartItem)
-      addItem(cartItem)
+      })
       console.log("[v0] Item successfully added to cart")
     } catch (error) {
       console.error("[v0] Error adding item to cart:", error)
@@ -95,36 +124,38 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
         <p className="text-3xl font-medium text-[#0BEFD5] mb-4">{product?.price}</p>
       </div>
 
-      {/* Variants */}
-      <div>
-        <h3 className="font-medium mb-3">Type de protection</h3>
-        <div className="grid grid-cols-1 gap-2">
-          {product?.variants?.map((variant, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedVariant(index)}
-              className={`p-3 rounded-lg border-2 text-left transition-colors ${selectedVariant === index ? "border-[#0BEFD5] bg-[#0BEFD5]/10" : "border-white/20 hover:border-white/40"
-                }`}
-            >
-              <div className="font-medium text-sm">{variant}</div>
-            </button>
-          ))}
+      {/* Variants (Type de protection) */}
+      {availableTypes.length > 0 && (
+        <div>
+          <h3 className="font-medium mb-3">Type de protection</h3>
+          <div className="grid grid-cols-1 gap-2">
+            {availableTypes.map((type) => (
+              <button
+                key={type.id}
+                onClick={() => handleTypeChange(type.id)}
+                className={`p-3 rounded-lg border-2 text-left transition-colors ${product?.id === type.id ? "border-[#0BEFD5] bg-[#0BEFD5]/10" : "border-white/20 hover:border-white/40"
+                  }`}
+              >
+                <div className="font-medium text-sm">{type.name}</div>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Colors */}
-      {product?.colors && product?.colors.length > 0 && (
+      {availableColors.length > 0 && (
         <div className="mb-6 md:mb-8">
           <h3 className="text-sm font-medium mb-2 md:mb-3">Couleur:</h3>
           <div className="flex gap-3">
-            {product?.colors.map((color) => (
+            {availableColors.map((color) => (
               <button
                 key={color.id}
-                className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 transition-colors ${selectedColor === color.id ? "border-[#0BEFD5]" : "border-white/20 hover:border-white/50"
+                className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 transition-colors ${product?.id === color.id ? "border-[#0BEFD5]" : "border-white/20 hover:border-white/50"
                   }`}
                 style={{ backgroundColor: color.hex }}
                 title={color.name}
-                onClick={() => setSelectedColor(color.id)}
+                onClick={() => handleColorChange(color.id)}
               />
             ))}
           </div>

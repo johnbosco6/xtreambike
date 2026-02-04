@@ -6,8 +6,11 @@ import ProductInfo from "@/components/shop/product-info"
 import RelatedProducts from "@/components/shop/related-products"
 import PaymentMethods from "@/components/shop/payment-methods"
 import BackButton from "@/components/navigation/back-button"
+import { products } from "@/lib/products-data"
 
 export default function ProductPage({ params }: { params: { id: string } }) {
+  const product = products.find((p) => p.id === Number(params.id))
+
   return (
     <main className="flex min-h-screen flex-col">
       <Header />
@@ -29,7 +32,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 Boutique
               </Link>
               <span className="mx-2">/</span>
-              <span>Protection de cadre</span>
+              <span className="truncate">{product?.name || "Produit"}</span>
             </nav>
           </div>
 
