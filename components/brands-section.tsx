@@ -38,13 +38,9 @@ export default function BrandsSection() {
                   hover:border-white/25 hover:-translate-y-1
                   transition-all duration-300 ease-out
                   relative overflow-visible group
+                  logo-hover-line
                 "
               >
-                {/* Individual logo hover border - strictly on the edge */}
-                <div className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
-                  <div className="w-full h-full rounded-xl border-[1.5px] border-transparent bg-gradient-to-r from-[var(--yellow)] via-[var(--orange)] to-[var(--yellow)] [mask-image:linear-gradient(#fff_0_0)_padding-box,linear-gradient(#fff_0_0)] [mask-composite:exclude] [-webkit-mask-composite:xor] animate-[shimmer_4s_linear_infinite] bg-[length:200%_auto]"></div>
-                </div>
-
                 <div className="relative w-full h-full flex items-center justify-center z-10">
                   <Image
                     src={brand.logo || "/placeholder.svg"}

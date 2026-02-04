@@ -199,6 +199,37 @@ body {
   pointer-events: none;
 }
 
+.logo-hover-line {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.logo-hover-line::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  /* Strictly outside the container */
+  padding: 1.5px;
+  /* Border thickness */
+  border-radius: 1rem;
+  /* Match card radius + inset */
+  background: linear-gradient(to right, var(--yellow), var(--orange), var(--yellow));
+  background-size: 200% auto;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: shimmer 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.logo-hover-line:hover::after {
+  opacity: 1;
+}
+
+
 /* Animation pour les icônes flottantes */
 @keyframes float {
   0% {
