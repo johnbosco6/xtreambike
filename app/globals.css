@@ -110,7 +110,8 @@ body {
   height: 1px;
   bottom: -2px;
   left: 0;
-  background-color: var(--yellow); /* Change from var(--teal) to var(--yellow) */
+  background-color: var(--yellow);
+  /* Change from var(--teal) to var(--yellow) */
   transition: width 0.3s ease;
 }
 
@@ -119,7 +120,8 @@ body {
 }
 
 .nav-link:hover {
-  color: var(--yellow); /* Change from var(--teal) to var(--yellow) */
+  color: var(--yellow);
+  /* Change from var(--teal) to var(--yellow) */
 }
 
 .section-title {
@@ -151,13 +153,50 @@ body {
     transform: translate(-50%, 0);
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, 10px);
     opacity: 0;
   }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-brand-border {
+  position: relative;
+  border-radius: 2rem;
+  z-index: 1;
+}
+
+.animated-brand-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: 2rem;
+  background: linear-gradient(to right, var(--yellow), var(--orange), var(--yellow));
+  background-size: 200% auto;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: shimmer 4s linear infinite;
+  pointer-events: none;
 }
 
 /* Animation pour les icônes flottantes */
@@ -165,9 +204,11 @@ body {
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
+
   100% {
     transform: translateY(0px);
   }
@@ -228,6 +269,7 @@ body {
 
 /* Ensure minimum tap target size for mobile */
 @media (max-width: 640px) {
+
   button,
   .button-primary,
   .button-secondary,
