@@ -109,7 +109,7 @@ export default function TermsPage() {
                             <h2 className="text-3xl font-light mb-8 text-center uppercase tracking-widest">Rétractation</h2>
                             <div className="max-w-3xl mx-auto text-center mb-8">
                                 <p className="text-xl font-light text-white mb-6">
-                                    Vous disposez de <span className="text-[#0BEFD5]">30 jours</span> pour changer d'avis.
+                                    Vous disposez de <span className="text-[#0BEFD5]">14 jours</span> pour changer d'avis.
                                 </p>
                                 <p className="text-white/60 mb-8">
                                     Le produit doit être retourné neuf, complet, non posé (film protecteur intact).
