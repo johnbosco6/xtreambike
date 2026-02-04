@@ -22,13 +22,13 @@ export default function AboutHero() {
       {/* Content - Absolute Overlay */}
       <div className="absolute inset-0 flex items-center z-10">
         <div className="container mx-auto px-6 pt-10 md:pt-0">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl bg-black/35 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
             <h2 className="text-sm font-light tracking-[0.3em] uppercase mb-4 text-[#0BEFD5]">Notre Histoire</h2>
             <h1 className="text-sm md:text-base font-light tracking-wider uppercase mb-6">
               Conçu pour le terrain. <br />
               <span className="text-gradient font-normal">Inspiré par ceux qui le dominent.</span>
             </h1>
-            <p className="text-lg md:text-xl font-light mb-0 md:mb-12 max-w-xl opacity-80 shadow-black drop-shadow-md">
+            <p className="text-lg md:text-xl font-light mb-0 max-w-xl opacity-90 shadow-black drop-shadow-md">
               Chez X-Trem Grip, chaque valeur est née d'un besoin réel, vécu sur les terrains. C'est notre engagement pour
               vous offrir le meilleur grip, dans toutes les conditions.
             </p>
