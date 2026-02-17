@@ -30,7 +30,8 @@ export async function POST(request: Request) {
             customer_name: customerName,
             customer_email: email,
             items: items,
-            total_amount: amount,
+            total: amount,
+            subtotal: amount, // Assuming subtotal = total for this legacy route if not provided
             status: 'pending',
             payment_status: 'pending', // or 'on_delivery' if supported
             shipping_address: shippingAddress,
