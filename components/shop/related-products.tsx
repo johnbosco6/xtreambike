@@ -3,13 +3,33 @@
 import { useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { products } from "@/lib/products-data"
+import { products, Product } from "@/lib/products-data"
+
+// Same helper used in product-grid for consistency
+function getBaseModelKey(product: Product): string {
+  const baseName = product.name.split(" - ").slice(0, -1).join(" - ") || product.name
+  return `${baseName}|||${product.category}`
+}
+
+const COLOR_PRIORITY: Record<string, number> = { "Noir": 0, "Gris": 1, "Transparent": 2 }
 
 export default function RelatedProducts() {
-  // Get 4 random products
+  // Get 4 random products, deduplicated by base model
   const relatedProducts = useMemo(() => {
-    // Shuffle array and take first 4
-    const shuffled = [...products].sort(() => 0.5 - Math.random())
+    // Deduplicate: one per base model
+    const groups = new Map<string, Product[]>()
+    products.forEach((p) => {
+      const key = getBaseModelKey(p)
+      if (!groups.has(key)) groups.set(key, [])
+      groups.get(key)!.push(p)
+    })
+    const unique: Product[] = []
+    groups.forEach((variants) => {
+      variants.sort((a, b) => (COLOR_PRIORITY[a.color] ?? 99) - (COLOR_PRIORITY[b.color] ?? 99))
+      unique.push(variants[0])
+    })
+    // Shuffle and take first 4
+    const shuffled = [...unique].sort(() => 0.5 - Math.random())
     return shuffled.slice(0, 4)
   }, [])
 

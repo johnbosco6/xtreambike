@@ -160,20 +160,16 @@ export default function CheckoutContent() {
     }
 
     if (currentStep === 2) {
-      setCurrentStep(3)
-      return
-    }
-
-    if (currentStep === 3) {
-      // Submit Order
+      // Redirect to Stripe Checkout
       setIsProcessingPayment(true)
       try {
-        const response = await fetch("/api/orders/create", {
+        const response = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: totalWithDelivery,
             email: formData.email,
+            phone: formData.phone,
             items: state.items.map(item => ({
               id: item.id,
               name: item.name,
@@ -197,22 +193,25 @@ export default function CheckoutContent() {
         const data = await response.json()
 
         if (!response.ok) {
-          throw new Error(data.error || "Order creation failed")
+          throw new Error(data.error || "Failed to create checkout session")
         }
 
-        // Success
-        setCurrentStep(4)
-        clearCart()
+        // Redirect to Stripe Checkout
+        if (data.url) {
+          window.location.href = data.url
+        } else {
+          throw new Error("No checkout URL returned")
+        }
 
       } catch (err: any) {
         console.error(err)
-        alert("Une erreur est survenue lors de la commande: " + err.message)
+        alert("Une erreur est survenue lors du paiement: " + err.message)
         setIsProcessingPayment(false)
       }
     }
   }
 
-  if (state.items.length === 0 && currentStep !== 4 && paymentStatus !== "failed") {
+  if (state.items.length === 0 && paymentStatus !== "failed") {
     return (
       <div className="text-center py-8 md:py-16">
         <div className="glass-card p-6 md:p-8 rounded-xl max-w-md mx-auto">
@@ -230,42 +229,7 @@ export default function CheckoutContent() {
 
 
 
-  // Success page
-  if (currentStep === 4) {
-    return (
-      <div className="text-center py-8 md:py-16">
-        <div className="glass-card p-6 md:p-8 rounded-xl max-w-md mx-auto relative overflow-hidden">
-          {/* Success Banner Background */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-[#0BEFD5]"></div>
-
-          <div className="w-16 h-16 bg-[#0BEFD5]/10 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-[#0BEFD5]/50">
-            <Check className="w-8 h-8 text-[#0BEFD5]" />
-          </div>
-
-          <h2 className="text-2xl font-light mb-2 text-[#0BEFD5]">Paiement Validé</h2>
-          <p className="text-lg font-medium mb-6">Commande confirmée !</p>
-
-          <div className="bg-white/5 rounded-lg p-4 mb-8 text-left border border-white/10">
-            <p className="font-light text-sm opacity-80 mb-2">
-              Merci pour votre commande. Elle a bien été enregistrée.
-            </p>
-            <p className="font-bold text-sm text-white">
-              Veuillez surveiller votre boîte mail pour la confirmation et les détails d'expédition.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <Link href="/shop" className="button-primary w-full text-center block">
-              Continuer vos achats
-            </Link>
-            <Link href="/" className="button-secondary w-full text-center block">
-              Retour à l'accueil
-            </Link>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  // Success is now handled by /checkout/success page
 
   return (
     <div className="space-y-6">
@@ -369,7 +333,7 @@ export default function CheckoutContent() {
               )}
 
               <div className="flex items-center justify-between">
-                {[1, 2, 3].map((step) => (
+                {[1, 2].map((step) => (
                   <div key={step} className="flex items-center flex-1">
                     <div className="flex flex-col items-center flex-1">
                       <div
@@ -382,10 +346,10 @@ export default function CheckoutContent() {
                         className={`mt-2 text-xs md:text-sm text-center ${currentStep >= step ? "text-white" : "text-white/50"
                           }`}
                       >
-                        {step === 1 ? "Livraison" : step === 2 ? "Paiement" : "Confirmation"}
+                        {step === 1 ? "Livraison" : "Paiement"}
                       </span>
                     </div>
-                    {step < 3 && (
+                    {step < 2 && (
                       <div className={`h-0.5 w-full mx-2 ${currentStep > step ? "bg-[#0BEFD5]" : "bg-white/10"}`} />
                     )}
                   </div>
@@ -644,30 +608,10 @@ export default function CheckoutContent() {
                 </div>
               )}
 
-              {/* Step 2: Payment Information */}
+              {/* Step 2: Order Review & Stripe Payment */}
               {currentStep === 2 && (
                 <div className="space-y-4 md:space-y-6">
                   <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Récapitulatif & Paiement</h2>
-
-                  <div className="glass-card p-4 rounded-xl border border-white/10">
-                    <p className="text-sm opacity-80 mb-4">Confirmez votre commande pour finaliser.</p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button type="button" onClick={() => setCurrentStep(1)} className="button-secondary flex-1 py-4">
-                      Retour
-                    </button>
-                    <button type="submit" className="button-primary flex-1 py-4">
-                      Vérifier la commande
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Order Confirmation */}
-              {currentStep === 3 && (
-                <div className="space-y-4 md:space-y-6">
-                  <h2 className="text-lg md:text-xl font-light mb-4 md:mb-6">Vérification de la commande</h2>
 
                   {/* Product Review */}
                   <div className="glass-card p-4 rounded-xl border border-white/10 mb-4">
@@ -726,13 +670,15 @@ export default function CheckoutContent() {
                       </p>
                     </div>
 
-                    {/* Payment Method Review */}
+                    {/* Payment Method */}
                     <div className="glass-effect p-4 rounded-lg">
                       <h3 className="font-medium mb-3 text-sm md:text-base border-b border-white/10 pb-2">Paiement</h3>
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="text-sm">Commande validée</span>
+                        <CreditCard className="w-5 h-5 text-[#0BEFD5]" />
+                        <span className="text-sm">Paiement sécurisé par Stripe</span>
                       </div>
                       <p className="text-xs opacity-60">
+                        Vous serez redirigé vers la page de paiement sécurisée Stripe.
                         En confirmant, vous acceptez nos conditions générales de vente.
                       </p>
                     </div>
@@ -740,7 +686,7 @@ export default function CheckoutContent() {
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button type="button"
-                      onClick={() => setCurrentStep(2)}
+                      onClick={() => setCurrentStep(1)}
                       disabled={isProcessingPayment}
                       className="button-secondary flex-1 py-4 disabled:opacity-50"
                     >
@@ -751,8 +697,8 @@ export default function CheckoutContent() {
                       disabled={isProcessingPayment}
                       className="button-primary flex-1 py-4 flex items-center justify-center gap-2 disabled:opacity-50"
                     >
-                      {isProcessingPayment ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-                      {isProcessingPayment ? "Traitement..." : `Valider ${totalWithDelivery.toFixed(2)} €`}
+                      {isProcessingPayment ? <Loader2 className="w-5 h-5 animate-spin" /> : <CreditCard className="w-5 h-5" />}
+                      {isProcessingPayment ? "Redirection vers Stripe..." : `Payer ${totalWithDelivery.toFixed(2)} €`}
                     </button>
                   </div>
                 </div>

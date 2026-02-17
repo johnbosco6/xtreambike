@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import Header from "@/components/header"
 import FooterLegal from "@/components/footer-legal"
@@ -9,7 +12,8 @@ import BackButton from "@/components/navigation/back-button"
 import { products } from "@/lib/products-data"
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const product = products.find((p) => p.id === Number(params.id))
+  const [activeProductId, setActiveProductId] = useState(Number(params.id))
+  const product = products.find((p) => p.id === activeProductId) || products.find((p) => p.id === Number(params.id))
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -38,8 +42,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
           {/* Product Details */}
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
-            <ProductGallery productId={params.id} />
-            <ProductInfo productId={params.id} />
+            <ProductGallery productId={params.id} activeProductId={activeProductId} />
+            <ProductInfo productId={params.id} onActiveProductChange={setActiveProductId} />
           </div>
 
           {/* Payment Methods */}
@@ -53,3 +57,4 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     </main>
   )
 }
+

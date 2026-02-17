@@ -1,20 +1,21 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useMemo, useEffect } from "react"
 import { products, Product } from "@/lib/products-data"
 import { ShoppingCart, Star, Shield, Truck, RotateCcw, Minus, Plus } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
 
 interface ProductInfoProps {
   productId: string
+  onActiveProductChange?: (productId: number) => void
 }
 
-export default function ProductInfo({ productId }: ProductInfoProps) {
-  const router = useRouter()
+export default function ProductInfo({ productId, onActiveProductChange }: ProductInfoProps) {
   const { addItem } = useCart()
 
-  const product = products.find((p) => p.id === Number(productId))
+  const initialProduct = products.find((p) => p.id === Number(productId))
+  const [selectedProductId, setSelectedProductId] = useState(Number(productId))
+  const product = products.find((p) => p.id === selectedProductId) || initialProduct
 
   // Get all variants of this specific model (same brand, name/model, but different category or color)
   const relatedVariants = useMemo(() => {
@@ -67,11 +68,13 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
   const deliveryOptions = getDeliveryOptions(selectedCountry)
 
   const handleColorChange = (propId: number) => {
-    router.push(`/shop/product/${propId}`)
+    setSelectedProductId(propId)
+    onActiveProductChange?.(propId)
   }
 
   const handleTypeChange = (propId: number) => {
-    router.push(`/shop/product/${propId}`)
+    setSelectedProductId(propId)
+    onActiveProductChange?.(propId)
   }
 
   const handleAddToCart = () => {
@@ -82,7 +85,7 @@ export default function ProductInfo({ productId }: ProductInfoProps) {
 
     try {
       addItem({
-        id: product.id,
+        id: String(product.id),
         name: product.name,
         price: product.priceNumber,
         variant: product.category,

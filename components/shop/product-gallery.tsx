@@ -1,18 +1,26 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { products } from "@/lib/products-data"
 
 interface ProductGalleryProps {
   productId: string
+  activeProductId?: number
 }
 
-export default function ProductGallery({ productId }: ProductGalleryProps) {
+export default function ProductGallery({ productId, activeProductId }: ProductGalleryProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const product = products.find((p) => p.id === Number(productId))
+  // Use activeProductId if provided, otherwise fall back to the URL productId
+  const effectiveId = activeProductId ?? Number(productId)
+  const product = products.find((p) => p.id === effectiveId)
+
+  // Reset image index when the active product changes
+  useEffect(() => {
+    setCurrentImageIndex(0)
+  }, [effectiveId])
 
   // Define images based on product ID and brand
   const getProductImages = () => {

@@ -5,8 +5,17 @@ import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpDown, Search, Filter, X } from "lucide-react"
-import { products } from "@/lib/products-data"
+import { products, Product } from "@/lib/products-data"
 import { brands } from "@/lib/brands"
+
+// Helper: get the base model key for grouping color variants
+function getBaseModelKey(product: Product): string {
+  const baseName = product.name.split(" - ").slice(0, -1).join(" - ") || product.name
+  return `${baseName}|||${product.category}`
+}
+
+// Color priority for choosing the default variant to display
+const COLOR_PRIORITY: Record<string, number> = { "Noir": 0, "Gris": 1, "Transparent": 2 }
 
 export default function ProductGrid() {
   const searchParams = useSearchParams()
@@ -18,7 +27,6 @@ export default function ProductGrid() {
   const [selectedType, setSelectedType] = useState("")
   const [selectedDisplacement, setSelectedDisplacement] = useState<number | "">("")
   const [selectedYear, setSelectedYear] = useState<number | "">("")
-  const [selectedColor, setSelectedColor] = useState("")
   const [sortOption, setSortOption] = useState("brand-asc")
 
   // Sync URL params with state
@@ -51,12 +59,7 @@ export default function ProductGrid() {
     return Array.from(years).sort((a, b) => b - a)
   }, [])
 
-  const availableColors = useMemo(() => {
-    const allowedColors = ["Transparent", "Noir", "Gris"]
-    return Array.from(new Set(products.map((p) => p.color).filter(Boolean)))
-      .filter((color) => allowedColors.includes(color))
-      .sort()
-  }, [])
+
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -91,17 +94,44 @@ export default function ProductGrid() {
         }
       }
 
-      // 6. Color Filter
-      if (selectedColor && product.color !== selectedColor) {
-        return false
-      }
-
       return true
     })
-  }, [searchQuery, selectedBrand, selectedType, selectedDisplacement, selectedYear, selectedColor])
+  }, [searchQuery, selectedBrand, selectedType, selectedDisplacement, selectedYear])
+
+  // Deduplicate: group by base model, keep one representative per group (prefer Noir)
+  const deduplicatedProducts = useMemo(() => {
+    const groups = new Map<string, Product[]>()
+    filteredProducts.forEach((p) => {
+      const key = getBaseModelKey(p)
+      if (!groups.has(key)) groups.set(key, [])
+      groups.get(key)!.push(p)
+    })
+
+    const representatives: Product[] = []
+    groups.forEach((variants) => {
+      // Sort by color priority to pick the preferred one
+      variants.sort((a, b) => (COLOR_PRIORITY[a.color] ?? 99) - (COLOR_PRIORITY[b.color] ?? 99))
+      representatives.push(variants[0])
+    })
+    return representatives
+  }, [filteredProducts])
+
+  // Build a map of available colors per base model key (for displaying dots)
+  const colorsByModel = useMemo(() => {
+    const map = new Map<string, { color: string; hex: string }[]>()
+    products.forEach((p) => {
+      const key = getBaseModelKey(p)
+      if (!map.has(key)) map.set(key, [])
+      const list = map.get(key)!
+      if (!list.some((c) => c.color === p.color)) {
+        list.push({ color: p.color, hex: p.colorHex })
+      }
+    })
+    return map
+  }, [])
 
   const sortedProducts = useMemo(() => {
-    return [...filteredProducts].sort((a, b) => {
+    return [...deduplicatedProducts].sort((a, b) => {
       switch (sortOption) {
         case "price-asc":
           return a.priceNumber - b.priceNumber
@@ -115,7 +145,7 @@ export default function ProductGrid() {
           return a.brand.localeCompare(b.brand)
       }
     })
-  }, [filteredProducts, sortOption])
+  }, [deduplicatedProducts, sortOption])
 
   // Clear all filters
   const clearFilters = () => {
@@ -124,10 +154,9 @@ export default function ProductGrid() {
     setSelectedType("")
     setSelectedDisplacement("")
     setSelectedYear("")
-    setSelectedColor("")
   }
 
-  const hasActiveFilters = searchQuery || selectedBrand || selectedType || selectedDisplacement || selectedYear || selectedColor
+  const hasActiveFilters = searchQuery || selectedBrand || selectedType || selectedDisplacement || selectedYear
 
   return (
     <div>
@@ -230,17 +259,7 @@ export default function ProductGrid() {
             ))}
           </select>
 
-          {/* Color */}
-          <select
-            value={selectedColor}
-            onChange={(e) => setSelectedColor(e.target.value)}
-            className="flex-1 min-w-[120px] bg-black/20 border border-white/10 text-white py-2 px-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0BEFD5] text-sm"
-          >
-            <option value="">Couleur</option>
-            {availableColors.map((c) => (
-              <option key={c} value={c} className="text-black">{c}</option>
-            ))}
-          </select>
+
 
           {/* Sort */}
           <div className="relative min-w-[160px]">
@@ -324,17 +343,23 @@ export default function ProductGrid() {
                   </div>
 
                   <div className="space-y-3">
-                    {/* Color Badge */}
-                    {product.color && (
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-4 h-4 rounded-full border border-white/30"
-                          style={{ backgroundColor: product.colorHex }}
-                          title={product.color}
-                        />
-                        <span className="text-xs text-gray-400">{product.color}</span>
-                      </div>
-                    )}
+                    {/* Available Color Dots */}
+                    {(() => {
+                      const modelColors = colorsByModel.get(getBaseModelKey(product)) || []
+                      return modelColors.length > 0 ? (
+                        <div className="flex items-center gap-2">
+                          {modelColors.map((c) => (
+                            <div
+                              key={c.color}
+                              className="w-4 h-4 rounded-full border border-white/30"
+                              style={{ backgroundColor: c.hex }}
+                              title={c.color}
+                            />
+                          ))}
+                          <span className="text-xs text-gray-400">{modelColors.length} couleur{modelColors.length > 1 ? "s" : ""}</span>
+                        </div>
+                      ) : null
+                    })()}
 
                     <div className="flex items-center justify-between pt-3 border-t border-white/5">
                       <span className="text-lg font-bold text-white">{product.price}</span>
