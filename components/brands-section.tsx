@@ -47,7 +47,7 @@ export default function BrandsSection() {
                     alt={`Logo ${brand.name}`}
                     width={120}
                     height={120}
-                    quality={95}
+                    quality={100}
                     className="object-contain max-w-full max-h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] brightness-125 contrast-125 transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

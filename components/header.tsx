@@ -26,9 +26,8 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled ? "py-2 md:py-3 bg-black/40 backdrop-blur-xl border-b border-white/10" : "py-4 md:py-6"
-      }`}
+      className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? "py-2 md:py-3 bg-black/40 backdrop-blur-xl border-b border-white/10" : "py-4 md:py-6"
+        }`}
     >
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center">
@@ -38,6 +37,8 @@ export default function Header() {
                 src="/images/logo-xtream-grip.png"
                 alt="X-Trem Grip"
                 fill
+                quality={100}
+                sizes="256px"
                 className="object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] filter brightness-110 contrast-110"
                 priority
               />

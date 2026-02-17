@@ -68,7 +68,7 @@ export default function BrandStory() {
                           src={src}
                           alt={`X-Trem Grip Story Image ${index + 1}`}
                           fill
-                          quality={90}
+                          quality={100}
                           sizes="(max-width: 1024px) 100vw, 50vw"
                           className="object-contain"
                         />

@@ -43,7 +43,7 @@ export default function AboutValues() {
           src="/images/frame-protection-detail-1.jpeg"
           alt="X-Trem Grip frame protection detail"
           fill
-          quality={90}
+          quality={100}
           sizes="100vw"
           className="object-cover object-center"
         />

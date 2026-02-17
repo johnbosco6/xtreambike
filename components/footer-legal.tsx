@@ -11,7 +11,7 @@ export default function FooterLegal() {
       <div className="container mx-auto px-4 md:px-6 py-8 md:py=12 relative z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 md:w-32 md:h-32 relative mb-4">
-            <Image src="/images/logo-xtream-grip.png" alt="X-Trem Grip Logo" fill className="object-contain" />
+            <Image src="/images/logo-xtream-grip.png" alt="X-Trem Grip Logo" fill quality={100} sizes="128px" className="object-contain" />
           </div>
           <h2 className="text-xl md:text-2xl font-light tracking-wider uppercase mb-2">X-Trem Grip</h2>
           <div className="h-1 w-20 bg-gradient-to-r from-[#4A2CD6] via-[#0BEFD5] to-[#FFFF00] rounded-full mb-3"></div>

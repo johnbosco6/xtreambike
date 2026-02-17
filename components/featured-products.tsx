@@ -58,8 +58,9 @@ export default function FeaturedProducts() {
                 <Image
                   src={product.image || "/placeholder.svg"}
                   alt={product.name}
-                  width={150}
-                  height={150}
+                  width={300}
+                  height={300}
+                  quality={100}
                   className="h-24 md:h-32 w-auto"
                 />
               </div>
