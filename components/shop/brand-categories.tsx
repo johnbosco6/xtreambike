@@ -129,6 +129,8 @@ export default function BrandCategories({ selectedBrand, onBrandSelect }: BrandC
                 src={brand.logo || "/placeholder.svg"}
                 alt={brand.name}
                 fill
+                quality={95}
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-contain filter brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity"
               />
             </div>

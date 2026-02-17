@@ -43,6 +43,8 @@ export default function AboutValues() {
           src="/images/frame-protection-detail-1.jpeg"
           alt="X-Trem Grip frame protection detail"
           fill
+          quality={90}
+          sizes="100vw"
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-black/90"></div>

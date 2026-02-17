@@ -13,6 +13,7 @@ export default function AboutHero() {
           width={1920}
           height={1280}
           priority
+          quality={100}
           className="w-auto h-auto max-h-[80vh] object-contain"
           sizes="100vw"
         />

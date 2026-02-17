@@ -12,6 +12,8 @@ export default function CTASection() {
           src="/images/cta-background.png"
           alt="Motocross action shot"
           fill
+          quality={90}
+          sizes="100vw"
           className="object-cover object-center"
         />
         {/* Gradient overlay with darker opacity for better text visibility */}
