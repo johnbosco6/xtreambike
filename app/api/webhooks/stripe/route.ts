@@ -4,6 +4,8 @@ import { stripe } from '@/lib/stripe';
 import { OrdersService } from '@/lib/orders-service';
 import { PaymentsService } from '@/lib/payments-service';
 
+export const dynamic = 'force-dynamic';
+
 // Disable body parsing — Stripe needs the raw body for signature verification
 export const runtime = 'nodejs';
 
