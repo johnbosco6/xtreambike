@@ -1,176 +1,156 @@
+/**
+ * Mondial Relay Point Relais Search Service
+ * Uses WSI4_PointRelais_Recherche SOAP API
+ */
 import { XMLParser } from 'fast-xml-parser';
-import { getMondialRelayConfig } from '../config';
-import { generatePointRelaisSearchSecurityKey, formatGPSCoordinate } from '../security';
-import type {
-    PointRelaisSearchParams,
-    PointRelaisSearchResponse,
-    FormattedPointRelais,
-    PointRelais,
-} from '../types';
+import { getMondialRelayCredentials, MONDIAL_RELAY_API_URL } from '../config';
+import { generateSearchSecurityKey } from '../security';
+import type { FormattedPointRelais } from '../types';
 
 const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: '',
 });
 
-/**
- * Search for Point Relais® using Mondial Relay API1
- * Method: WSI4_PointRelais_Recherche
- */
-export async function searchPointRelais(params: {
+export interface SearchOptions {
     postalCode?: string;
-    country: string;
+    country?: string;
     latitude?: number;
     longitude?: number;
-    deliveryMode?: '24R' | '24L' | 'XOH';
+    deliveryMode?: string;
     searchRadius?: number;
     maxResults?: number;
     pointRelaisId?: string;
-}): Promise<FormattedPointRelais[]> {
-    const config = await getMondialRelayConfig();
+}
+
+/**
+ * Search for Mondial Relay Point Relais
+ */
+export async function searchPointRelais(options: SearchOptions): Promise<FormattedPointRelais[]> {
+    const { enseigne, privateKey, apiUrl } = getMondialRelayCredentials();
+
+    if (!enseigne || !privateKey) {
+        throw new Error('Mondial Relay API credentials are not configured. Set NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE and MONDIAL_RELAY_API1_PRIVATE_KEY in environment variables.');
+    }
 
     const {
-        postalCode,
-        country,
+        postalCode = '',
+        country = 'FR',
         latitude,
         longitude,
         deliveryMode = '24R',
-        searchRadius = config.defaults.searchRadius,
-        maxResults = config.defaults.maxResults,
-        pointRelaisId,
-    } = params;
+        searchRadius = 50,
+        maxResults = 20,
+        pointRelaisId = '',
+    } = options;
 
-    // Validate inputs
-    if (!postalCode && !latitude && !longitude && !pointRelaisId) {
-        throw new Error('Either postalCode, GPS coordinates, or pointRelaisId must be provided');
-    }
+    // Format GPS coordinates if provided
+    const lat = latitude !== undefined ? latitude.toFixed(6).replace('.', ',') : '';
+    const lon = longitude !== undefined ? longitude.toFixed(6).replace('.', ',') : '';
 
-    const enseigne = config.api1.enseigne;
-    const privateKey = config.api1.privateKey;
-
-    // Format parameters
-    const searchParams: Partial<PointRelaisSearchParams> = {
-        Pays: country,
-        NombreResultats: Math.min(maxResults, 30),
-    };
-
-    if (pointRelaisId) {
-        searchParams.NumPointRelais = pointRelaisId;
-    }
-
-    if (postalCode) {
-        searchParams.CP = postalCode;
-    }
-
-    if (latitude !== undefined && longitude !== undefined) {
-        searchParams.Latitude = formatGPSCoordinate(latitude);
-        searchParams.Longitude = formatGPSCoordinate(longitude);
-    }
-
-    searchParams.Action = deliveryMode;
-    searchParams.RayonRecherche = searchRadius;
-
-    // Generate security key
-    // Hash order per docs: [Enseigne][Pays][NumPointRelais][CP][Latitude][Longitude][Taille][Poids][Action][DelaiEnvoi][RayonRecherche][NombreResultats][CLE PRIVEE]
-    const security = generatePointRelaisSearchSecurityKey({
+    // All values used in the hash (as strings, matching SOAP XML values)
+    const hashParams = {
         enseigne,
         pays: country,
-        numPointRelais: searchParams.NumPointRelais,
-        cp: searchParams.CP,
-        latitude: searchParams.Latitude,
-        longitude: searchParams.Longitude,
-        taille: searchParams.Taille,
-        poids: searchParams.Poids?.toString(),
-        action: searchParams.Action,
-        delaiEnvoi: searchParams.DelaiEnvoi?.toString(),
-        rayonRecherche: searchParams.RayonRecherche?.toString(),
-        nombreResultats: (searchParams.NombreResultats ?? 10).toString(),
+        numPointRelais: pointRelaisId,
+        cp: postalCode,
+        latitude: lat,
+        longitude: lon,
+        taille: '',
+        poids: '',
+        action: deliveryMode,
+        delaiEnvoi: '',
+        rayonRecherche: String(searchRadius),
+        nombreResultats: String(Math.min(maxResults, 30)),
         privateKey,
-    });
+    };
 
-    // Build SOAP request
-    const soapRequest = buildPointRelaisSearchSOAP({
-        ...searchParams,
-        Enseigne: enseigne,
-        Security: security,
-    });
+    const security = generateSearchSecurityKey(hashParams);
 
-    // Make API call
-    const response = await fetch(config.api1.url, {
+    // Build SOAP XML
+    const soapXml = `<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <WSI4_PointRelais_Recherche xmlns="http://www.mondialrelay.fr/webservice/">
+      <Enseigne>${enseigne}</Enseigne>
+      <Pays>${country}</Pays>
+      <NumPointRelais>${pointRelaisId}</NumPointRelais>
+      <Ville></Ville>
+      <CP>${postalCode}</CP>
+      <Latitude>${lat}</Latitude>
+      <Longitude>${lon}</Longitude>
+      <Taille></Taille>
+      <Poids></Poids>
+      <Action>${deliveryMode}</Action>
+      <DelaiEnvoi></DelaiEnvoi>
+      <RayonRecherche>${searchRadius}</RayonRecherche>
+      <TypeActivite></TypeActivite>
+      <NACE></NACE>
+      <NombreResultats>${Math.min(maxResults, 30)}</NombreResultats>
+      <Security>${security}</Security>
+    </WSI4_PointRelais_Recherche>
+  </soap:Body>
+</soap:Envelope>`;
+
+    console.log(`[MondialRelay] Searching: CP=${postalCode}, Pays=${country}, Action=${deliveryMode}, Rayon=${searchRadius}`);
+    console.log(`[MondialRelay] API URL: ${apiUrl}`);
+
+    // Make the SOAP call
+    const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/xml; charset=utf-8',
             'SOAPAction': 'http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche',
         },
-        body: soapRequest,
+        body: soapXml,
     });
 
     if (!response.ok) {
-        throw new Error(`Mondial Relay API error: ${response.statusText}`);
+        throw new Error(`Mondial Relay HTTP error: ${response.status} ${response.statusText}`);
     }
 
     const xmlText = await response.text();
-    const result = parser.parse(xmlText);
 
-    // Extract response from SOAP envelope
-    const soapBody = result['soap:Envelope']?.['soap:Body'];
-    const apiResponse: PointRelaisSearchResponse = soapBody?.WSI4_PointRelais_RechercheResponse?.WSI4_PointRelais_RechercheResult;
+    // Quick regex extraction for STAT (more reliable than XML parser for SOAP)
+    const statMatch = xmlText.match(/<STAT>(\d+)<\/STAT>/);
+    const stat = statMatch ? statMatch[1] : 'UNKNOWN';
 
-    // Check status
-    if (apiResponse.STAT !== '0') {
-        throw new Error(`Mondial Relay error code ${apiResponse.STAT}: ${getErrorMessage(apiResponse.STAT)}`);
+    console.log(`[MondialRelay] Response STAT: ${stat}`);
+
+    if (stat !== '0') {
+        const errorMsg = getErrorMessage(stat);
+        console.error(`[MondialRelay] ❌ API Error: STAT=${stat} — ${errorMsg}`);
+        throw new Error(`Mondial Relay error ${stat}: ${errorMsg}`);
     }
 
-    // Format and return results
-    const pointsRelais = apiResponse.PointsRelais?.PointRelais_Details || [];
-    return Array.isArray(pointsRelais)
-        ? pointsRelais.map(formatPointRelais)
-        : [formatPointRelais(pointsRelais)];
-}
+    // Parse the full XML response
+    const parsed = parser.parse(xmlText);
+    const soapBody = parsed?.['soap:Envelope']?.['soap:Body'];
+    const apiResult = soapBody?.WSI4_PointRelais_RechercheResponse?.WSI4_PointRelais_RechercheResult;
 
-/**
- * Build SOAP XML request for Point Relais search
- */
-function buildPointRelaisSearchSOAP(params: any): string {
-    return `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <soap:Body>
-    <WSI4_PointRelais_Recherche xmlns="http://www.mondialrelay.fr/webservice/">
-      <Enseigne>${params.Enseigne}</Enseigne>
-      <Pays>${params.Pays}</Pays>
-      <NumPointRelais>${params.NumPointRelais || ''}</NumPointRelais>
-      <Ville></Ville>
-      <CP>${params.CP || ''}</CP>
-      <Latitude>${params.Latitude || ''}</Latitude>
-      <Longitude>${params.Longitude || ''}</Longitude>
-      <Taille>${params.Taille || ''}</Taille>
-      <Poids>${params.Poids || ''}</Poids>
-      <Action>${params.Action || ''}</Action>
-      <DelaiEnvoi>${params.DelaiEnvoi || ''}</DelaiEnvoi>
-      <RayonRecherche>${params.RayonRecherche || ''}</RayonRecherche>
-      <TypeActivite></TypeActivite>
-      <NACE></NACE>
-      <NombreResultats>${params.NombreResultats}</NombreResultats>
-      <Security>${params.Security}</Security>
-    </WSI4_PointRelais_Recherche>
-  </soap:Body>
-</soap:Envelope>`;
-}
+    if (!apiResult?.PointsRelais) {
+        console.log('[MondialRelay] No PointsRelais in response');
+        return [];
+    }
 
-/**
- * Format Point Relais data for frontend consumption
- */
-function formatPointRelais(pr: PointRelais): FormattedPointRelais {
-    return {
-        id: pr.Num,
-        name: `${pr.LgAdr1} ${pr.LgAdr2}`.trim(),
-        address: `${pr.LgAdr3} ${pr.LgAdr4}`.trim(),
-        postalCode: pr.CP,
-        city: pr.Ville,
-        country: pr.Pays,
-        distance: pr.Distance,
-        latitude: pr.Latitude,
-        longitude: pr.Longitude,
+    const rawPoints = apiResult.PointsRelais.PointRelais_Details;
+    if (!rawPoints) {
+        return [];
+    }
+
+    // Ensure it's always an array (single result comes as object)
+    const pointsArray = Array.isArray(rawPoints) ? rawPoints : [rawPoints];
+
+    const formatted = pointsArray.map((pr: any): FormattedPointRelais => ({
+        id: String(pr.Num || ''),
+        name: `${pr.LgAdr1 || ''} ${pr.LgAdr2 || ''}`.trim(),
+        address: `${pr.LgAdr3 || ''} ${pr.LgAdr4 || ''}`.trim(),
+        postalCode: String(pr.CP || ''),
+        city: String(pr.Ville || ''),
+        country: String(pr.Pays || ''),
+        distance: String(pr.Distance || ''),
+        latitude: String(pr.Latitude || ''),
+        longitude: String(pr.Longitude || ''),
         openingHours: {
             monday: pr.Horaires_Lundi?.string || [],
             tuesday: pr.Horaires_Mardi?.string || [],
@@ -180,37 +160,30 @@ function formatPointRelais(pr: PointRelais): FormattedPointRelais {
             saturday: pr.Horaires_Samedi?.string || [],
             sunday: pr.Horaires_Dimanche?.string || [],
         },
-        photoUrl: pr.URL_Photo,
-        mapUrl: pr.URL_Plan,
-        unavailabilityPeriods: pr.Informations_Dispo?.map(info => ({
-            start: info.Debut,
-            end: info.Fin,
-        })),
-    };
+        photoUrl: pr.URL_Photo || '',
+        mapUrl: pr.URL_Plan || '',
+    }));
+
+    console.log(`[MondialRelay] ✅ Found ${formatted.length} Point Relais`);
+    return formatted;
 }
 
-/**
- * Format GPS coordinate to Mondial Relay format
- */
-
-
-/**
- * Get error message from error code
- */
 function getErrorMessage(code: string): string {
-    const errorMessages: Record<string, string> = {
+    const errors: Record<string, string> = {
         '1': 'Enseigne invalide',
-        '8': 'Mot de passe ou hachage invalide',
+        '2': 'Numéro d\'enseigne vide',
+        '8': 'Mot de passe ou hash invalide',
+        '9': 'Ville non trouvée',
         '16': 'Code pays invalide',
         '19': 'Code postal invalide',
-        '49': 'Action invalide',
+        '24': 'Numéro de Point Relais invalide',
+        '49': 'Action invalide (mode de livraison)',
+        '65': 'Rayon de recherche invalide',
         '67': 'Latitude invalide',
         '68': 'Longitude invalide',
-        '70': 'Numéro de Point Relais invalide',
-        '97': 'Clé de sécurité invalide',
-        '98': 'Erreur générique (Paramètres invalides)',
-        '99': 'Erreur générique du service',
+        '97': 'Clé de sécurité invalide (hash MD5 incorrect)',
+        '98': 'Erreur interne (paramètres invalides)',
+        '99': 'Erreur serveur Mondial Relay',
     };
-
-    return errorMessages[code] || `Unknown error code: ${code}`;
+    return errors[code] || `Erreur inconnue (code ${code})`;
 }

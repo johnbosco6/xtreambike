@@ -1,59 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getMondialRelayConfig } from '@/lib/mondial-relay/config';
 import crypto from 'crypto';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * Diagnostic endpoint to test Mondial Relay API directly
+ * Diagnostic endpoint — tests Mondial Relay directly from production
  * GET /api/mondial-relay/diagnostic
  */
 export async function GET(request: NextRequest) {
     const results: Record<string, any> = {};
 
-    // Step 1: Check environment variables
+    // 1. Check env vars
+    const enseigne = process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE || '';
+    const privateKey = process.env.MONDIAL_RELAY_API1_PRIVATE_KEY || '';
+    const apiUrl = process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'https://api.mondialrelay.com/Web_Services.asmx';
+
     results.envVars = {
-        NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE: process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE ? 'SET (' + process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE + ')' : 'MISSING',
-        MONDIAL_RELAY_API1_PRIVATE_KEY: process.env.MONDIAL_RELAY_API1_PRIVATE_KEY ? 'SET (****' + process.env.MONDIAL_RELAY_API1_PRIVATE_KEY.slice(-2) + ')' : 'MISSING',
-        NEXT_PUBLIC_MONDIAL_RELAY_API1_URL: process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'NOT SET (will use default)',
-        NEXT_PUBLIC_MONDIAL_RELAY_API1_MARQUE: process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_MARQUE || 'NOT SET',
+        enseigne: enseigne || 'MISSING',
+        privateKey: privateKey ? '****' + privateKey.slice(-2) : 'MISSING',
+        apiUrl,
     };
 
-    // Step 2: Get resolved config
-    try {
-        const config = await getMondialRelayConfig();
-        results.resolvedConfig = {
-            url: config.api1.url,
-            enseigne: config.api1.enseigne || 'EMPTY',
-            privateKeyLength: config.api1.privateKey?.length || 0,
-            privateKeyPreview: config.api1.privateKey ? '****' + config.api1.privateKey.slice(-2) : 'EMPTY',
-        };
-    } catch (error) {
-        results.resolvedConfig = { error: String(error) };
-    }
+    // 2. Direct API test
+    const cp = '59000';
+    const pays = 'FR';
+    const nombreResultats = '5';
+    const action = '24R';
+    const rayonRecherche = '50';
 
-    // Step 3: Direct API test (bypass all service code)
-    try {
-        const enseigne = process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE || '';
-        const privateKey = process.env.MONDIAL_RELAY_API1_PRIVATE_KEY || '';
-        const cp = '59000';
-        const pays = 'FR';
-        const nombreResultats = '5';
+    const hashInput = `${enseigne}${pays}${cp}${action}${rayonRecherche}${nombreResultats}${privateKey}`;
+    const security = crypto.createHash('md5').update(hashInput, 'utf8').digest('hex').toUpperCase();
 
-        // Generate hash directly
-        const hashInput = `${enseigne}${pays}${cp}24R50${nombreResultats}${privateKey}`;
-        const security = crypto.createHash('md5').update(hashInput, 'utf8').digest('hex').toUpperCase();
+    results.hash = { input: hashInput, output: security };
 
-        results.directTest = {
-            hashInput,
-            security,
-            enseigne,
-            cp,
-            pays,
-        };
-
-        const soapBody = `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    const soapBody = `<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
   <soap:Body>
     <WSI4_PointRelais_Recherche xmlns="http://www.mondialrelay.fr/webservice/">
       <Enseigne>${enseigne}</Enseigne>
@@ -65,9 +46,9 @@ export async function GET(request: NextRequest) {
       <Longitude></Longitude>
       <Taille></Taille>
       <Poids></Poids>
-      <Action>24R</Action>
+      <Action>${action}</Action>
       <DelaiEnvoi></DelaiEnvoi>
-      <RayonRecherche>50</RayonRecherche>
+      <RayonRecherche>${rayonRecherche}</RayonRecherche>
       <TypeActivite></TypeActivite>
       <NACE></NACE>
       <NombreResultats>${nombreResultats}</NombreResultats>
@@ -76,8 +57,7 @@ export async function GET(request: NextRequest) {
   </soap:Body>
 </soap:Envelope>`;
 
-        const apiUrl = process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'https://api.mondialrelay.com/Web_Services.asmx';
-
+    try {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -88,30 +68,20 @@ export async function GET(request: NextRequest) {
         });
 
         const xmlText = await response.text();
-
-        // Extract STAT
         const statMatch = xmlText.match(/<STAT>(\d+)<\/STAT>/);
         const stat = statMatch ? statMatch[1] : 'NOT FOUND';
-
-        // Count results
         const pointMatches = xmlText.match(/<PointRelais_Details>/g);
-        const count = pointMatches ? pointMatches.length : 0;
-
-        // Get first result name
         const nameMatch = xmlText.match(/<LgAdr1>(.*?)<\/LgAdr1>/);
 
-        results.directApiTest = {
-            apiUrl,
+        results.apiTest = {
             httpStatus: response.status,
             stat,
-            pointCount: count,
+            pointCount: pointMatches ? pointMatches.length : 0,
             firstResult: nameMatch ? nameMatch[1] : 'none',
-            rawResponseLength: xmlText.length,
-            rawResponsePreview: xmlText.substring(0, 500),
         };
     } catch (error) {
-        results.directApiTest = { error: String(error) };
+        results.apiTest = { error: String(error) };
     }
 
-    return NextResponse.json(results, { status: 200 });
+    return NextResponse.json(results);
 }
