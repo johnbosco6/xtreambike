@@ -41,6 +41,7 @@ export default function CheckoutContent() {
   })
 
   const [selectedRelayPoint, setSelectedRelayPoint] = useState<any>(null)
+  const [nearbyPoints, setNearbyPoints] = useState<any[]>([])
   const [autoSelected, setAutoSelected] = useState(false)
   const [searchingRelay, setSearchingRelay] = useState(false)
   const [showManualSearch, setShowManualSearch] = useState(false)
@@ -100,7 +101,7 @@ export default function CheckoutContent() {
           postalCode: zipCode,
           country: countryCode,
           deliveryMode: '24R',
-          maxResults: 1  // Only fetch the nearest point
+          maxResults: 5  // Fetch nearby points so user can choose
         })
       })
 
@@ -108,18 +109,20 @@ export default function CheckoutContent() {
       console.log('Relay search result:', data)
 
       if (data.success && data.pointsRelais && data.pointsRelais.length > 0) {
-        const nearestPoint = data.pointsRelais[0]
-        setSelectedRelayPoint(nearestPoint)
+        setNearbyPoints(data.pointsRelais)
+        setSelectedRelayPoint(data.pointsRelais[0])
         setAutoSelected(true)
         setShowManualSearch(false)
       } else {
         setRelaySearchError(`Aucun Point Relais trouvé pour ${zipCode} (${countryCode}).`)
+        setNearbyPoints([])
         setSelectedRelayPoint(null)
         setAutoSelected(false)
       }
     } catch (error) {
       console.error('Auto-search error:', error)
       setRelaySearchError('Erreur lors de la recherche automatique')
+      setNearbyPoints([])
       setSelectedRelayPoint(null)
       setAutoSelected(false)
     } finally {
@@ -185,7 +188,14 @@ export default function CheckoutContent() {
               country: formData.country
             } : null,
             deliveryMethod: shippingMethod,
-            deliveryDetails: shippingMethod === "relay" ? selectedRelayPoint : null,
+            deliveryDetails: shippingMethod === "relay" && selectedRelayPoint ? {
+              id: selectedRelayPoint.id,
+              name: selectedRelayPoint.name,
+              address: selectedRelayPoint.address,
+              postalCode: selectedRelayPoint.postalCode,
+              city: selectedRelayPoint.city,
+              country: selectedRelayPoint.country,
+            } : null,
             shippingCost: deliveryCost
           })
         })
@@ -539,40 +549,47 @@ export default function CheckoutContent() {
                         </div>
                       )}
 
-                      {/* Auto-Selected Point Banner */}
-                      {autoSelected && selectedRelayPoint && (
-                        <div className="bg-[#E3003F]/10 border-2 border-[#E3003F] rounded-xl p-4">
-                          <div className="flex items-start gap-3">
-                            <div className="p-2 bg-[#E3003F] rounded-full flex-shrink-0">
-                              <Store className="w-5 h-5 text-white" />
-                            </div>
-                            <div className="flex-1">
-                              <h4 className="font-medium text-white mb-1 flex items-center gap-2">
-                                <Check className="w-4 h-4 text-[#0BEFD5]" />
-                                Point Relais sélectionné
-                              </h4>
-                              <p className="text-sm opacity-80 mb-2">
-                                Le point le plus proche de votre adresse :
-                              </p>
-                              <div className="bg-black/20 rounded-lg p-3 space-y-1">
-                                <div className="font-medium">{selectedRelayPoint.name}</div>
-                                <div className="text-sm opacity-70">{selectedRelayPoint.address}</div>
-                                <div className="text-sm opacity-70">
-                                  {selectedRelayPoint.postalCode} {selectedRelayPoint.city}
-                                </div>
-                                <div className="text-xs text-[#0BEFD5] mt-2">
-                                  📍 À {selectedRelayPoint.distance}m
+                      {/* Auto-Detected Nearby Points */}
+                      {autoSelected && nearbyPoints.length > 0 && (
+                        <div className="space-y-3">
+                          <p className="text-sm opacity-80">
+                            {nearbyPoints.length} Point{nearbyPoints.length > 1 ? 's' : ''} Relais trouvé{nearbyPoints.length > 1 ? 's' : ''} près de chez vous :
+                          </p>
+                          <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                            {nearbyPoints.map((point: any) => (
+                              <div
+                                key={point.id}
+                                onClick={() => setSelectedRelayPoint(point)}
+                                className={`p-3 rounded-lg cursor-pointer border transition-all ${selectedRelayPoint?.id === point.id
+                                    ? 'bg-[#E3003F]/10 border-[#E3003F]'
+                                    : 'bg-white/5 border-transparent hover:bg-white/10'
+                                  }`}
+                              >
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <div className="font-medium text-sm">{point.name}</div>
+                                    <div className="text-xs opacity-70 mt-1">{point.address}</div>
+                                    <div className="text-xs opacity-70">{point.postalCode} {point.city}</div>
+                                    {point.distance && (
+                                      <div className="text-xs text-[#0BEFD5] mt-1">📍 {point.distance}m</div>
+                                    )}
+                                  </div>
+                                  {selectedRelayPoint?.id === point.id && (
+                                    <div className="bg-[#E3003F] p-1 rounded-full flex-shrink-0">
+                                      <Check className="w-3 h-3 text-white" />
+                                    </div>
+                                  )}
                                 </div>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => setShowManualSearch(true)}
-                                className="mt-3 text-sm text-[#0BEFD5] hover:underline"
-                              >
-                                Choisir un autre Point Relais
-                              </button>
-                            </div>
+                            ))}
                           </div>
+                          <button
+                            type="button"
+                            onClick={() => setShowManualSearch(true)}
+                            className="text-sm text-[#0BEFD5] hover:underline"
+                          >
+                            Rechercher avec un autre code postal
+                          </button>
                         </div>
                       )}
 
