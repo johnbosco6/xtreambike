@@ -29,8 +29,8 @@ interface MondialRelayConfig {
 // ... (imports remain the same)
 
 /**
- * Get Mondial Relay configuration from Supabase with fallback to Environment Variables
- * This is async because we need to fetch from the database
+ * Get Mondial Relay configuration
+ * Priority: 1) Supabase api_keys table, 2) Environment variables
  */
 export async function getMondialRelayConfig(): Promise<MondialRelayConfig> {
     // Return cached config if available
@@ -38,30 +38,30 @@ export async function getMondialRelayConfig(): Promise<MondialRelayConfig> {
         return cachedConfig;
     }
 
-    let keys = {
-        api1_url: '',
-        api1_enseigne: '',
-        api1_private_key: '',
-        api1_marque: '',
-    };
+    let supabaseKeys: Record<string, string> = {};
 
     try {
-        // Try to fetch from Supabase
-        keys = await getMondialRelayKeys() as any;
+        // Try to fetch from Supabase api_keys table
+        const keys = await getMondialRelayKeys();
+        supabaseKeys = keys || {};
+        console.log('[MondialRelay] Loaded keys from Supabase api_keys table');
     } catch (error) {
-        console.warn('Failed to load Mondial Relay config from Supabase, falling back to environment variables.');
+        // This is expected if api_keys table doesn't exist or has no mondial_relay entries
+        console.log('[MondialRelay] Supabase api_keys not available, using environment variables');
     }
 
-    // Fallback to environment variables if keys are missing from Supabase
-    // Note: process.env will be available at runtime in Vercel
-    const url = keys.api1_url || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'https://api.mondialrelay.com/Web_Services.asmx';
-    const enseigne = keys.api1_enseigne || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE || '';
-    const privateKey = keys.api1_private_key || process.env.MONDIAL_RELAY_API1_PRIVATE_KEY || '';
-    const marque = keys.api1_marque || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_MARQUE || '';
+    // Resolve keys: Supabase first, then env vars
+    const url = supabaseKeys.api1_url || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_URL || 'https://api.mondialrelay.com/Web_Services.asmx';
+    const enseigne = supabaseKeys.api1_enseigne || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE || '';
+    const privateKey = supabaseKeys.api1_private_key || process.env.MONDIAL_RELAY_API1_PRIVATE_KEY || '';
+    const marque = supabaseKeys.api1_marque || process.env.NEXT_PUBLIC_MONDIAL_RELAY_API1_MARQUE || '';
+
+    // Log key status (masked for security)
+    console.log(`[MondialRelay] Config: enseigne=${enseigne ? enseigne.substring(0, 4) + '****' : 'MISSING'}, privateKey=${privateKey ? '****' + privateKey.substring(privateKey.length - 2) : 'MISSING'}`);
 
     // Validate essential keys
     if (!enseigne || !privateKey) {
-        console.warn('Mondial Relay keys are missing (Enseigne or Private Key). Tracking and Points Search will fail.');
+        console.error('[MondialRelay] ❌ CRITICAL: API keys are missing! Set NEXT_PUBLIC_MONDIAL_RELAY_API1_ENSEIGNE and MONDIAL_RELAY_API1_PRIVATE_KEY in Vercel environment variables.');
     }
 
     cachedConfig = {
