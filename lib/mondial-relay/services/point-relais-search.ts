@@ -71,11 +71,11 @@ export async function searchPointRelais(params: {
     searchParams.RayonRecherche = searchRadius;
 
     // Generate security key
+    // Hash order per docs: [Enseigne][Pays][NumPointRelais][CP][Latitude][Longitude][Taille][Poids][Action][DelaiEnvoi][RayonRecherche][NombreResultats][CLE PRIVEE]
     const security = generatePointRelaisSearchSecurityKey({
         enseigne,
         pays: country,
         numPointRelais: searchParams.NumPointRelais,
-        ville: '', // Mandatory for hash
         cp: searchParams.CP,
         latitude: searchParams.Latitude,
         longitude: searchParams.Longitude,
@@ -84,8 +84,6 @@ export async function searchPointRelais(params: {
         action: searchParams.Action,
         delaiEnvoi: searchParams.DelaiEnvoi?.toString(),
         rayonRecherche: searchParams.RayonRecherche?.toString(),
-        typeActivite: '', // Mandatory for hash
-        nace: '', // Mandatory for hash
         nombreResultats: (searchParams.NombreResultats ?? 10).toString(),
         privateKey,
     });

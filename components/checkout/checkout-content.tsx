@@ -664,7 +664,7 @@ export default function CheckoutContent() {
                             <br />
                             {selectedRelayPoint?.address}
                             <br />
-                            {selectedRelayPoint?.zipCode} {selectedRelayPoint?.city}
+                            {selectedRelayPoint?.postalCode} {selectedRelayPoint?.city}
                           </>
                         )}
                       </p>
