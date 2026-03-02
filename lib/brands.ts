@@ -69,4 +69,9 @@ export const brands = [
         logo: "/images/logos/ycf.png",
         color: "from-[#00A0B0]/10 to-[#0080FF]/20",
     },
+    {
+        name: "TM Racing",
+        logo: "/images/logos/tm-racing.png",
+        color: "from-[#00BFFF]/10 to-[#000000]/20",
+    },
 ]
