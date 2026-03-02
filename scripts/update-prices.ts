@@ -21,7 +21,7 @@ const priceChanges: PriceChange[] = [
     { ids: [3], newPrice: 20.99, label: "BETA Protection plaque latérale (Transparent)" },
     { ids: [6, 7], newPrice: 20.99, label: "GASGAS Grip d'ORIGINE (Gris/Noir)" },
     { ids: [9], newPrice: 29.99, label: "HONDA 450CRF Plaque latérale (Transparent)" },
-    { ids: [10, 11], newPrice: 24.99, label: "HONDA CRF250R/450R Protection de cadre (Gris/Noir)" },
+    { ids: [10, 11], newPrice: 24.99, label: "HONDA CRF250R 22-26/450R 21-26 Protection de cadre (Gris/Noir)" },
     { ids: [13, 14], newPrice: 20.99, label: "HUSQVARNA Grip d'ORIGINE (Gris/Noir)" },
     { ids: [15, 16], newPrice: 19.99, label: "KAWASAKI 125KX Protection de cadre (Gris/Noir)" },
     { ids: [17, 18], newPrice: 24.99, label: "KAWASAKI 250KXF 15-20 Protection de cadre (Noir/Gris)" },
@@ -35,8 +35,8 @@ const priceChanges: PriceChange[] = [
     { ids: [36, 37, 38, 39], newPrice: 9.99, label: "STARK Protection de cadre (all)" },
     { ids: [46, 47], newPrice: 19.99, label: "SUZUKI 125RM Protection de cadre (Gris/Noir)" },
     { ids: [48, 49], newPrice: 19.99, label: "SUZUKI 250RM Protection de cadre (Gris/Noir)" },
-    { ids: [52, 53], newPrice: 24.99, label: "TRIUMPH Protection de cadre (Gris/Noir)" },
-    { ids: [67, 68], newPrice: 14.99, label: "YAMAHA YZ125 05-25 Protection de cadre (Gris/Noir)" },
+    { ids: [52, 53], newPrice: 24.99, label: "TRIUMPH TF250-X 2024-2026/TF450-X 2026 Protection de cadre (Gris/Noir)" },
+    { ids: [67, 68], newPrice: 14.99, label: "YAMAHA YZ125 05-26 Protection de cadre (Gris/Noir)" },
     { ids: [63], newPrice: 24.99, label: "YAMAHA 250-450YZF 06-09 Protection de cadre (Gris)" },
 ];
 

@@ -19,18 +19,33 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Dans une application réelle, vous enverriez les données à votre backend ici
-    console.log("Form submitted:", formData)
-    alert("Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.")
-    setFormData({
-      firstName: "",
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    })
+
+    try {
+      const response = await fetch("https://formspree.io/f/mlgwydoz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        alert("Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.")
+        setFormData({
+          firstName: "",
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        })
+      } else {
+        alert("Une erreur est survenue. Veuillez réessayer plus tard.")
+      }
+    } catch (error) {
+      alert("Une erreur est survenue. Veuillez réessayer plus tard.")
+    }
   }
 
   return (

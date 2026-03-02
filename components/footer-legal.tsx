@@ -95,16 +95,25 @@ export default function FooterLegal() {
             </div>
             <div>
               <h4 className="font-light mb-4">Newsletter</h4>
-              <div className="flex">
+              <form
+                action="https://formspree.io/f/mlgwydoz"
+                method="POST"
+                className="flex"
+              >
                 <input
                   type="email"
+                  name="email"
                   placeholder="Votre email"
+                  required
                   className="bg-black/30 px-4 py-2 rounded-l-full focus:outline-none focus:ring-1 focus:ring-[#0BEFD5] text-sm"
                 />
-                <button className="bg-[#FFFF00] text-black px-4 py-2 rounded-r-full hover:bg-opacity-90 text-sm">
+                <button
+                  type="submit"
+                  className="bg-[#FFFF00] text-black px-4 py-2 rounded-r-full hover:bg-opacity-90 text-sm"
+                >
                   S'abonner
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
