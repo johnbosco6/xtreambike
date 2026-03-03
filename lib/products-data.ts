@@ -1112,7 +1112,7 @@ export const products: Product[] = [
         inStock: true,
         color: "Gris",
         colorHex: "#808080",
-        image: "/images/products/suzuki-rmz-08-17-protection-de-cadre-gris.svg",
+        image: "/images/products/suzuki-rmz-08-17-protection-de-cadre-gris.jpg",
         stock: 20,
         displacements: [],
         yearRange: "2008-2017",
