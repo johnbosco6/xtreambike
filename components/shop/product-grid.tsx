@@ -19,23 +19,31 @@ const COLOR_PRIORITY: Record<string, number> = { "Noir": 0, "Gris": 1, "Transpar
 
 export default function ProductGrid() {
   const searchParams = useSearchParams()
-  const initialBrand = searchParams.get("brand") || ""
 
-  // States
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedBrand, setSelectedBrand] = useState(initialBrand)
-  const [selectedType, setSelectedType] = useState("")
-  const [selectedDisplacement, setSelectedDisplacement] = useState<number | "">("")
-  const [selectedYear, setSelectedYear] = useState<number | "">("")
-  const [sortOption, setSortOption] = useState("brand-asc")
+  // States — initialized from URL so back navigation restores exact filters
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "")
+  const [selectedBrand, setSelectedBrand] = useState(searchParams.get("brand") || "")
+  const [selectedType, setSelectedType] = useState(searchParams.get("type") || "")
+  const [selectedDisplacement, setSelectedDisplacement] = useState<number | "">(
+    searchParams.get("displacement") ? Number(searchParams.get("displacement")) : ""
+  )
+  const [selectedYear, setSelectedYear] = useState<number | "">(
+    searchParams.get("year") ? Number(searchParams.get("year")) : ""
+  )
+  const [sortOption, setSortOption] = useState(searchParams.get("sort") || "brand-asc")
 
-  // Sync URL params with state
+  // Write all active filters back into the URL so router.back() restores them
   useEffect(() => {
-    const brandFromUrl = searchParams.get("brand")
-    if (brandFromUrl) {
-      setSelectedBrand(brandFromUrl)
-    }
-  }, [searchParams])
+    const params = new URLSearchParams()
+    if (searchQuery) params.set("q", searchQuery)
+    if (selectedBrand) params.set("brand", selectedBrand)
+    if (selectedType) params.set("type", selectedType)
+    if (selectedDisplacement) params.set("displacement", String(selectedDisplacement))
+    if (selectedYear) params.set("year", String(selectedYear))
+    if (sortOption && sortOption !== "brand-asc") params.set("sort", sortOption)
+    const newUrl = params.toString() ? `/shop?${params.toString()}` : "/shop"
+    window.history.replaceState(null, "", newUrl)
+  }, [searchQuery, selectedBrand, selectedType, selectedDisplacement, selectedYear, sortOption])
 
   // Available options derived from data
   const availableDisplacements = useMemo(() => {
