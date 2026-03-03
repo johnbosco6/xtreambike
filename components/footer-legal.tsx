@@ -129,7 +129,7 @@ export default function FooterLegal() {
 
       {/* Webiit Technologies credit bar */}
       <div className="w-full bg-black/60 border-t border-white/5 py-2 px-4">
-        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-xs text-white/40">
+        <div className="container mx-auto flex items-center justify-center gap-3 text-xs text-white/40">
           <span>
             Powered &amp; Built by{" "}
             <a
@@ -141,6 +141,7 @@ export default function FooterLegal() {
               Webiit Technologies
             </a>
           </span>
+          <span className="opacity-30">|</span>
           <a
             href="tel:+33699502084"
             className="hover:text-white/70 transition-colors"
