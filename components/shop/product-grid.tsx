@@ -294,7 +294,7 @@ export default function ProductGrid() {
       {/* Product Grid */}
       {sortedProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {sortedProducts.map((product) => (
+          {sortedProducts.map((product, index) => (
             <Link href={`/shop/product/${product.id}`} key={product.id} className="group block h-full">
               <div className="glass-card rounded-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(11,239,213,0.15)] hover:border-[#0BEFD5]/30 h-full flex flex-col">
                 {/* Image Container */}
@@ -305,9 +305,11 @@ export default function ProductGrid() {
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
                       fill
-                      quality={100}
+                      quality={85}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       className="object-contain p-2"
+                      priority={index < 4}
+                      loading={index < 4 ? undefined : "lazy"}
                     />
                   </div>
                   {/* Badge */}
