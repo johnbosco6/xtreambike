@@ -1134,7 +1134,7 @@ export const products: Product[] = [
         inStock: true,
         color: "Noir",
         colorHex: "#000000",
-        image: "/images/products/suzuki-rmz-08-17-protection-de-cadre-noir.svg",
+        image: "/images/products/suzuki-rmz-08-17-protection-de-cadre-gris.jpg",
         stock: 20,
         displacements: [],
         yearRange: "2008-2017",
