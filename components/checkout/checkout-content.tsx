@@ -181,6 +181,14 @@ export default function CheckoutContent() {
               color: item.color
             })),
             customerName: `${formData.firstName} ${formData.lastName}`,
+            // Always send the customer's home address (used as shipping_address for home delivery,
+            // and as billing/customer reference for relay orders)
+            customerAddress: {
+              address: formData.address,
+              city: formData.city,
+              postalCode: formData.postalCode,
+              country: formData.country
+            },
             shippingAddress: shippingMethod === "home" ? {
               address: formData.address,
               city: formData.city,
@@ -561,8 +569,8 @@ export default function CheckoutContent() {
                                 key={point.id}
                                 onClick={() => setSelectedRelayPoint(point)}
                                 className={`p-3 rounded-lg cursor-pointer border transition-all ${selectedRelayPoint?.id === point.id
-                                    ? 'bg-[#E3003F]/10 border-[#E3003F]'
-                                    : 'bg-white/5 border-transparent hover:bg-white/10'
+                                  ? 'bg-[#E3003F]/10 border-[#E3003F]'
+                                  : 'bg-white/5 border-transparent hover:bg-white/10'
                                   }`}
                               >
                                 <div className="flex justify-between items-start">

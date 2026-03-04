@@ -1,7 +1,51 @@
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { getStripeClient } from '@/lib/stripe';
+import { OrdersService } from '@/lib/orders-service';
 
 export const dynamic = 'force-dynamic';
+
+// Helper function to convert country name to ISO 3166-1 alpha-2 code
+const countryNameToISO = (countryName: string): string => {
+    if (!countryName) return 'FR'; // Default to France if no country name is provided
+
+    switch (countryName.toLowerCase()) {
+        case 'france':
+            return 'FR';
+        case 'germany':
+            return 'DE';
+        case 'spain':
+            return 'ES';
+        case 'italy':
+            return 'IT';
+        case 'united kingdom':
+        case 'royaume-uni':
+            return 'GB';
+        case 'belgium':
+        case 'belgique':
+            return 'BE';
+        case 'luxembourg':
+            return 'LU';
+        case 'netherlands':
+        case 'pays-bas':
+            return 'NL';
+        case 'switzerland':
+        case 'suisse':
+            return 'CH';
+        case 'austria':
+        case 'autriche':
+            return 'AT';
+        case 'portugal':
+            return 'PT';
+        case 'ireland':
+        case 'irlande':
+            return 'IE';
+        // Add more countries as needed
+        default:
+            // If the country name is already a 2-letter code, return it.
+            // Otherwise, default to France.
+            return countryName.length === 2 ? countryName.toUpperCase() : 'FR';
+    }
+};
 
 export async function POST(request: Request) {
     try {
@@ -12,12 +56,48 @@ export async function POST(request: Request) {
             customerName,
             email,
             phone,
+            customerAddress,
             shippingAddress,
             deliveryMethod,
             deliveryDetails,
             shippingCost,
             amount,
         } = body;
+
+        // 0. Sync Customer in Supabase
+        console.log(`[Checkout] Syncing customer record for ${email}...`);
+        const nameParts = (customerName || '').split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ');
+
+        const customerId = await OrdersService.getOrCreateCustomer({
+            email,
+            firstName,
+            lastName,
+            phone,
+            address: customerAddress || shippingAddress,
+        });
+
+        // 1. Create Order in Supabase early (status: pending, payment_status: pending)
+        console.log(`[Checkout] Creating early order for ${email}...`);
+        const order = await OrdersService.createOrder({
+            customer_name: customerName,
+            customer_email: email,
+            customer_id: customerId, // Link to customer record
+            items: items,
+            subtotal: amount - (shippingCost || 0),
+            shipping_cost: shippingCost || 0,
+            total: amount,
+            status: 'pending',
+            payment_status: 'pending',
+            shipping_address: shippingAddress || customerAddress,
+            delivery_method: deliveryMethod,
+            delivery_details: deliveryDetails,
+        } as any);
+        console.log(`[Checkout] Order created successfully: ID=${order.id}, Number=${order.order_number}, CustomerID=${customerId}`);
+
+        // 2. Setup Stripe
+        const stripe = await getStripeClient();
 
         // Build line items for Stripe Checkout
         const lineItems: any[] = items.map((item: any) => ({
@@ -50,8 +130,6 @@ export async function POST(request: Request) {
         const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
         // Build shipping details for Stripe payment intent
-        // For home delivery: use customer's home address
-        // For relay delivery: use the relay point address
         let shippingDetails: any = undefined;
         if (deliveryMethod === 'home' && shippingAddress) {
             shippingDetails = {
@@ -61,7 +139,7 @@ export async function POST(request: Request) {
                     line1: shippingAddress.address,
                     city: shippingAddress.city,
                     postal_code: shippingAddress.postalCode,
-                    country: shippingAddress.country || 'FR',
+                    country: shippingAddress.country ? countryNameToISO(shippingAddress.country) : 'FR',
                 },
             };
         } else if (deliveryMethod === 'relay' && deliveryDetails) {
@@ -73,18 +151,18 @@ export async function POST(request: Request) {
                     line2: deliveryDetails.address,
                     city: deliveryDetails.city,
                     postal_code: deliveryDetails.postalCode,
-                    country: deliveryDetails.country || 'FR',
+                    country: deliveryDetails.country ? countryNameToISO(deliveryDetails.country) : 'FR',
                 },
             };
         }
 
-        // Create Stripe Checkout Session
+        // 3. Create Stripe Checkout Session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
             customer_email: email,
-            success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id=${order.id}`,
             cancel_url: `${siteUrl}/checkout`,
             ...(shippingDetails ? {
                 payment_intent_data: {
@@ -92,14 +170,17 @@ export async function POST(request: Request) {
                 },
             } : {}),
             metadata: {
+                orderId: order.id, // Store our order ID to update it later
+                orderNumber: order.order_number,
                 customerName,
                 email,
                 phone: phone || '',
                 deliveryMethod,
-                shippingAddress: shippingAddress ? JSON.stringify(shippingAddress) : '',
-                deliveryDetails: deliveryDetails ? JSON.stringify(deliveryDetails) : '',
+                customerAddress: customerAddress ? JSON.stringify(customerAddress).slice(0, 490) : '',
+                shippingAddress: shippingAddress ? JSON.stringify(shippingAddress).slice(0, 490) : '',
+                deliveryDetails: deliveryDetails ? JSON.stringify(deliveryDetails).slice(0, 490) : '',
                 shippingCost: String(shippingCost),
-                items: JSON.stringify(items),
+                itemsSummary: items.map((item: any) => `${item.name} (x${item.quantity})`).join(', ').slice(0, 490),
             },
         });
 
@@ -107,6 +188,8 @@ export async function POST(request: Request) {
             success: true,
             url: session.url,
             sessionId: session.id,
+            orderId: order.id,
+            orderNumber: order.order_number
         });
 
     } catch (error: any) {

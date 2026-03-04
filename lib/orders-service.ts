@@ -164,4 +164,68 @@ export class OrdersService {
 
         return data;
     }
+
+    /**
+     * Get or create a customer record by email
+     */
+    static async getOrCreateCustomer(customerData: {
+        email: string;
+        firstName?: string;
+        lastName?: string;
+        phone?: string;
+        address?: any;
+    }): Promise<string | null> {
+        try {
+            // 1. Try to find existing customer
+            const { data: existingCustomer, error: findError } = await supabaseAdmin
+                .from('customers')
+                .select('id')
+                .eq('email', customerData.email)
+                .single();
+
+            if (findError && findError.code !== 'PGRST116') { // PGRST116 is "not found"
+                console.error('Error finding customer:', findError);
+            }
+
+            if (existingCustomer) {
+                // 2. Update existing customer info (keep logic simple)
+                const { error: updateError } = await supabaseAdmin
+                    .from('customers')
+                    .update({
+                        first_name: customerData.firstName || null,
+                        last_name: customerData.lastName || null,
+                        phone: customerData.phone || null,
+                        address: customerData.address || null,
+                    })
+                    .eq('id', existingCustomer.id);
+
+                if (updateError) console.error('Error updating customer:', updateError);
+                return existingCustomer.id;
+            } else {
+                // 3. Create new customer
+                const { data: newCustomer, error: createError } = await supabaseAdmin
+                    .from('customers')
+                    .insert({
+                        email: customerData.email,
+                        first_name: customerData.firstName || null,
+                        last_name: customerData.lastName || null,
+                        phone: customerData.phone || null,
+                        address: customerData.address || null,
+                        preferences: {}, // Default empty JSON
+                    })
+                    .select('id')
+                    .single();
+
+                if (createError) {
+                    console.error('Error creating customer:', createError);
+                    return null;
+                }
+
+                return newCustomer.id;
+            }
+        } catch (error) {
+            console.error('OrdersService.getOrCreateCustomer error:', error);
+            return null;
+        }
+    }
 }
