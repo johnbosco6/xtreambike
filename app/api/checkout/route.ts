@@ -83,14 +83,16 @@ export async function POST(request: Request) {
         const order = await OrdersService.createOrder({
             customer_name: customerName,
             customer_email: email,
-            customer_id: customerId, // Link to customer record
+            customer_phone: phone, // NEW
+            customer_id: customerId,
             items: items,
             subtotal: amount - (shippingCost || 0),
             shipping_cost: shippingCost || 0,
             total: amount,
             status: 'pending',
             payment_status: 'pending',
-            shipping_address: shippingAddress || customerAddress,
+            billing_address: customerAddress, // NEW: Always store the home address
+            shipping_address: shippingAddress || customerAddress, // Home delivery or fallback
             delivery_method: deliveryMethod,
             delivery_details: deliveryDetails,
         } as any);

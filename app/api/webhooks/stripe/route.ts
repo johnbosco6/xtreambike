@@ -83,12 +83,14 @@ export async function POST(request: Request) {
                 order = await OrdersService.createOrder({
                     customer_name: metadata.customerName,
                     customer_email: metadata.email,
+                    customer_phone: metadata.phone, // NEW
                     items: items,
                     subtotal: (session.amount_total / 100) - shippingCost,
                     shipping_cost: shippingCost,
                     total: session.amount_total / 100,
-                    status: 'processing', // Paid orders should start as 'processing'
+                    status: 'processing',
                     payment_status: 'completed',
+                    billing_address: customerAddress, // NEW
                     shipping_address: addressToStore,
                     delivery_method: metadata.deliveryMethod,
                     delivery_details: deliveryDetails,

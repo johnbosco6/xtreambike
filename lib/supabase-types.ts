@@ -143,6 +143,8 @@ export interface Database {
                     delivery_details: Json | null
                     customer_email: string
                     customer_name: string | null
+                    customer_phone: string | null
+                    billing_address: Json | null
                     shipping_address: Json | null
                     created_at: string
                     updated_at: string
@@ -161,6 +163,8 @@ export interface Database {
                     delivery_details?: Json | null
                     customer_email: string
                     customer_name?: string | null
+                    customer_phone?: string | null
+                    billing_address?: Json | null
                     shipping_address?: Json | null
                     created_at?: string
                     updated_at?: string
@@ -179,6 +183,8 @@ export interface Database {
                     delivery_details?: Json | null
                     customer_email?: string
                     customer_name?: string | null
+                    customer_phone?: string | null
+                    billing_address?: Json | null
                     shipping_address?: Json | null
                     created_at?: string
                     updated_at?: string
