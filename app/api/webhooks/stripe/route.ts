@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { getStripeClient } from '@/lib/stripe';
 import { OrdersService } from '@/lib/orders-service';
 import { PaymentsService } from '@/lib/payments-service';
+import { createShipment } from '@/lib/mondial-relay/services/shipment-creation';
 
 export const dynamic = 'force-dynamic';
 
@@ -120,6 +121,50 @@ export async function POST(request: Request) {
 
             console.log(`✅ Order processed: ${order.order_number} (status: completed)`);
 
+            // ================================================
+            // AUTO-CREATE MONDIAL RELAY SHIPMENT (if relay delivery)
+            // ================================================
+            if (metadata.deliveryMethod === 'relay' && deliveryDetails?.relayPoint) {
+                try {
+                    const relayPoint = deliveryDetails.relayPoint;
+                    const recipientAddress = addressToStore || {};
+
+                    console.log(`[MondialRelay] 📦 Auto-creating shipment for order ${order.order_number}...`);
+
+                    const shipmentResult = await createShipment({
+                        recipientName: metadata.customerName || `${recipientAddress.firstName || ''} ${recipientAddress.lastName || ''}`.trim(),
+                        recipientAddress: recipientAddress.street || recipientAddress.address || '',
+                        recipientCity: recipientAddress.city || '',
+                        recipientPostalCode: recipientAddress.postalCode || recipientAddress.zip || '',
+                        recipientCountry: recipientAddress.country || 'FR',
+                        recipientPhone: metadata.phone || recipientAddress.phone || '',
+                        recipientEmail: metadata.email || '',
+                        relayPointId: relayPoint.id || relayPoint.num || '',
+                        orderNumber: order.order_number,
+                    });
+
+                    // Update order with shipment details
+                    const updatedDeliveryDetails = {
+                        ...deliveryDetails,
+                        mondialRelay: {
+                            expeditionNum: shipmentResult.expeditionNum,
+                            labelUrl: shipmentResult.labelUrl,
+                            createdAt: new Date().toISOString(),
+                        },
+                    };
+                    await OrdersService.updateDeliveryDetails(
+                        order.id,
+                        metadata.deliveryMethod,
+                        updatedDeliveryDetails
+                    );
+
+                    console.log(`[MondialRelay] ✅ Shipment created for order ${order.order_number}: ${shipmentResult.expeditionNum}`);
+                } catch (mrError) {
+                    // Log error but don't fail the webhook — the order is still paid
+                    console.error(`[MondialRelay] ❌ Failed to create shipment for order ${order.order_number}:`, mrError);
+                }
+            }
+
         } catch (error) {
             console.error('Error processing checkout.session.completed:', error);
             return NextResponse.json({ received: true, error: 'Processing error' });
@@ -128,3 +173,4 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ received: true });
 }
+

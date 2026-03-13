@@ -174,3 +174,44 @@ export interface FormattedPointRelais {
         end: string;
     }>;
 }
+
+// ============================================
+// Shipment Creation Types (WSI2_CreationEtiquette)
+// ============================================
+
+export interface ShipmentCreationParams {
+    /** Recipient name (max 32 chars) */
+    recipientName: string;
+    /** Recipient address line (street, max 32 chars) */
+    recipientAddress: string;
+    /** Recipient city */
+    recipientCity: string;
+    /** Recipient postal code */
+    recipientPostalCode: string;
+    /** Recipient country code (e.g. "FR") */
+    recipientCountry: string;
+    /** Recipient phone (format: +33XXXXXXXXX or 0XXXXXXXXX) */
+    recipientPhone: string;
+    /** Recipient email */
+    recipientEmail: string;
+    /** Delivery Point Relais ID (6 digits, required for 24R mode) */
+    relayPointId: string;
+    /** Order reference number */
+    orderNumber: string;
+    /** Parcel weight in grams (default: 200) */
+    weight?: number;
+    /** Delivery mode (default: 24R) */
+    deliveryMode?: DeliveryMode;
+    /** Delivery instructions */
+    instructions?: string;
+}
+
+export interface ShipmentCreationResponse {
+    /** Status code ("0" = success) */
+    stat: string;
+    /** 8-digit expedition/shipment number */
+    expeditionNum: string;
+    /** URL to download the shipping label PDF */
+    labelUrl: string;
+}
+
