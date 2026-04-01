@@ -193,6 +193,7 @@ body {
   background: linear-gradient(to right, var(--yellow), var(--orange), var(--yellow));
   background-size: 200% auto;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: shimmer 4s linear infinite;
@@ -216,6 +217,7 @@ body {
   background: linear-gradient(to right, var(--yellow), var(--orange), var(--yellow));
   background-size: 200% auto;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: shimmer 4s linear infinite;

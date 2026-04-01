@@ -53,7 +53,7 @@ export default function CheckoutContent() {
 
   const getDeliveryCost = (country: string, method: ShippingMethod) => {
     // Mondial Relay is usually cheaper
-    if (method === "relay") return 3.50
+    if (method === "relay") return 4.10
 
     const deliveryCosts: Record<string, number> = {
       France: 4.19,
@@ -683,6 +683,14 @@ export default function CheckoutContent() {
                           </>
                         ) : (
                           <>
+                            <div className="mb-4 pb-3 border-b border-white/5">
+                              <span className="text-xs uppercase tracking-wider text-white/50 block mb-1">Votre adresse personnelle (Facturation)</span>
+                              {formData.address}
+                              <br />
+                              {formData.postalCode} {formData.city}
+                              <br />
+                              {formData.country}
+                            </div>
                             <span className="text-[#E3003F] font-medium">Point Relais Mondial Relay</span>
                             <br />
                             {selectedRelayPoint?.name}
@@ -793,6 +801,9 @@ export default function CheckoutContent() {
                       <div className="opacity-70">{selectedRelayPoint.postalCode} {selectedRelayPoint.city}</div>
                     </div>
                   )}
+                  <div className="text-[10px] opacity-40 px-1 pt-1">
+                    Adresse: {formData.address}, {formData.postalCode}
+                  </div>
                 </div>
               )}
               <div className="flex items-center gap-2 text-xs opacity-70">

@@ -53,7 +53,7 @@ export default function ProductInfo({ productId, onActiveProductChange }: Produc
     const deliveryOptions: Record<string, { name: string; price: number; days: string }[]> = {
       France: [
         { name: "La Poste", price: 4.9, days: "2-5 jours ouvrés" },
-        { name: "Mondial Relay", price: 4.19, days: "3-5 jours ouvrés" },
+        { name: "Mondial Relay", price: 4.10, days: "3-5 jours ouvrés" },
       ],
       Spain: [{ name: "Mondial Relay", price: 6.47, days: "4-6 jours ouvrés" }],
       Belgium: [{ name: "Mondial Relay", price: 4.43, days: "3-5 jours ouvrés" }],

@@ -174,15 +174,16 @@ export async function POST(request: Request) {
             metadata: {
                 orderId: order.id, // Store our order ID to update it later
                 orderNumber: order.order_number,
-                customerName,
-                email,
-                phone: phone || '',
-                deliveryMethod,
-                customerAddress: customerAddress ? JSON.stringify(customerAddress).slice(0, 490) : '',
-                shippingAddress: shippingAddress ? JSON.stringify(shippingAddress).slice(0, 490) : '',
-                deliveryDetails: deliveryDetails ? JSON.stringify(deliveryDetails).slice(0, 490) : '',
-                shippingCost: String(shippingCost),
-                itemsSummary: items.map((item: any) => `${item.name} (x${item.quantity})`).join(', ').slice(0, 490),
+                customer_name: customerName,
+                customer_email: email,
+                customer_phone: phone || '',
+                delivery_method: deliveryMethod,
+                // Human-readable addresses for the Stripe Dashboard
+                home_address: customerAddress ? `${customerAddress.address}, ${customerAddress.postalCode} ${customerAddress.city}, ${customerAddress.country}`.slice(0, 490) : 'N/A',
+                destination_address: shippingAddress ? `${shippingAddress.address}, ${shippingAddress.postalCode} ${shippingAddress.city}, ${shippingAddress.country}` : (deliveryMethod === 'relay' && deliveryDetails ? `Point Relais: ${deliveryDetails.name}, ${deliveryDetails.address}, ${deliveryDetails.postalCode} ${deliveryDetails.city}` : 'N/A'),
+                relay_id: deliveryMethod === 'relay' && deliveryDetails ? deliveryDetails.id : '',
+                items_summary: items.map((item: any) => `${item.name} (x${item.quantity})`).join(', ').slice(0, 490),
+                shipping_cost: String(shippingCost),
             },
         });
 
