@@ -143,10 +143,10 @@ export default function FooterLegal() {
           </span>
           <span className="opacity-30">|</span>
           <a
-            href="tel:+33699502084"
+            href="mailto:webiiitcontact@gmail.com"
             className="hover:text-white/70 transition-colors"
           >
-            +33 6 99 50 20 84
+            webiiitcontact@gmail.com
           </a>
         </div>
       </div>
